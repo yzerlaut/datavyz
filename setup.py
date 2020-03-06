@@ -1,0 +1,38 @@
+from datavyz.etuptools import setup, find_packages
+from datavyz.odecs import open
+from datavyz.s import path
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+setup(
+    name='datavyz',
+    version='0.1',
+    description='A layer on top of `matplotlib` to achieve flexible & high-standard data visualization across different mediums',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url='https://github.com/yzerlaut/datavyz',
+    author='Yann Zerlaut',
+    author_email='yann.zerlaut@cnrs.fr',
+    classifiers=[
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
+    ],
+    keywords='data visualization matplotlib',
+    packages=find_packages(),
+    install_requires=[
+        "matplotlib",
+        "svgutils",
+        "numpy",
+        "scipy",
+        "argparse"
+    ]
+)
