@@ -165,7 +165,10 @@ fig, ax = ge.pie(data,
 fig.savefig('./docs/pie-plot.png', dpi=200)
 ```
 Output:
-![](docs/pie-plot.png)
+
+<p align="center">
+  <img src="docs/pie-plot.png"/>
+</p>
 
 ### Features plot
 
@@ -185,7 +188,9 @@ fig, AX = ge.features_plot(data, ms=3,
 									 'hspace':.4, 'wspace':.4})
 fig.savefig('docs/features-plot.png', dpi=200)
 ```
-![](docs/features-plot.png)
+<p align="center">
+  <img src="docs/features-plot.png"/>
+</p>
 
 ### Cross-correlation plot
 
@@ -204,7 +209,10 @@ fig.savefig('./docs/cross-correl-plot.png', dpi=200)
 ```
 Output:
 
-![](docs/cross-correl.png)
+<p align="center">
+  <img src="docs/cross-correl.png"/>
+</p>
+
 
 ### Bar plots
 
@@ -222,7 +230,9 @@ fig, ax, pval = ge.related_samples_two_conditions_comparison(np.random.randn(10)
 fig.savefig('docs/related-samples.png', dpi=200)
 ```
 
-![](docs/related-samples.png)
+<p align="center">
+  <img src="docs/related-samples.png"/>
+</p>
 
 #### Unrelated sample measurements
 ```
@@ -232,7 +242,9 @@ fig, ax, pval = ge.unrelated_samples_two_conditions_comparison(np.random.randn(1
 fig.savefig('docs/unrelated-samples.png', dpi=200)
 ```
 
-![](docs/unrelated-samples.png)
+<p align="center">
+  <img src="docs/unrelated-samples.png"/>
+</p>
 
 ### Line plots
 
@@ -246,7 +258,9 @@ fig, ax = ge.plot(t, x,
                                         loc='left-bottom'))
 ```
 
-![](docs/trace-plot.svg)
+<p align="center">
+  <img src="docs/trace-plot.svg"/>
+</p>
 
 ### Scatter plots
 
@@ -261,7 +275,9 @@ fig, ax = ge.scatter(Y=np.random.randn(4, 10),
                      title='datavyz demo plot')
 ```
 
-![](docs/scatter.svg)
+<p align="center">
+  <img src="docs/scatter.svg"/>
+</p>
 
 ### Surface plots
 
@@ -284,7 +300,10 @@ fig, ax, acb = ge.twoD_plot(x, y, z,
 ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
 ```
 
-![](docs/surface-plot.png)
+<p align="center">
+  <img src="docs/surface-plot.png"/>
+</p>
+
 
 ### Insets
 
@@ -300,7 +319,10 @@ fig.savefig('docs/inset.svg')
 ge.show()
 ```
 
-![](docs/inset.svg)
+<p align="center">
+  <img src="docs/inset.svg"/>
+</p>
+
 
 
 
