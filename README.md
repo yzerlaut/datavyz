@@ -9,15 +9,17 @@
 Create a graph environment associated to a specific visualization setting, below "screen":
 
 ```
-import datavyz
-ge = datavyz.graph_env('screen')
+from datavyz.main import graph_env
+ge = graph_env('screen')
 ```
 
 You then call all of your plotting functions relative to this environment, e.g.:
 
 ```
-ge.plot(Y=np.random.randn(4, 10),
-	sY=np.random.randn(4, 10),
+import numpy
+
+ge.plot(Y=numpy.random.randn(4, 10),
+	sY=numpy.random.randn(4, 10),
         xlabel='xlabel (xunit)',
         ylabel='ylabel (yunit)',
         title='datavyz demo plot')
@@ -52,36 +54,36 @@ fig, AX = ge.figure(axes_extents=[\
                                   [[4,1]],
                                   [[1,1], [2,1], [1,1] ] ],
                      figsize=[.95,.95])
-AX2[0].plot(np.random.randn(20))
+AX[0].plot(np.random.randn(20))
 
 t = np.linspace(0, 10, 1e3)
 y = np.cos(5*t)+np.random.randn(len(t))
 
 # leave first axis empty for drawing
-AX2[0][0].axis('off') # space for docs/schematic.svg
+AX[0][0].axis('off') # space for docs/schematic.svg
 
 # time series plot
-AX2[0][1].plot(t, y)
-ge.set_plot(AX2[0][1], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
+AX[0][1].plot(t, y)
+ge.set_plot(AX[0][1], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
 
 # more time series plot
-AX2[1][0].plot(t[t>9], y[t>9], label='raw')
-AX2[1][0].plot(t[t>9][1:], np.diff(y[t>9]), label='deriv.')
-AX2[1][0].plot(t[t>9][1:-1], np.diff(np.diff(y[t>9])), label='2nd deriv.')
-ge.set_plot(AX2[1][0], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
+AX[1][0].plot(t[t>9], y[t>9], label='raw')
+AX[1][0].plot(t[t>9][1:], np.diff(y[t>9]), label='deriv.')
+AX[1][0].plot(t[t>9][1:-1], np.diff(np.diff(y[t>9])), label='2nd deriv.')
+ge.set_plot(AX[1][0], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
 
 # scatter plot
 ge.scatter(t[::10], t[::10]+np.random.randn(100),
-           ax=AX2[2][0], xlabel='ylabel (yunit)')
+           ax=AX[2][0], xlabel='ylabel (yunit)')
 
 
 # bar plot
 ge.bar(np.random.randn(8),
        COLORS=[ge.viridis(i/7) for i in range(8)],
-        ax=AX2[2][1], xlabel='ylabel (yunit)')
+        ax=AX[2][1], xlabel='ylabel (yunit)')
 
 # pie plot
-ge.pie([0.25,0.4,0.35], ax=AX2[2][2], ext_labels=['Set 1', 'Set 2', 'Set 3'])
+ge.pie([0.25,0.4,0.35], ax=AX[2][2], ext_labels=['Set 1', 'Set 2', 'Set 3'])
 
 
 # looping on all plots to add the top left letter:
@@ -92,7 +94,7 @@ for l, ax in zip(list(string.ascii_lowercase), itertools.chain(*AX)):
 fig.savefig('fig.svg')
 
 # generating the figure with the addition of the drawing and saving it "fig.svg"
-from datavyz..plot_export import put_list_of_figs_to_svg_fig
+from datavyz.plot_export import put_list_of_figs_to_svg_fig
 put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
                             fig_name='fig.svg',
                             Props={'XCOORD':[0,0], 'YCOORD':[0,0]})
@@ -145,7 +147,6 @@ We document here the different plotting features covered by the library:
 
 ### Pie plots
 
-
 ```
 # building data
 data = .5+np.random.randn(3)*.4
@@ -169,8 +170,6 @@ Output:
 ### Features plot
 
 ```
-mg = .)
-
 # data: breast cancer dataset from datavyz.klearn
 from datavyz.klearn.datasets import load_breast_cancer
 raw = load_breast_cancer()
@@ -199,7 +198,7 @@ for i in range(7):
 
 # plotting
 fig = ge.cross_correl_plot(data,
-						   features=list(data.keys())[:7])
+                          features=list(data.keys())[:7])
 
 fig.savefig('./docs/cross-correl-plot.png', dpi=200)
 ```
@@ -237,9 +236,40 @@ fig.savefig('docs/unrelated-samples.png', dpi=200)
 
 ### Line plots
 
+#### Simple trace plot with X-and-Y bars for the labels
+
+```
+fig, ax = ge.plot(t, x,
+                  fig_args=dict(figsize=(3,1), left=.4, bottom=.5),
+                  bar_scale_args = dict(Xbar=.2,Xbar_label='0.2s',
+                                        Ybar=20,Ybar_label='20mV ',
+                                        loc='left-bottom'))
+```
+
+![](docs/trace-plot.svg)
+
+### Line plots
 
 
 ### Scatter plots
 
 ### Surface plots
-Typically a data science project involves:
+
+### Insets
+
+```
+from datavyz.main import graph_env
+ge = graph_env('manuscript')
+
+y = np.exp(np.random.randn(100))
+fig, ax = ge.plot(y, xlabel='time', ylabel='y-value')
+sax = ge.inset(ax, rect=[.5,.8,.5,.4])
+ge.hist(y, bins=10, ax=sax, axes_args={'spines':[]}, xlabel='y-value')
+fig.savefig('docs/inset.svg')
+ge.show()
+```
+
+![](docs/inset.svg)
+
+
+

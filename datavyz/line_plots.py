@@ -39,11 +39,11 @@ def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
 
 if __name__=='__main__':
     
-    from datavyz.graph_env import graph_env
+    from datavyz.main import graph_env
     ge = graph_env('manuscript')
 
         
-    geS, geM = graphs('screen'), graphs('manuscript')
+    geS, geM = graph_env('screen'), graph_env('manuscript')
     # ge.plot(Y=3*np.random.randn(4,10),
     #         sY=np.random.randn(4,10),
     #         ls=':', m='o', ms=0.1, lw=0.4,
@@ -59,6 +59,7 @@ if __name__=='__main__':
         fig, ax = ge.plot(t, x,
                           fig_args=dict(figsize=(3,1), left=.4, bottom=.5),
                           bar_scale_args = dict(Xbar=.2,Xbar_label='0.2s',
-                                                Ybar=10,Ybar_label='10mV',
+                                                Ybar=20,Ybar_label='20mV ',
                                                 loc='left-bottom'))
+    fig.savefig('docs/trace-plot.svg')
     geS.show()

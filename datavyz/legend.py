@@ -156,8 +156,8 @@ def legend(list_of_lines,
 
 if __name__=='__main__':
 
-    from datavyz.graph_env import graph_env
-    ge = graph_env('screen')
+    from datavyz.main import graph_env
+    ge = graph_env('manuscript')
 
     
     Y = [np.exp(np.random.randn(100)) for i in range(4)]

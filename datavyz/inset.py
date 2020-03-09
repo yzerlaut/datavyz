@@ -46,11 +46,12 @@ def add_inset(ax,
 
 if __name__=='__main__':
 
-    from datavyz.graph_env import graph_env
-    ge = graph_env('screen')
+    from datavyz.main import graph_env
+    ge = graph_env('manuscript')
 
     y = np.exp(np.random.randn(100))
     fig, ax = ge.plot(y, xlabel='time', ylabel='y-value')
-    sax = ge.add_inset(ax)
+    sax = ge.inset(ax, rect=[.5,.8,.5,.4])
     ge.hist(y, bins=10, ax=sax, axes_args={'spines':[]}, xlabel='y-value')
+    fig.savefig('docs/inset.svg')
     ge.show()

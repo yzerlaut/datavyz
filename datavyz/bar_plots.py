@@ -13,6 +13,7 @@ def bar(graph, y,
         lw=0, alpha=1., bottom=0.,
         color='silver', COLORS=None,
         xlabel='', ylabel='', title='', label='',
+        figsize=(1.,1.),
         fig_args={},
         axes_args={},
         legend_args=None,
@@ -23,7 +24,7 @@ def bar(graph, y,
     """
     # getting or creating the axis
     if ax is None:
-        fig, ax = graph.figure(**fig_args)
+        fig, ax = graph.figure(figsize=figsize, **fig_args)
     else:
         fig = graph.gcf()
         
@@ -71,8 +72,9 @@ def related_samples_two_conditions_comparison(graph,
                                               color1='#1f77b4', color2='#ff7f0e',
                                               ylabel='value',
                                               xticks=[0, 1],
+                                              figsize=(.7,1.),
                                               xticks_labels=['cond1', 'cond2'],
-                                              fig_args=dict(right=6.),
+                                              fig_args=dict(right=6., left=1.2),
                                               colormap=None):
 
     if len(first_observations)!=len(second_observations):
@@ -83,7 +85,7 @@ def related_samples_two_conditions_comparison(graph,
     if colormap is None:
         def colormap(x):return 'k'
         
-    fig, ax = graph.figure(**fig_args)
+    fig, ax = graph.figure(figsize=figsize, **fig_args)
     
     for i in range(len(first_observations)):
         ax.plot([0, 1], [first_observations[i], second_observations[i]], '-', lw=lw, color=colormap(i/(len(first_observations)-1)))
@@ -110,12 +112,13 @@ def unrelated_samples_two_conditions_comparison(graph,
                                                 color1='#1f77b4', color2='#ff7f0e',
                                                 ylabel='value',
                                                 xticks=[0, 1],
-                                                fig_args=dict(right=6.),
+                                                figsize=(.7, 1.),
+                                                fig_args=dict(right=6., left=1.2),
                                                 xticks_labels=['cond1', 'cond2']):
 
     pval = ttest_ind(first_observations, second_observations)[1]
 
-    fig, ax = graph.figure(**fig_args)
+    fig, ax = graph.figure(figsize=figsize, **fig_args)
     
     for i in range(len(first_observations)):
         ax.plot([0+np.random.randn()*.1], [first_observations[i]], 'o', ms=2, color=color1)

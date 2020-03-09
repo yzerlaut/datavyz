@@ -1,13 +1,13 @@
 import sys, pathlib, os, json
-import numpy as np
 
-from datavyz.atplotlib.cm import viridis, viridis_r, copper, plasma, gray, binary
+# specific modules
+sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
+from neural_network_dynamics import main as ntwk # based on Brian2
+
 import matplotlib.animation as animation
 from datavyz.atplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
-# specific modules
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-from datavyz.eural_network_dynamics import main as ntwk # based on Brian2
+
 
 def coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle):
     """
@@ -212,23 +212,22 @@ if __name__=='__main__':
     print('[...] creating list of compartments')
     SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
     
-    from datavyz..graphs import graphs
-    mg = graphs()
+    from datavyz.main import graph_env
+    ge = graph_env()
     
-    # fig, ax = mg.figure(figsize=(3.,1.), top=.99, bottom=.01, left=.01, right=.99)
     n = 0
     AX = []
     for fn in os.listdir(args.directory):
         if fn.endswith('swc'):
             morpho = ntwk.Morphology.from_swc_file(os.path.join(args.directory, fn))
             SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
-            colors = [mg.green if comp_type=='axon' else mg.red for comp_type in SEGMENTS['comp_type']]
-            fig, ax = plot_nrn_shape(mg, SEGMENTS, colors=colors)
+            colors = [ge.green if comp_type=='axon' else ge.red for comp_type in SEGMENTS['comp_type']]
+            fig, ax = plot_nrn_shape(ge, SEGMENTS, colors=colors)
             ax.set_title(fn.split('-')[0], weight='bold', style='italic')
             AX.append(ax)
             n+=1
     
-    # fig, ax = plot_nrn_shape(mg,
+    # fig, ax = plot_nrn_shape(ge,
     #                          SEGMENTS,
     #                          lw=args.linewidth,
     #                          polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
@@ -241,4 +240,4 @@ if __name__=='__main__':
     #                                            fig, ax,
     #                                            polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
         
-    mg.show()
+    ge.show()

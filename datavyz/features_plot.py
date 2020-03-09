@@ -36,7 +36,7 @@ def features_plot(graph, data,
 if __name__=='__main__':
 
     
-    from datavyz.graph_env import graph_env
+    from datavyz.main import graph_env
     ge = graph_env('manuscript')
     
     # breast cancer dataset from datavyz.klearn

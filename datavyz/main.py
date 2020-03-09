@@ -326,7 +326,7 @@ class graph_env:
     
     def inset(self, ax, **args):
         return inset(self, ax, **args)
-    
+
     def adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
                       xcolor='w', ycolor='w'):
         if xcolor is None:
