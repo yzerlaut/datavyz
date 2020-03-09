@@ -284,7 +284,7 @@ fig, ax, acb = ge.twoD_plot(x, y, z,
 ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
 ```
 
-![](docs/surface-plot.svg)
+![](docs/surface-plot.png)
 
 ### Insets
 
