@@ -30,7 +30,7 @@ def pie(graph, data,
     # getting or creating the axis
     if ax is None:
         if legend is not None:
-            fig, ax = graph.figure(with_legend_space=True)
+            fig, ax = graph.figure(with_legend_space=True, left=1.5, right=2, top=0.1)
         else:
             fig, ax = graph.figure(**fig_args)
     else:
@@ -85,18 +85,17 @@ if __name__=='__main__':
 
     ge = graph_env()
 
-    data = .5+np.random.randn(3)*.4
+    data = .5+np.abs(np.random.randn(3))*.4
 
     #plotting
     fig, ax = ge.pie(data,
-                                     ext_labels = ['Data1', 'Data2', 'Data3'],
-                                     pie_labels = ['%.1f%%' % (100*d/data.sum()) for d in data],
-                                     ext_labels_distance=1.2,
-                                     explodes=0.05*np.ones(len(data)),
-                                     center_circle=0.2,
-                                     COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
-                                     # pie_args=dict(rotate=90), # e.g. for rotation
-                                     legend=None) 
-                                     # set legend={} to have it appearing
-    fig.savefig('docs/pie-plot.png', dpi=200)
+                     ext_labels = ['Data1', 'Data2', 'Data3'],
+                     pie_labels = ['%.1f%%' % (100*d/data.sum()) for d in data],
+                     ext_labels_distance=1.2,
+                     explodes=0.05*np.ones(len(data)),
+                     center_circle=0.2,
+                     COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
+                     # pie_args=dict(rotate=90), # e.g. for rotation
+                     legend=None)  # set legend={} to have it appearing
+    fig.savefig('docs/pie-plot.png')
     ge.show()
