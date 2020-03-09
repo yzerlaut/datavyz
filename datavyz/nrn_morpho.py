@@ -1,12 +1,14 @@
 import sys, pathlib, os, json
+import numpy as np
 
 # specific modules
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
+sys.path.append(str(pathlib.Path(__file__).resolve().parents[2]))
 from neural_network_dynamics import main as ntwk # based on Brian2
 
 import matplotlib.animation as animation
 from matplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
+import matplotlib.cm as cm
 
 
 def coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle):
@@ -125,7 +127,7 @@ def show_animated_time_varying_trace(t, Quant0, SEGMENT_LIST,
                                      quant_label='$V_m$ (mV)',
                                      time_label='time (ms)',
                                      segment_condition=None,
-                                     colormap=viridis_r,
+                                     colormap=cm.viridis_r,
                                      ms=0.5):
     """
 
@@ -136,7 +138,7 @@ def show_animated_time_varying_trace(t, Quant0, SEGMENT_LIST,
     if segment_condition is None:
         segment_condition = np.empty(Quant0.shape[0], dtype=bool)+True
     Quant = (Quant0[segment_condition]-Quant0[segment_condition].min())/(Quant0[segment_condition].max()-Quant0[segment_condition].min())
-        
+
     # adding inset of time plots and bar legends
     ax2 = graph.inset(ax, rect=[0.1,-0.05,.9,.1])
     ax3 = graph.inset(ax, rect=[0.83,0.8,.03,.2])
@@ -201,9 +203,9 @@ if __name__=='__main__':
     parser.add_argument("-wa", "--without_axon",help="", action="store_true")
     parser.add_argument("-m", "--movie_demo",help="", action="store_true")
     parser.add_argument("--filename", '-f', help="filename", type=str,
-        default='../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L5pyr-j140408b.CNG.swc')
+        default='../../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L5pyr-j140408b.CNG.swc')
     parser.add_argument("--directory", '-d', help="directory", type=str,
-        default='../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015')
+        default='../../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015')
     # filename = home+'work/neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L23pyr-j150123a.CNG.swc'
     args = parser.parse_args()
 
