@@ -248,11 +248,7 @@ fig, ax = ge.plot(t, x,
 
 ![](docs/trace-plot.svg)
 
-### Line plots
-
-
 ### Scatter plots
-
 
 ```
 from datavyz.main import graph_env
@@ -268,6 +264,27 @@ fig, ax = ge.scatter(Y=np.random.randn(4, 10),
 ![](docs/scatter.svg)
 
 ### Surface plots
+
+```
+# BUILDING THE DATA
+x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 11))
+z = np.sqrt(x*y)
+x, y, z = np.array(x).flatten(),\
+          np.array(y).flatten(),\
+          np.array(z).flatten()*np.random.randn(len(z.flatten()))
+index = np.arange(len(x))
+np.random.shuffle(index)
+x, y, z = x[index], y[index], z[index]
+
+# PLOT
+fig, ax, acb = ge.twoD_plot(x, y, z,
+                            vmin=-7, vmax=7,
+                            bar_legend={'label':'color',
+                                        'color_discretization':20})
+ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
+```
+
+![](docs/surface-plot.svg)
 
 ### Insets
 
