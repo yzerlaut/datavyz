@@ -253,6 +253,20 @@ fig, ax = ge.plot(t, x,
 
 ### Scatter plots
 
+
+```
+from datavyz.main import graph_env
+ge = graph_env('manuscript')
+
+fig, ax = ge.scatter(Y=np.random.randn(4, 10),
+                     sY=np.random.randn(4, 10),
+                     xlabel='xlabel (xunit)',
+                     ylabel='ylabel (yunit)',
+                     title='datavyz demo plot')
+```
+
+![](docs/scatter.svg)
+
 ### Surface plots
 
 ### Insets

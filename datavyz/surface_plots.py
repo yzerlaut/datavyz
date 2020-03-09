@@ -24,7 +24,7 @@ def twoD_plot(graph,
     """
     
     if (ax is None) and (acb is None):
-        fig, ax, acb = graph.figure(with_space_for_bar_legend=True)
+        fig, ax, acb = graph.figure(figsize=(.9,1), with_space_for_bar_legend=True)
     else:
         fig = plt.gcf()
         
@@ -87,9 +87,9 @@ def twoD_plot(graph,
 
 if __name__=='__main__':
     
-    from datavyz.my_graph import graphs
+    from datavyz.main import graph_env
 
-    mg = graphs('screen')
+    ge = graph_env()
     
     x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 11))
     z = np.sqrt(x*y)
@@ -100,10 +100,10 @@ if __name__=='__main__':
     np.random.shuffle(index)
     x, y, z = x[index], y[index], z[index]
 
-    fig, ax, acb = mg.twoD_plot(x, y, z,
-                           vmin=-7, vmax=7,
-                           bar_legend={'label':'color',
-                                       'color_discretization':20})
-    mg.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
-
-    mg.show()
+    fig, ax, acb = ge.twoD_plot(x, y, z,
+                                vmin=-7, vmax=7,
+                                bar_legend={'label':'color',
+                                            'color_discretization':20})
+    ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
+    fig.savefig('docs/surface-plot.svg')
+    ge.show()

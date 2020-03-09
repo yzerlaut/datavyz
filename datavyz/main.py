@@ -72,12 +72,14 @@ class graph_env:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
                                 right=5.5,
+                                figsize=figsize,
                                 fontsize=self.FONTSIZE)
             return fig, ax
         elif with_space_for_bar_legend:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
-                                right=3.5,
+                                right=5,
+                                figsize=figsize,
                                 fontsize=self.FONTSIZE)
             acb = df.add_inset(ax, [1.17, -.08+shift_up, .08, shrink*1.])
             return fig, ax, acb

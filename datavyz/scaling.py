@@ -51,8 +51,8 @@ if __name__=='__main__':
         if 'facecolor' in key:
             print(key)
 
-    import datavyz
-    ge = datavyz.graph_env('manuscript')
+    from datavyz.main import graph_env
+    ge = graph_env('manuscript')
     
     import sys
 
