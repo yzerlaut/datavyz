@@ -5,7 +5,7 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 from neural_network_dynamics import main as ntwk # based on Brian2
 
 import matplotlib.animation as animation
-from datavyz.atplotlib.collections import LineCollection, PatchCollection
+from matplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
 
 
