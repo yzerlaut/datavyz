@@ -77,3 +77,26 @@ def pie(graph, data,
         
     ax.axis('equal')
     return fig, ax
+
+
+if __name__=='__main__':
+    
+    from datavyz.main import graph_env
+
+    ge = graph_env()
+
+    data = .5+np.random.randn(3)*.4
+
+    #plotting
+    fig, ax = ge.pie(data,
+                                     ext_labels = ['Data1', 'Data2', 'Data3'],
+                                     pie_labels = ['%.1f%%' % (100*d/data.sum()) for d in data],
+                                     ext_labels_distance=1.2,
+                                     explodes=0.05*np.ones(len(data)),
+                                     center_circle=0.2,
+                                     COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
+                                     # pie_args=dict(rotate=90), # e.g. for rotation
+                                     legend=None) 
+                                     # set legend={} to have it appearing
+    fig.savefig('docs/pie-plot.png', dpi=200)
+    ge.show()
