@@ -204,7 +204,7 @@ fig.savefig('./docs/cross-correl-plot.png', dpi=200)
 ```
 Output:
 
-![](docs/cross-correl-plot.png)
+![](docs/cross-correl.png)
 
 ### Bar plots
 
