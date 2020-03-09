@@ -136,7 +136,7 @@ def unrelated_samples_two_conditions_comparison(graph,
 
 if __name__=='__main__':
 
-    from datavyz.graph_env import graph_env
+    from datavyz.main import graph_env
     ge = graph_env('manuscript')
 
     # fig1, _ = ge.unrelated_samples_two_conditions_comparison(\

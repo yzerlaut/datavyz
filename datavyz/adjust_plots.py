@@ -259,7 +259,7 @@ def scale_figure(height_to_width, A0_ratio, x_plots, y_plots,
 
 if __name__=='__main__':
 
-    from datavyz.graph_env import graph_env
+    from datavyz.main import graph_env
     ge = graph_env('manuscript')
 
     fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
