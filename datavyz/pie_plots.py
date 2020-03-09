@@ -83,7 +83,7 @@ if __name__=='__main__':
     
     from datavyz.main import graph_env
 
-    ge = graph_env()
+    ge = graph_env('manuscript')
 
     data = .5+np.abs(np.random.randn(3))*.4
 

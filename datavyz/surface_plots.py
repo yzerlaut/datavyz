@@ -89,7 +89,7 @@ if __name__=='__main__':
     
     from datavyz.main import graph_env
 
-    ge = graph_env()
+    ge = graph_env('manuscript')
 
     x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 11))
     z = np.sqrt(x*y)
