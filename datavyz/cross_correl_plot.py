@@ -99,7 +99,7 @@ if __name__=='__main__':
 
     # building random data
     data = {}
-    for i in range(7):
+    for i in range(5):
         data['feature_%s'%(i+1)] = np.random.randn(30)
 
     # plot
@@ -107,7 +107,7 @@ if __name__=='__main__':
                                features=list(data.keys())[:7])
     
     fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),'../docs/cross-correl.png')
-    fig.savefig(fig_location, dpi=200)
+    fig.savefig(fig_location)
     print('Figure saved as: ', fig_location)
     ge.show()
 

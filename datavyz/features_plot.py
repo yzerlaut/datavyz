@@ -50,7 +50,7 @@ if __name__=='__main__':
     fig, AX = ge.features_plot(data, ms=3)
     fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 os.path.pardir, 'docs', 'features-plot.png')
-    fig.savefig(fig_location, dpi=200)
+    fig.savefig(fig_location)
     print('Figure saved as: ', fig_location)
     ge.show()
 

@@ -105,5 +105,5 @@ if __name__=='__main__':
                                 bar_legend={'label':'color',
                                             'color_discretization':20})
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
-    fig.savefig('docs/surface-plot.png', dpi=300)
+    fig.savefig('docs/surface-plot.png')
     ge.show()

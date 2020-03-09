@@ -151,14 +151,14 @@ if __name__=='__main__':
                                                                  xticks_labels=['$\||$cc($V_m$,$V_{ext}$)$\||$', '$cc(V_m,pLFP)$'],
                                                                  xticks_rotation=45, fig_args={'bottom':1.5, 'right':8.})
     fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir,'docs/related-samples.png')
-    fig.savefig(fig_location, dpi=200)
+    fig.savefig(fig_location)
     print('Figure saved as: ', fig_location)
 
     fig, ax, pval = ge.unrelated_samples_two_conditions_comparison(np.random.randn(10)+2., np.random.randn(10)+2.,
                                                                    xticks_labels=['$\||$cc($V_m$,$V_{ext}$)$\||$', '$cc(V_m,pLFP)$'],
                                                                    xticks_rotation=45, fig_args={'bottom':1.5, 'right':8.})
     fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir,'docs/unrelated-samples.png')
-    fig.savefig(fig_location, dpi=200)
+    fig.savefig(fig_location)
     print('Figure saved as: ', fig_location)
     
     # # ge.bar(np.random.randn(5), yerr=.3*np.random.randn(5), bottom=-3, COLORS=ge.colors[:5])
