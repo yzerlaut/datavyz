@@ -10,7 +10,7 @@ from datavyz.hist_plots import hist
 
 def cross_correl_plot_func(graph, data, features=None,
                            figsize=(.8,.7),
-                           fig_args=dict(left=0.1, bottom=0.1, right=1.4, top=0.1, wspace=0.1, hspace=0.1),
+                           fig_args={'right':15.},
                            ms=3, many_data=False):
     """
     'data' should be an array of dictionaries with keys 'vec' and labels 'label'
@@ -94,7 +94,7 @@ def cross_correl_plot_func(graph, data, features=None,
 if __name__=='__main__':
 
 
-    from datavyz.graph_env import graph_env
+    from datavyz.main import graph_env
     ge = graph_env('manuscript')
 
     # building random data
@@ -102,11 +102,12 @@ if __name__=='__main__':
     for i in range(7):
         data['feature_%s'%(i+1)] = np.random.randn(30)
 
+    # plot
     fig = ge.cross_correl_plot(data,
                                features=list(data.keys())[:7])
     
-    # fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),'docs/cross-correl.png')
-    # fig.savefig(fig_location, dpi=200)
-    # print('Figure saved as: ', fig_location)
+    fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),'../docs/cross-correl.png')
+    fig.savefig(fig_location, dpi=200)
+    print('Figure saved as: ', fig_location)
     ge.show()
 
