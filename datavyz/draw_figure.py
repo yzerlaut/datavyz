@@ -187,8 +187,8 @@ if __name__=='__main__':
     
     import itertools, string
     
-    from datavyz.graph_env import graph_env
-    ge = graph_env()
+    from datavyz.main import graph_env
+    ge = graph_env('manuscript')
 
     # fig, ax = ge.figure()
     fig1, AX1 = ge.figure(axes=(2,2))

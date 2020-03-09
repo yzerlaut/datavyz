@@ -6,11 +6,11 @@
 
 ## Principle / Use
 
-Create a graph environment associated to a specific visualization setting, below "manuscript":
+Create a graph environment associated to a specific visualization setting, below "screen":
 
 ```
 import datavyz
-ge = datavyz.graph_env('manuscript')
+ge = datavyz.graph_env('screen')
 ```
 
 You then call all of your plotting functions relative to this environment, e.g.:
@@ -85,12 +85,11 @@ ge.pie([0.25,0.4,0.35], ax=AX2[2][2], ext_labels=['Set 1', 'Set 2', 'Set 3'])
 
 
 # looping on all plots to add the top left letter:
-for i, fig, AX in zip(range(3), [fig1, fig2], [AX1, AX2]):
-    for l, ax in zip(list(string.ascii_lowercase), itertools.chain(*AX)):
-        ge.top_left_letter(ax, l+'     ')
+for l, ax in zip(list(string.ascii_lowercase), itertools.chain(*AX)):
+   ge.top_left_letter(ax, l+'     ')
 
 # saving the figure with all plots
-fig2.savefig('fig2.svg')
+fig.savefig('fig.svg')
 
 # generating the figure with the addition of the drawing and saving it "fig.svg"
 from datavyz..plot_export import put_list_of_figs_to_svg_fig
