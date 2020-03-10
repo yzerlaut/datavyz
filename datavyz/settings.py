@@ -12,6 +12,17 @@ ENVIRONMENTS = {
     },
     'screen': {
         'size_factor': 1.5,
+    },
+    'wide_screen': {
+	'fontsize':12,
+	'default_color':'k',
+        'single_plot_size':(200.*16./9., 200.), # mm
+        'hspace_size':1., # mm
+        'wspace_size':1., # mm
+        'left_size':1., # mm
+        'right_size':1., # mm
+        'top_size':1., # mm
+        'bottom_size':1., # mm
     }
 }
 
@@ -34,4 +45,10 @@ def set_env_variables(cls, key):
     cls.bottom_size = size_factor*ENVIRONMENTS[key]['bottom_size']
     
            
+if __name__=='__main__':
 
+    from datavyz.main import graph_env
+    ge = graph_env('wide_screen')
+
+    fig, _ = ge.figure()
+    ge.show()
