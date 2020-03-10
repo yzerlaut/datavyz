@@ -1,3 +1,8 @@
+import sys, os, platform
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
+
+from datavyz.dependencies import *
+
 ENVIRONMENTS = {
     'manuscript': {
 	'fontsize':9,
@@ -10,26 +15,17 @@ ENVIRONMENTS = {
         'top_size':5., # mm
         'bottom_size':19., # mm
         'background':'w',
+        'facecolor':'none',
+        'transparency':True,
+        'dpi':150,
+        'size_factor': 1.,
     },
     'screen': {
         'size_factor': 1.5,
-        'background':'w',
-    },
-    'wide_screen': {
-	'fontsize':12,
-	'default_color':'k',
-        'single_plot_size':(200.*16./9., 200.), # mm
-        'hspace_size':1., # mm
-        'wspace_size':1., # mm
-        'left_size':1., # mm
-        'right_size':1., # mm
-        'top_size':1., # mm
-        'bottom_size':1., # mm
-        'background':'w',
     },
     'visual_stim': {
 	'fontsize':12,
-	'default_color':'k',
+	'default_color':'w',
         'single_plot_size':(200.*16./9., 200.), # mm
         'hspace_size':1., # mm
         'wspace_size':1., # mm
@@ -38,35 +34,52 @@ ENVIRONMENTS = {
         'top_size':1., # mm
         'bottom_size':1., # mm
         'background':'dark',
-    }
+        'facecolor':'dimgrey',
+        'transparency':True,
+        'dpi':150,
+    },
 }
 
 def set_env_variables(cls, key):
 
-    if 'size_factor' in ENVIRONMENTS[key]:
-        size_factor = ENVIRONMENTS[key]['size_factor']
-        ENVIRONMENTS[key] = ENVIRONMENTS['manuscript']
-    else:
-        size_factor = 1.
+    for key, val in ENVIRONMENTS[key].items():
+        setattr(cls, key, val)
+
+    for k, val in ENVIRONMENTS['manuscript'].items():
+        if k not in dir(cls):
+            setattr(cls, k, val)
+            # if ('size' in k) and ('size_factor' in ENVIRONMENTS[key]):
+            #     setattr(cls, k, ENVIRONMENTS[key]['size_factor']*val)
+            # else:
         
-    cls.FONTSIZE = size_factor*ENVIRONMENTS[key]['fontsize']
-    cls.default_color = ENVIRONMENTS[key]['default_color']
-    cls.single_plot_size = [s*size_factor for s in ENVIRONMENTS[key]['single_plot_size']]
-    cls.hspace_size = size_factor*ENVIRONMENTS[key]['hspace_size']
-    cls.wspace_size = size_factor*ENVIRONMENTS[key]['wspace_size']
-    cls.left_size = size_factor*ENVIRONMENTS[key]['left_size']
-    cls.right_size = size_factor*ENVIRONMENTS[key]['right_size']
-    cls.top_size = size_factor*ENVIRONMENTS[key]['top_size']
-    cls.bottom_size = size_factor*ENVIRONMENTS[key]['bottom_size']
-    cls.background = ENVIRONMENTS[key]['background']
-           
+    
+def update_rcParams(cls):
+    mpl.rcParams.update({'axes.labelsize': cls.fontsize,
+                         'axes.titlesize': cls.fontsize,
+                         'figure.titlesize': cls.fontsize,
+                         'font.size': cls.fontsize,
+                         'legend.fontsize': cls.fontsize,
+                         'xtick.labelsize': cls.fontsize,
+                         'ytick.labelsize': cls.fontsize,
+                         'figure.facecolor': cls.facecolor,
+                         'legend.facecolor': cls.facecolor,
+                         'axes.facecolor': cls.facecolor,
+                         'savefig.transparent':cls.transparency,
+                         'savefig.dpi':cls.dpi,
+                         'savefig.facecolor': cls.facecolor})
+
+    
 if __name__=='__main__':
 
-    from datavyz.main import graph_env
-    ge = graph_env('visual_stim')
-
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__))))
+                    
     import numpy as np
     
-    fig, ax = ge.figure()
-    ax.plot(np.random.randn(100))
-    ge.show()
+    from main import graph_env
+    for key in ENVIRONMENTS:
+        
+        ge = graph_env(key)
+        ge.scatter(np.random.randn(100), np.random.randn(100))
+        ge.title(plt.gca(), key)
+        ge.show()

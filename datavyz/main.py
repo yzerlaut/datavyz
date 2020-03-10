@@ -18,37 +18,37 @@ from datavyz.surface_plots import twoD_plot
 from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
 from datavyz.pie_plots import pie
 import datavyz.single_cell_plots as scp
-from datavyz.scaling import update_rcParams
 from datavyz.plot_export import put_list_of_figs_to_svg_fig
 
 from datavyz.colors import *
 
-from datavyz.settings import set_env_variables
+from datavyz.settings import set_env_variables, update_rcParams
     
 class graph_env:
     
     def __init__(self,
                  env='manuscript'):
         """
-        accepts styles such as : manuscript, dark_notebook, ggplot_notebook, ...
+        accepts the styles described in 'settings.py'
+
+        use of seaborn and ggplot deprecated ....
         """
 
         set_env_variables(self, env)
-        
+
         self.override_style=True
         
-        plt.style.use('dark_background')
-        if ('dark' in env) or (self.background is 'dark'):
-            self.set_style('dark_background')
-        elif 'ggplot' in env:
-            self.default_color = 'dimgrey'
-            self.set_style('ggplot')
-            self.override_style = False
-        elif 'seaborn' in env:
-            self.set_style('seaborn')
-            self.override_style = False
-        
-        update_rcParams(self.FONTSIZE)
+        # if ('dark' in env) or (self.background is 'dark'):
+        #     self.set_style('dark_background')
+        # elif 'ggplot' in env:
+        #     self.default_color = 'dimgrey'
+        #     self.set_style('ggplot')
+        #     self.override_style = False
+        # elif 'seaborn' in env:
+        #     self.set_style('seaborn')
+        #     self.override_style = False
+
+        update_rcParams(self)
 
         give_color_attributes(self)
         
@@ -74,14 +74,14 @@ class graph_env:
                                 axes, axes_extents, grid,
                                 right=5.5,
                                 figsize=figsize,
-                                fontsize=self.FONTSIZE)
+                                fontsize=self.fontsize)
             return fig, ax
         elif with_space_for_bar_legend:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
                                 right=5,
                                 figsize=figsize,
-                                fontsize=self.FONTSIZE)
+                                fontsize=self.fontsize)
             acb = df.add_inset(ax, [1.17, -.08+shift_up, .08, shrink*1.])
             return fig, ax, acb
         else:
@@ -92,7 +92,7 @@ class graph_env:
             return fig, AX
 
     def plot(self,
-             x=None, y=None, sy=None, color='k',
+             x=None, y=None, sy=None, color=None,
              X=None, Y=None, sY=None,
              COLORS=None, colormap=viridis,
              fig = None, ax=None,
@@ -112,7 +112,10 @@ class graph_env:
         # getting or creating the axis
         if ax is None:
             fig, ax = self.figure(**fig_args)
-
+            
+        if color is None:
+            color = self.default_color
+            
         if (y is None) and (Y is None):
             y = x
             x = np.arange(len(y))
@@ -161,7 +164,7 @@ class graph_env:
         return fig, ax
 
     def scatter(self,
-                x=None, y=None, sx=None, sy=None, color='k',
+                x=None, y=None, sx=None, sy=None, color=None,
                 X=None, Y=None, sX=None, sY=None,
                 COLORS=None, colormap=viridis,
                 ax=None, fig=None,
@@ -181,7 +184,10 @@ class graph_env:
         # getting or creating the axis
         if ax is None:
             fig, ax = self.figure(**fig_args)
-
+            
+        if color is None:
+            color = self.default_color
+            
         if (y is None) and (Y is None):
             y = x
             x = np.arange(len(y))
@@ -287,7 +293,7 @@ class graph_env:
     def top_left_letter(self, stuff, s,
                         xy=(0,1.), bold=True, fontsize=None):
         if fontsize is None:
-            fontsize=self.FONTSIZE+1
+            fontsize=self.fontsize+1
         args = dict(bold=bold, fontsize=fontsize, xycoords='axes fraction')
         annotations.annotate(self, stuff, s, xy, **args, ha='right')
 
@@ -356,7 +362,7 @@ class graph_env:
                  xcolor=None, ycolor=None, fontsize=None):
         
         if fontsize is None:
-            fontsize=self.FONTSIZE
+            fontsize=self.fontsize
         if xcolor is None:
             xcolor = self.default_color
         if ycolor is None:

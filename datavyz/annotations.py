@@ -5,15 +5,15 @@ import numpy as np
 def set_fontsize(graph, size):
     """ set the fontsize given a size and the props of the graph class"""
     if size=='small':
-        fontsize=graph.FONTSIZE-1
+        fontsize=graph.fontsize-1
     elif size=='x-small':
-        fontsize=graph.FONTSIZE-2
+        fontsize=graph.fontsize-2
     elif size=='large':
-        fontsize=graph.FONTSIZE+1
+        fontsize=graph.fontsize+1
     elif size=='x-large':
-        fontsize=graph.FONTSIZE+2
+        fontsize=graph.fontsize+2
     else:
-        fontsize=graph.FONTSIZE
+        fontsize=graph.fontsize
     return fontsize
 
 def title(graph, ax, title,
@@ -114,7 +114,7 @@ def draw_bar_scales(graph,
     """
 
     if fontsize is None:
-        fontsize = graph.FONTSIZE
+        fontsize = graph.fontsize
 
     if type(loc) is tuple:
         xyLoc = loc
@@ -211,29 +211,29 @@ def bar_scales(ax,
     #     y0 = ylim[1]-(1.-factor)*(ylim[1]-ylim[0])
     #     ax.plot([x0, x0-xbar], [y0, y0], 'k-', lw=1)
     #     ax.plot([x0, x0], [y0, y0-ybar], 'k-', lw=1)
-    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=FONTSIZE, rotation=90)
-    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=FONTSIZE)
+    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=fontsize, rotation=90)
+    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=fontsize)
     # elif location=='top left':
     #     x0 = xlim[0]+(1.-factor)*(xlim[1]-xlim[0])
     #     y0 = ylim[1]-(1.-factor)*(ylim[1]-ylim[0])
     #     ax.plot([x0, x0+xbar], [y0, y0], 'k-', lw=1)
     #     ax.plot([x0, x0], [y0, y0-ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0, y0), fontsize=FONTSIZE)
-    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=FONTSIZE, rotation=90)
+    #     ax.annotate(xbar_label, (x0, y0), fontsize=fontsize)
+    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=fontsize, rotation=90)
     # elif location=='bottom right':
     #     x0 = xlim[1]-(1.-factor)*(xlim[1]-xlim[0])
     #     y0 = ylim[0]+(1.-factor)*(ylim[1]-ylim[0])
     #     ax.plot([x0, x0-xbar], [y0, y0], 'k-', lw=1)
     #     ax.plot([x0, x0], [y0, y0+ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=FONTSIZE)
-    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=FONTSIZE, rotation=90)
+    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=fontsize)
+    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=fontsize, rotation=90)
     # elif location=='bottom left':
     #     x0 = xlim[0]+(1.-factor)*(xlim[1]-xlim[0])
     #     y0 = ylim[0]+(1.-factor)*(ylim[1]-ylim[0])
     #     ax.plot([x0, x0+xbar], [y0, y0], 'k-', lw=1)
     #     ax.plot([x0, x0], [y0, y0+ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0, y0), fontsize=FONTSIZE)
-    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=FONTSIZE, rotation=90)
+    #     ax.annotate(xbar_label, (x0, y0), fontsize=fontsize)
+    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=fontsize, rotation=90)
     # else:
     #     x0, y0 = location
         

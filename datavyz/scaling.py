@@ -6,27 +6,6 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from datavyz.dependencies import *
 
-A0_format = {'width':8.3, 'height':11.7}
-Single_Plot_Size = (0.2, 0.12) # DEFAULT SIZE OF PLOT in terms of A0 format ratio
-
-def update_rcParams(FONTSIZE,
-                    facecolor='none',
-                    transparency=True,
-                    dpi=150):
-    mpl.rcParams.update({'axes.labelsize': FONTSIZE,
-                         'axes.titlesize': FONTSIZE,
-                         'figure.titlesize': FONTSIZE,
-                         'font.size': FONTSIZE,
-                         'legend.fontsize': FONTSIZE,
-                         'xtick.labelsize': FONTSIZE,
-                         'ytick.labelsize': FONTSIZE,
-                         'figure.facecolor': facecolor,
-                         'legend.facecolor': facecolor,
-                         'axes.facecolor': facecolor,
-                         'savefig.transparent':transparency,
-                         'savefig.dpi':dpi,
-                         'savefig.facecolor': facecolor})
-
 def mm2inch(x):
     return x/25.4
     
@@ -48,7 +27,7 @@ def inch2cm(*tupl):
 if __name__=='__main__':
 
     for key in mpl.rcParams.keys():
-        if 'facecolor' in key:
+        if 'cls.facecolor' in key:
             print(key)
 
     from datavyz.main import graph_env

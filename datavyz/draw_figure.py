@@ -5,8 +5,6 @@ from datavyz.dependencies import *
 from datavyz.scaling import mm2inch
 from datavyz.inset import add_inset
 
-A0_format = {'width':8.3, 'height':11.7}
-
 def dimension_calculus(cls,
                        figsize,
                        left, right,
@@ -53,7 +51,7 @@ def figure(cls,
            fontweight='bold'):
     
     """
-    scales figures with respect to the A0 format !
+    scales figures according to the specification of "settings.py" (for each graph environment)
 
     the wspace, hspace, ... values are factor that modulates the wspace0, hspace0
     -> then use >1 to make bigger, and <1 to make smaller...
