@@ -37,7 +37,8 @@ class graph_env:
         
         self.override_style=True
         
-        if 'dark' in env:
+        plt.style.use('dark_background')
+        if ('dark' in env) or (self.background is 'dark'):
             self.set_style('dark_background')
         elif 'ggplot' in env:
             self.default_color = 'dimgrey'

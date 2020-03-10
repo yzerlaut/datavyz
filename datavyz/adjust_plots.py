@@ -271,4 +271,5 @@ if __name__=='__main__':
     ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
              yscale='log', ylabel='blabal', xscale='already-log10',
              tck_outward=2, xlabel='trying', ylabelpad=-5)
+    fig.savefig('docs/twin-log-scale.svg')
     ge.show()

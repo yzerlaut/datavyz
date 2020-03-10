@@ -9,9 +9,11 @@ ENVIRONMENTS = {
         'right_size':4., # mm
         'top_size':5., # mm
         'bottom_size':19., # mm
+        'background':'w',
     },
     'screen': {
         'size_factor': 1.5,
+        'background':'w',
     },
     'wide_screen': {
 	'fontsize':12,
@@ -23,6 +25,19 @@ ENVIRONMENTS = {
         'right_size':1., # mm
         'top_size':1., # mm
         'bottom_size':1., # mm
+        'background':'w',
+    },
+    'visual_stim': {
+	'fontsize':12,
+	'default_color':'k',
+        'single_plot_size':(200.*16./9., 200.), # mm
+        'hspace_size':1., # mm
+        'wspace_size':1., # mm
+        'left_size':1., # mm
+        'right_size':1., # mm
+        'top_size':1., # mm
+        'bottom_size':1., # mm
+        'background':'dark',
     }
 }
 
@@ -43,12 +58,15 @@ def set_env_variables(cls, key):
     cls.right_size = size_factor*ENVIRONMENTS[key]['right_size']
     cls.top_size = size_factor*ENVIRONMENTS[key]['top_size']
     cls.bottom_size = size_factor*ENVIRONMENTS[key]['bottom_size']
-    
+    cls.background = ENVIRONMENTS[key]['background']
            
 if __name__=='__main__':
 
     from datavyz.main import graph_env
-    ge = graph_env('wide_screen')
+    ge = graph_env('visual_stim')
 
-    fig, _ = ge.figure()
+    import numpy as np
+    
+    fig, ax = ge.figure()
+    ax.plot(np.random.randn(100))
     ge.show()

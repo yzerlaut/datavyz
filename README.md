@@ -324,5 +324,24 @@ ge.show()
 </p>
 
 
+### Other custom plots
 
+#### Twin axis with log scale
+```
+from datavyz.main import graph_env
+ge = graph_env('manuscript')
 
+fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
+ax2 = ax.twinx()
+ax.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=2, color=ge.blue)
+ax2.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=1, color=ge.red)
+ge.set_plot(ax2, ['right'], yscale='log', ylabel='blabal',
+         tck_outward=2, ycolor=ge.red)
+ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
+         yscale='log', ylabel='blabal', xscale='already-log10',
+         tck_outward=2, xlabel='trying', ylabelpad=-5)
+```
+
+<p align="center">
+  <img src="docs/twin-log-scale.svg"/>
+</p>
