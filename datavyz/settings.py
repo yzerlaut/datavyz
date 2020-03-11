@@ -5,7 +5,7 @@ from datavyz.dependencies import *
 
 ENVIRONMENTS = {
     'manuscript': {
-	'fontsize':9,
+	'fontsize':8,
 	'default_color':'k',
         'single_plot_size':(28., 20.), # mm
         'hspace_size':12., # mm
