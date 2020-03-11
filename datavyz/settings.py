@@ -12,7 +12,7 @@ ENVIRONMENTS = {
         'wspace_size':16., # mm
         'left_size':20., # mm
         'right_size':4., # mm
-        'top_size':5., # mm
+        'top_size':7., # mm
         'bottom_size':19., # mm
         'background':'w',
         'facecolor':'none',
