@@ -3,3 +3,4 @@ scipy
 matplotlib
 svgutils
 argparse
+scikit-image

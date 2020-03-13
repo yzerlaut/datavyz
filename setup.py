@@ -33,6 +33,7 @@ setup(
         "svgutils",
         "numpy",
         "scipy",
-        "argparse"
+        "argparse",
+        "scikit-image"
     ]
 )
