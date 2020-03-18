@@ -294,7 +294,6 @@ class graph_env:
 
     # movie plot
     def movie(self, array,
-              cmap=binary,
               time=None,
               annotation={'text':'t=%is','xy':(.5, .6), 'color':'r'},
               interval=400,
