@@ -71,7 +71,7 @@ def movie_plot(array,
         
     im = ax.imshow(array[0,:,:], cmap=cmap,
                    interpolation=None,
-                   aspect='equal')
+                   aspect='equal', origin='lower')
     
     title = ax.annotate(annotation['text'] % time[0],
                         annotation['xy'],
