@@ -9,7 +9,7 @@ def load(image_path):
 
     img = color.rgb2gray(io.imread(image_path))
     
-    return np.rot90(1-np.array(img), k=3) # needs rotation
+    return np.rot90(np.array(img), k=3) # needs rotation
 
 
 if __name__=='__main__':

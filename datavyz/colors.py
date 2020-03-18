@@ -1,5 +1,5 @@
 from matplotlib.cm import viridis, viridis_r, copper, copper_r, cool, jet,\
-    PiYG, binary, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2,\
+    PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2,\
     Set3, tab10, tab20, tab20b, tab20c
 
 import matplotlib.colors as mpl_colors
@@ -26,8 +26,8 @@ def give_color_attributes(cls):
             Orange, Green, Red, Purple, Brown, Pink, Grey, Kaki, Cyan
     
     cls.viridis, cls.viridis_r, cls.copper, cls.copper_r, cls.cool, cls.jet,\
-     cls.PiYG, cls.binary, cls.bone = viridis, viridis_r, copper, copper_r,\
-                                         cool, jet, PiYG, binary, bone
+     cls.PiYG, cls.binary, cls.binary_r, cls.bone = viridis, viridis_r, copper, copper_r,\
+                                         cool, jet, PiYG, binary, binary_r, bone
     
     cls.Pastel1, cls.Pastel2, cls.Paired, cls.Accent, cls.Dark2,\
         cls.Set1, cls.Set2, cls.Set3, cls.tab10, cls.tab20,\

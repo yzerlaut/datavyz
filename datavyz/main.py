@@ -258,7 +258,9 @@ class graph_env:
     # animated plot
     def animated_plot(self, x, time_dep_y,
                       time=None,
-                      annotation={'text':'t=%is','xy':(.5, .6), 'color':'r'},
+                      annotation_text='t=%is',
+                      annotation_xy=(.5, .6),
+                      annotation_args={'color':'r', 'weight':'bold'},
                       interval=400,
                       color=None,
                       lw=1, ms=0., marker='o',
@@ -267,7 +269,9 @@ class graph_env:
         return animated_plot(x, time_dep_y,
                              self,
                              time=time,
-                             annotation=annotation,
+                             annotation_text=annotation_text,
+                             annotation_xy=annotation_xy,
+                             annotation_args=annotation_args,
                              interval=interval,
                              color=color,
                              lw=lw, ms=ms, marker=marker,
@@ -283,7 +287,7 @@ class graph_env:
     
 
     # image plot
-    def image(self, X, cmap=binary, alpha=1., ax=None, title=''):
+    def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
         if ax is None:
             fig, ax = self.figure()
         else:
@@ -300,9 +304,11 @@ class graph_env:
     # movie plot
     def movie(self, array,
               time=None,
-              annotation={'text':'t=%is','xy':(.5, .6), 'color':'r'},
+              annotation_text='t=%is',
+              annotation_xy=(.5, .6),
+              annotation_args={'color':'r', 'weight':'bold'},
               interval=400,
-              cmap=None,
+              cmap=binary_r,
               axes_args={},
               fig_args={}):
         """
@@ -311,7 +317,9 @@ class graph_env:
         return movie_plot(array,
                           self,
                           time=time,
-                          annotation=annotation,
+                          annotation_text=annotation_text,
+                          annotation_xy=annotation_xy,
+                          annotation_args=annotation_args,
                           interval=interval,
                           cmap=cmap,
                           axes_args=axes_args,
