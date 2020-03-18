@@ -55,7 +55,10 @@ def animated_plot(x,
 
 def movie_plot(array,
                graph_env,
+               x=None,
+               y=None,
                time=None,
+               vmin=None, vmax=None,
                annotation_text='t=%is',
                annotation_xy=(.5, .6),
                annotation_args={'color':'r', 'weight':'bold'},
@@ -72,8 +75,18 @@ def movie_plot(array,
         time = np.arange(array.shape[0])
     if cmap is None:
         cmap = graph_env.binary
-        
-    im = ax.imshow(array[0,:,:].T, cmap=cmap,
+    if vmin is None:
+        vmin=array.min()
+    if vmax is None:
+        vmax=array.max()
+    if (x is None):
+        x, y = np.meshgrid(np.arange(array.shape[0]),\
+                           np.arange(array.shape[1]), indexing='ij')
+    
+    im = ax.imshow(array[0,:,:].T,
+                   extent = (x.min(), x.max(), y.min(), y.max()),
+                   vmin = vmin, vmax = vmax,
+                   cmap=cmap,
                    interpolation=None,
                    origin='lower',                
                    aspect=aspect)
