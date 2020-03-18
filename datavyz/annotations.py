@@ -1,6 +1,7 @@
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import numpy as np
+import sys, pathlib
+sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
+
+from datavyz.dependencies import *
 
 def set_fontsize(graph, size):
     """ set the fontsize given a size and the props of the graph class"""

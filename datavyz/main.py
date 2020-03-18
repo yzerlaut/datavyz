@@ -19,6 +19,7 @@ from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, un
 from datavyz.pie_plots import pie
 import datavyz.single_cell_plots as scp
 from datavyz.plot_export import put_list_of_figs_to_svg_fig
+from datavyz.dynamic_plot import movie_plot, animated_plot
 
 from datavyz.colors import *
 
@@ -254,7 +255,26 @@ class graph_env:
     def cross_correl_plot(self, data, **args):
         return cross_correl_plot_func(self, data, **args)
 
-    # twoD-plot with x-y axis from datavyz.ottom left
+    # animated plot
+    def animated_plot(self, x, time_dep_y,
+                      time=None,
+                      annotation={'text':'t=%is','xy':(.5, .6), 'color':'r'},
+                      interval=400,
+                      color=None,
+                      lw=1, ms=0., marker='o',
+                      axes_args={},
+                      fig_args={}):
+        return animated_plot(x, time_dep_y,
+                             self,
+                             time=time,
+                             annotation=annotation,
+                             interval=interval,
+                             color=color,
+                             lw=lw, ms=ms, marker=marker,
+                             axes_args=axes_args,
+                             fig_args=fig_args):
+    
+    # twoD-plot with x-y axis from bottom left
     def twoD_plot(self, x, y, z, **args):
         return twoD_plot(self, x, y, z, **args)
 
@@ -272,6 +292,28 @@ class graph_env:
             self.title(ax, title)
         return fig, ax
 
+    # movie plot
+    def movie(self, array,
+              cmap=binary,
+              time=None,
+              annotation={'text':'t=%is','xy':(.5, .6), 'color':'r'},
+              interval=400,
+              cmap=None,
+              axes_args={},
+              fig_args={}):
+        """
+        movie plot from array, dimensions should be [time, X, Y]
+        """
+        return movie_plot(array,
+                          self,
+                          time=time,
+                          annotation=annotation,
+                          interval=interval,
+                          cmap=cmap,
+                          axes_args=axes_args,
+                          fig_args=fig_args):
+        
+    
     
     def related_samples_two_conditions_comparison(self, data1, data2,**args):
         return related_samples_two_conditions_comparison(self, data1, data2,**args)
@@ -396,11 +438,13 @@ class graph_env:
     def show(self, block=False):
         if platform.system()=='Windows':
             plt.show()
-        else:
+        elif platform.system()=='Darwin':
             plt.show(block=block)
             input('Hit Enter To Close')
             plt.close()
-            
+        else:
+            plt.show()
+
     def save_on_desktop(self, fig, figname='temp.svg'):
         fig.savefig(desktop+figname)
 
