@@ -9,8 +9,7 @@ def load(image_path):
 
     img = color.rgb2gray(io.imread(image_path))
     
-    return 1-np.array(img)
-
+    return np.rot90(1-np.array(img), k=3) # needs rotation
 
 
 if __name__=='__main__':
@@ -18,7 +17,7 @@ if __name__=='__main__':
 
     from datavyz.main import graph_env
     ge = graph_env('visual_stim')
-    # ge.image(load(sys.argv[-1]))
-    ge.matrix(np.random.randn(100,20))
+    ge.image(load(sys.argv[-1]))
+    ge.matrix(load(sys.argv[-1]))
     ge.show()
     

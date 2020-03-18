@@ -288,8 +288,9 @@ class graph_env:
             fig, ax = self.figure()
         else:
             fig = plt.gcf()
-        ax.imshow(X, cmap=cmap, alpha=alpha,
+        ax.imshow(X.T, cmap=cmap, alpha=alpha,
                   interpolation=None,
+                  origin='lower',
                   aspect='equal')
         ax.axis('off')
         if title!='':
