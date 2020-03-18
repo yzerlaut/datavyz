@@ -71,7 +71,8 @@ def movie_plot(array,
         
     im = ax.imshow(array[0,:,:], cmap=cmap,
                    interpolation=None,
-                   aspect='equal', origin='lower')
+                   origin='lower',                
+                   aspect='equal')
     
     title = ax.annotate(annotation['text'] % time[0],
                         annotation['xy'],
@@ -116,12 +117,15 @@ if __name__=='__main__':
     #                              axes_args={'xlabel':'xlabel (xunit)',
     #                                         'ylabel':'ylabel (yunit)'})
 
+    # fig, ax, ani = movie_plot(np.random.randn(100, 50, 30),
+    #                           ge,
+    #                           time = np.linspace(0, 1, 100),
+    #                           annotation={'text':'t=%.1fs', 'xy':(.2,.7), 'color':ge.red},
+    #                           axes_args={'xlabel':'xlabel (xunit)',
+    #                                      'ylabel':'ylabel (yunit)'})
 
-    fig, ax, ani = movie_plot(np.random.randn(100, 30, 30),
-                              ge,
-                              time = np.linspace(0, 1, 100),
-                              annotation={'text':'t=%.1fs', 'xy':(.2,.7), 'color':ge.red},
-                              axes_args={'xlabel':'xlabel (xunit)',
-                                         'ylabel':'ylabel (yunit)'})
+    # fig, ax = ge.twoD_plot(np.arange(50), np.arange(30), np.random.randn(50, 30))
+    fig, ax = ge.image(np.random.randn(50, 30))
     
-    plt.show()
+    
+    ge.show()

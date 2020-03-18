@@ -15,8 +15,10 @@ def load(image_path):
 
 if __name__=='__main__':
 
+
     from datavyz.main import graph_env
     ge = graph_env('visual_stim')
-    ge.image(load(sys.argv[-1]))
+    # ge.image(load(sys.argv[-1]))
+    ge.matrix(np.random.randn(100,20))
     ge.show()
     

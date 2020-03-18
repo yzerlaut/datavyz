@@ -14,7 +14,7 @@ from datavyz import annotations, line_plots, scatter_plots, legend, features_plo
 from datavyz.cross_correl_plot import cross_correl_plot_func
 from datavyz.hist_plots import hist
 from datavyz.inset import add_inset, inset
-from datavyz.surface_plots import twoD_plot
+from datavyz.surface_plots import twoD_plot, matrix
 from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
 from datavyz.pie_plots import pie
 import datavyz.single_cell_plots as scp
@@ -277,6 +277,10 @@ class graph_env:
     # twoD-plot with x-y axis from bottom left
     def twoD_plot(self, x, y, z, **args):
         return twoD_plot(self, x, y, z, **args)
+
+    def matrix(self, x, **args):
+        return matrix(self, x, **args)
+    
 
     # image plot
     def image(self, X, cmap=binary, alpha=1., ax=None, title=''):
