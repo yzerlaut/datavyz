@@ -53,10 +53,8 @@ def animated_plot(x,
 
     return fig, ax, ani
 
-def movie_plot(array,
-               graph_env,
-               x=None,
-               y=None,
+def movie_plot(graph_env,
+               array,
                time=None,
                vmin=None, vmax=None,
                annotation_text='t=%is',
@@ -79,12 +77,12 @@ def movie_plot(array,
         vmin=array.min()
     if vmax is None:
         vmax=array.max()
-    if (x is None):
-        x, y = np.meshgrid(np.arange(array.shape[0]),\
-                           np.arange(array.shape[1]), indexing='ij')
+    # if (x is None):
+    #     x, y = np.meshgrid(np.arange(array.shape[0]),\
+    #                        np.arange(array.shape[1]), indexing='ij')
     
     im = ax.imshow(array[0,:,:].T,
-                   extent = (x.min(), x.max(), y.min(), y.max()),
+                   # extent = (x.min(), x.max(), y.min(), y.max()),
                    vmin = vmin, vmax = vmax,
                    cmap=cmap,
                    interpolation=None,
@@ -131,8 +129,7 @@ if __name__=='__main__':
                                  axes_args={'xlabel':'xlabel (xunit)',
                                             'ylabel':'ylabel (yunit)'})
 
-    fig, ax, ani = movie_plot(np.random.randn(100, 16, 9),
-                              ge,
+    fig, ax, ani = movie_plot(ge, np.random.randn(100, 16, 9),
                               time = np.linspace(0, 1, 100),
                               annotation_text='t=%.1fs',
                               annotation_args={'color':ge.red, 'weight':'bold'},
