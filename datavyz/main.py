@@ -272,7 +272,7 @@ class graph_env:
                              color=color,
                              lw=lw, ms=ms, marker=marker,
                              axes_args=axes_args,
-                             fig_args=fig_args):
+                             fig_args=fig_args)
     
     # twoD-plot with x-y axis from bottom left
     def twoD_plot(self, x, y, z, **args):
@@ -311,7 +311,7 @@ class graph_env:
                           interval=interval,
                           cmap=cmap,
                           axes_args=axes_args,
-                          fig_args=fig_args):
+                          fig_args=fig_args)
         
     
     
