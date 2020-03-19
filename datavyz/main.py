@@ -235,6 +235,9 @@ class graph_env:
     ###### Classical plot functions ################
     ################################################
 
+    def multicolored_line(self, ax, x, y, norm_color_value, **args):
+        return line_plots.multicolored_line(self, ax, x, y, norm_color_value, **args)
+
     # histogram 
     def hist(self, x, **args):
         return hist(self, x, **args)
@@ -256,27 +259,8 @@ class graph_env:
         return cross_correl_plot_func(self, data, **args)
 
     # animated plot
-    def animated_plot(self, x, time_dep_y,
-                      time=None,
-                      annotation_text='t=%is',
-                      annotation_xy=(.5, .6),
-                      annotation_args={'color':'r', 'weight':'bold'},
-                      interval=400,
-                      color=None,
-                      lw=1, ms=0., marker='o',
-                      axes_args={},
-                      fig_args={}):
-        return animated_plot(x, time_dep_y,
-                             self,
-                             time=time,
-                             annotation_text=annotation_text,
-                             annotation_xy=annotation_xy,
-                             annotation_args=annotation_args,
-                             interval=interval,
-                             color=color,
-                             lw=lw, ms=ms, marker=marker,
-                             axes_args=axes_args,
-                             fig_args=fig_args)
+    def animated_plot(self, x, time_dep_y, **args):
+        return animated_plot(self, x, time_dep_y, **args)
     
     # twoD-plot with x-y axis from bottom left
     def twoD_plot(self, x, y, z, **args):
@@ -284,7 +268,6 @@ class graph_env:
 
     def matrix(self, x, **args):
         return matrix(self, x, **args)
-    
 
     # image plot
     def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
@@ -302,30 +285,8 @@ class graph_env:
         return fig, ax
 
     # movie plot
-    def movie(self, array,
-              time=None,
-              annotation_text='t=%is',
-              annotation_xy=(.5, .6),
-              annotation_args={'color':'r', 'weight':'bold'},
-              interval=400,
-              cmap=binary_r,
-              axes_args={},
-              fig_args={}):
-        """
-        movie plot from array, dimensions should be [time, X, Y]
-        """
-        return movie_plot(array,
-                          self,
-                          time=time,
-                          annotation_text=annotation_text,
-                          annotation_xy=annotation_xy,
-                          annotation_args=annotation_args,
-                          interval=interval,
-                          cmap=cmap,
-                          axes_args=axes_args,
-                          fig_args=fig_args)
-        
-    
+    def movie(self, array, **args):
+        return movie_plot(self, array, **args)
     
     def related_samples_two_conditions_comparison(self, data1, data2,**args):
         return related_samples_two_conditions_comparison(self, data1, data2,**args)

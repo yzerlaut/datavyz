@@ -49,7 +49,7 @@ def animated_plot(x,
                                   init_func=init,
                                   interval=interval,
                                   blit=True)
-    
+    a
 
     return fig, ax, ani
 
@@ -65,6 +65,9 @@ def movie_plot(graph_env,
                aspect='equal',
                axes_args={},
                fig_args={}):
+    """
+    movie plot from array, dimensions should be [time, X, Y]
+    """
 
     fig, ax = graph_env.figure(**fig_args)
     ax.axis('off')

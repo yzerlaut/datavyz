@@ -3,6 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.
 
 from datavyz.dependencies import *
 from matplotlib.cm import viridis
+from matplotlib.collections import LineCollection
 
 def single_curve(ax, x, y, sy,
                  color='k-',
@@ -16,6 +17,21 @@ def single_curve(ax, x, y, sy,
         ax.fill_between(x, y-sy, y+sy,
                         color=color, lw=0, alpha=alpha_std)
 
+def multicolored_line(graph, ax, x, y, norm_color_value,
+                      cmap='viridis', lw=2):
+
+    points = np.array([x, y]).T.reshape(-1, 1, 2)
+    segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+    # Create a continuous norm to map from data points to colors
+    norm = plt.Normalize(norm_color_value.min(), norm_color_value.max())
+    lc = LineCollection(segments, cmap=cmap, norm=norm)
+    # Set the values used for colormapping
+    lc.set_array(norm_color_value)
+    lc.set_linewidth(lw)    
+
+    line = ax.add_collection(lc)
+    return line
 
 def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
                     lw=1, ms=0, ls='-', m='',
@@ -61,5 +77,8 @@ if __name__=='__main__':
                           bar_scale_args = dict(Xbar=.2,Xbar_label='0.2s',
                                                 Ybar=20,Ybar_label='20mV ',
                                                 loc='left-bottom'))
-    fig.savefig('docs/trace-plot.svg')
+
+    line = ge.multicolored_line(ax, t, np.ones(len(t)), np.linspace(0, 1, len(t)))
+    
+    # fig.savefig('docs/trace-plot.svg')
     geS.show()
