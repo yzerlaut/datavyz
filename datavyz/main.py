@@ -235,8 +235,8 @@ class graph_env:
     ###### Classical plot functions ################
     ################################################
 
-    def multicolored_line(self, ax, x, y, norm_color_value, **args):
-        return line_plots.multicolored_line(self, ax, x, y, norm_color_value, **args)
+    def multicolored_line(self, x, y, norm_color_value, **args):
+        return line_plots.multicolored_line(self, x, y, norm_color_value, **args)
 
     # histogram 
     def hist(self, x, **args):

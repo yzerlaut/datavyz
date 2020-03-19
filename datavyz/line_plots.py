@@ -17,9 +17,15 @@ def single_curve(ax, x, y, sy,
         ax.fill_between(x, y-sy, y+sy,
                         color=color, lw=0, alpha=alpha_std)
 
-def multicolored_line(graph, ax, x, y, norm_color_value,
-                      cmap='viridis', lw=2):
+def multicolored_line(graph, x, y, norm_color_value,
+                      ax=None,
+                      cmap='cool', lw=2):
 
+    if ax is None:
+        fig, ax = graph.figure()
+    else:
+        fig = None
+    
     points = np.array([x, y]).T.reshape(-1, 1, 2)
     segments = np.concatenate([points[:-1], points[1:]], axis=1)
 
@@ -31,7 +37,7 @@ def multicolored_line(graph, ax, x, y, norm_color_value,
     lc.set_linewidth(lw)    
 
     line = ax.add_collection(lc)
-    return line
+    return fig, ax, line
 
 def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
                     lw=1, ms=0, ls='-', m='',
@@ -78,7 +84,7 @@ if __name__=='__main__':
                                                 Ybar=20,Ybar_label='20mV ',
                                                 loc='left-bottom'))
 
-    line = ge.multicolored_line(ax, t, np.ones(len(t)), np.linspace(0, 1, len(t)))
+    line = ge.multicolored_line(t, np.ones(len(t)), np.linspace(0, 1, len(t)), ax=ax)
     
     # fig.savefig('docs/trace-plot.svg')
     geS.show()
