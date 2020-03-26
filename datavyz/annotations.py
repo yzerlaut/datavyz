@@ -53,6 +53,30 @@ def annotate(graph, stuff, s, xy,
         stuff.annotate(s, xy, xycoords=xycoords,
                        weight=weight, fontsize=fontsize, style=style,
                        color=color, rotation=rotation, ha=ha, va=va)
+
+def arrow(graph, stuff,
+          x0=0.1, y0=0.1,
+          dx=0.7, dy=0.,
+          width=.02,
+          head_width=0.15, head_length=0.02,
+          width_margin=0., height_margin=0.1,
+          color='k'):
+
+    if type(stuff)==mpl.figure.Figure: # if figure, we create an axis
+        sax = graph.inset(stuff,
+                          x0=x0-width_margin,
+                          y0=y0-height_margin,
+                          dx=dx+2*width_margin,
+                          dy=dy+2*height_margin)
+        sax.axis('off')
+    else: # means subplot
+        sax = stuff
+        
+    sax.arrow(x0, y0, dx, dy,
+              length_includes_head=True,
+              width=width,
+              head_width=head_width, head_length=head_length,
+              facecolor=color, edgecolor=color)
     
 def from_pval_to_star(p,
                       threshold1=1e-3,
@@ -250,6 +274,21 @@ if __name__=='__main__':
     print(from_pval_to_star(x))
     for i in range(20):
         print(int_to_roman(i))
+
+    from datavyz.main import graph_env
+    ge = graph_env()
+    
+    fig, AX= ge.figure(axes=(1,10), figsize=(.5,.5), bottom=1.5)
+    for i, ax in enumerate(AX):
+        ge.top_left_letter(ax, ge.int_to_roman(i+1))
+        ge.matrix(np.random.randn(10,10), ax=ax)
+
+    sax = ge.arrow(fig, x0=0.04, y0=.2, dx=.93, dy=0.)
+    ge.annotate(fig, 'time', (.5, .17), ha='center')
+
+    fig.savefig('docs/annotations1.svg')
+    ge.show()
+    
     # from datavyz..graphs import *
     # fig, ax = figure()
     # ax.plot(np.random.randn(30), np.random.randn(30), 'o')

@@ -1,13 +1,13 @@
 import sys, os
 import matplotlib
 matplotlib.use('Qt5Agg') 
-from datavyz.atplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from datavyz.atplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-from datavyz.yQt5 import QtGui, QtWidgets, QtCore
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from PyQt5 import QtGui, QtWidgets, QtCore
 import numpy as np
 import matplotlib.pyplot as plt
-sys.path.append('../')
-from datavyz.my_graph import set_plot, put_list_of_figs_to_svg_fig
+
+
 
 def get_figure_list(DATA_FILE):
     plt.close('all')
