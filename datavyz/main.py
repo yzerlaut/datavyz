@@ -316,6 +316,9 @@ class graph_env:
         return annotations.draw_bar_scales(self,
                                            ax, Xbar, Xbar_label, Ybar, Ybar_label, **args)
 
+    def arrow(self, stuff, **args):
+        return annotations.arrow(self, stuff, **args)
+
     def int_to_roman(self, input, capitals=False):
         return annotations.int_to_roman(input, capitals=capitals)
 

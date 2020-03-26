@@ -93,7 +93,7 @@ def matrix(graph,
            colormap=cm.viridis,
            alpha=1.,
            vmin=None, vmax=None,
-           bar_legend={}, # switch to None to make it disappear
+           bar_legend=None, # switch to None to make it disappear
            aspect='equal', # switch to 'auto' if needed
            interpolation='none'):
 

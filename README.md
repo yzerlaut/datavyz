@@ -39,9 +39,76 @@ Using *git* to clone the repository and "pip" to install the package in your pyt
 pip install git+https://github.com/yzerlaut/datavyz.git
 ```
 
-## Quick demo
+## Multipanel figure demo
 
 Building a complex multipanel figure with the module.
+
+```
+import datavyz
+
+ge = datavyz.graph_env('manuscript')
+
+# a more complex grid of axes:
+fig, AX = ge.figure(axes_extents=[\
+                                  [[3,1], [1,1]],
+                                  [[4,1]],
+                                  [[1,1], [2,1], [1,1] ] ],
+                     figsize=[.95,.95])
+AX[0].plot(np.random.randn(20))
+
+t = np.linspace(0, 10, 1e3)
+y = np.cos(5*t)+np.random.randn(len(t))
+
+# leave first axis empty for drawing
+AX[0][0].axis('off') # space for docs/schematic.svg
+
+# time series plot
+AX[0][1].plot(t, y)
+ge.set_plot(AX[0][1], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
+
+# more time series plot
+AX[1][0].plot(t[t>9], y[t>9], label='raw')
+AX[1][0].plot(t[t>9][1:], np.diff(y[t>9]), label='deriv.')
+AX[1][0].plot(t[t>9][1:-1], np.diff(np.diff(y[t>9])), label='2nd deriv.')
+ge.set_plot(AX[1][0], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
+
+# scatter plot
+ge.scatter(t[::10], t[::10]+np.random.randn(100),
+           ax=AX[2][0], xlabel='ylabel (yunit)')
+
+
+# bar plot
+ge.bar(np.random.randn(8),
+       COLORS=[ge.viridis(i/7) for i in range(8)],
+        ax=AX[2][1], xlabel='ylabel (yunit)')
+
+# pie plot
+ge.pie([0.25,0.4,0.35], ax=AX[2][2], ext_labels=['Set 1', 'Set 2', 'Set 3'])
+
+
+# looping on all plots to add the top left letter:
+for l, ax in zip(list(string.ascii_lowercase), itertools.chain(*AX)):
+   ge.top_left_letter(ax, l+'     ')
+
+# saving the figure with all plots
+fig.savefig('fig.svg')
+
+# generating the figure with the addition of the drawing and saving it "fig.svg"
+from datavyz.plot_export import put_list_of_figs_to_svg_fig
+put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
+                            fig_name='fig.svg',
+                            Props={'XCOORD':[0,0], 'YCOORD':[0,0]})
+
+```
+
+<p align="center">
+  <img src="docs/multipanel.svg"/>
+</p>
+
+
+## Multi-environment plotting demo
+
+
 
 ```
 import datavyz
@@ -324,9 +391,7 @@ ge.show()
 </p>
 
 
-### Other custom plots
-
-#### Twin axis with log scale
+### Twin axis
 ```
 from datavyz.main import graph_env
 ge = graph_env('manuscript')
@@ -345,3 +410,28 @@ ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
 <p align="center">
   <img src="docs/twin-log-scale.svg"/>
 </p>
+
+### Annotations
+
+```
+fig, AX= ge.figure(axes=(1,10), figsize=(.5,.5), bottom=1.5)
+for i, ax in enumerate(AX):
+    ge.top_left_letter(ax, ge.int_to_roman(i+1))
+    ge.matrix(np.random.randn(10,10), ax=ax)
+
+sax = ge.arrow(fig, x0=0.04, y0=.2, dx=.93, dy=0.)
+ge.annotate(fig, 'time', (.5, .17), ha='center')
+```
+<p align="center">
+  <img src="docs/annotations1.svg"/>
+</p>
+
+
+### Bar legends
+### Other custom features
+
+
+
+
+
+
