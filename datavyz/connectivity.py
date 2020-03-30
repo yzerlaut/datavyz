@@ -22,7 +22,7 @@ def connectivity_plot(graph,
 
         angle = i*2.*np.pi/len(POPS)
         radius = size_pop_conversion_factor*np.log10(POPS[pop]['Ncell'])
-        x0, y0 = np.cos(angle)/2.+.5, np.sin(angle)/2.+.5
+        x0, y0 = np.cos(angle), np.sin(angle)
         Centre_Circle = Circle((x0,y0), radius,
                                fc=POPS[pop]['color'], alpha=.5)
         ax.add_artist(Centre_Circle)
@@ -77,13 +77,15 @@ def connectivity_plot(graph,
     
     
     
-    ax.set_ylim([-.5, 1.5])
-    ax.set_xlim([-.5, 1.5])
+    ax.set_ylim([-1.5, 1.5])
+    ax.set_xlim([-1.5, 1.5])
     ax.axis('equal')
     ax.axis('off')
 
     return fig, ax
-    
+
+
+
 if __name__=='__main__':
     
     from datavyz.main import graph_env
