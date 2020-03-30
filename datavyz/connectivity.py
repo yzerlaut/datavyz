@@ -17,6 +17,7 @@ def connectivity_plot(graph,
                       connectivity_conversion_factor=2.):
 
     fig, ax = graph.figure(figsize=(3., 5.3), left=0, right=0., bottom=0., top=0.)
+    # fig, ax = graph.figure(figsize=(1., 1.3), left=0, right=0., bottom=0., top=0.)
 
     for i, pop in enumerate(POPS):
 
@@ -47,36 +48,42 @@ def connectivity_plot(graph,
             if target!=pop: # see above for self connectivity
                 
                 angleJ = j*2.*np.pi/len(POPS)
-                xj, yj = np.cos(angleJ)/2.+.5, np.sin(angleJ)/2.+.5
+                xj, yj = np.cos(angleJ), np.sin(angleJ)
                 radiusJ = size_pop_conversion_factor*np.log10(POPS[target]['Ncell'])
-                relation_angle = (angleJ-angle)
-                print(pop, target, relation_angle)
-                xj1, yj1 = xj-radiusJ*np.cos(relation_angle), yj-radiusJ*np.sin(relation_angle)
-                xi1, yi1 = x0+radius*np.cos(relation_angle), y0+radius*np.sin(relation_angle)
-
-                print(pop, target, angle, angleJ)
-                cij_shift = .1
-                dx, dy = cij_shift*np.cos(relation_angle), cij_shift*np.sin(relation_angle)
+                
+                relation_angle = (np.pi+(angleJ+angle))/2.
+                dcij_shift = 0.05
+                
+                if (angle<np.pi) and (angleJ<angle):
+                    xj1, yj1 = xj+radiusJ*np.cos(relation_angle), yj+radiusJ*np.sin(relation_angle)
+                    xi1, yi1 = x0-radius*np.cos(relation_angle), y0-radius*np.sin(relation_angle)
+                elif (angle<np.pi):
+                    xj1, yj1 = xj-radiusJ*np.cos(relation_angle), yj-radiusJ*np.sin(relation_angle)
+                    xi1, yi1 = x0+radius*np.cos(relation_angle), y0+radius*np.sin(relation_angle)
+                elif (angle<3*np.pi/2.) and (angle<angleJ):
+                    xj1, yj1 = xj-radiusJ*np.cos(relation_angle), yj-radiusJ*np.sin(relation_angle)
+                    xi1, yi1 = x0+radius*np.cos(relation_angle), y0+radius*np.sin(relation_angle)
+                else:
+                    xj1, yj1 = xj+radiusJ*np.cos(relation_angle), yj+radiusJ*np.sin(relation_angle)
+                    xi1, yi1 = x0-radius*np.cos(relation_angle), y0-radius*np.sin(relation_angle)
+                    
                 if i>j:
                     dcij_shift = +.05
+                    shape='left'
                 else:
                     dcij_shift = -.05
-                dx2, dy2 = 0, 0 # dcij_shift*np.cos(relation_angle+np.pi/2), dcij_shift*np.sin(relation_angle+np.pi/2)
-                
-                # cij = patches.FancyArrowPatch((x0, y0),
-                #                               (xj, yj),
-                cij = patches.FancyArrowPatch((xi1-dx2, yi1+dx2),
-                                              (xj1+dx2, yj1-dy2),
-                                             arrowstyle='->',
-                                             patchA=None, patchB=None,
-                                             # connectionstyle="bar,fraction=0.7",
-                                             color=POPS[pop]['color'], lw=3)
+                    shape='right'
+                dx = dcij_shift*np.cos(relation_angle+np.pi/2)
+                dy = dcij_shift*np.sin(relation_angle+np.pi/2)
+
+                cij = patches.FancyArrowPatch((xi1+dx/2, yi1+dy/2),
+                                              (xj1+dx/2, yj1+dy/2),
+                                              arrowstyle='->',
+                                              patchA=None, patchB=None,
+                                              color=POPS[pop]['color'], lw=3)
                 
                 ax.add_patch(cij)
                 
-    
-    
-    
     ax.set_ylim([-1.5, 1.5])
     ax.set_xlim([-1.5, 1.5])
     ax.axis('equal')
@@ -93,8 +100,9 @@ if __name__=='__main__':
     ge = graph_env('screen')
 
     POPS = {'Pyr':{'Ncell':4000, 'color':ge.green},
+            'oscillExc':{'Ncell':500, 'color':ge.blue},
             'PV':{'Ncell':500, 'color':ge.red},
-            # 'SST':{'Ncell':250, 'color':ge.orange},
+            'SST':{'Ncell':250, 'color':ge.orange},
             'VIP':{'Ncell':250, 'color':ge.purple}}
     CONNEC = {'Pyr_PV':0.05,
               'Pyr_SST':0.05,
@@ -466,24 +474,3 @@ if __name__=='__main__':
 #     ax.axis('equal')
 #     return fig, ax
 
-
-# if __name__=='__main__':
-    
-#     from datavyz.main import graph_env
-
-#     ge = graph_env('manuscript')
-
-#     data = .5+np.abs(np.random.randn(3))*.4
-
-#     #plotting
-#     fig, ax = ge.pie(data,
-#                      ext_labels = ['Data1', 'Data2', 'Data3'],
-#                      pie_labels = ['%.1f%%' % (100*d/data.sum()) for d in data],
-#                      ext_labels_distance=1.2,
-#                      explodes=0.05*np.ones(len(data)),
-#                      center_circle=0.2,
-#                      COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
-#                      # pie_args=dict(rotate=90), # e.g. for rotation
-#                      legend=None)  # set legend={} to have it appearing
-#     # fig.savefig('docs/pie-plot.png')
-#     ge.show()
