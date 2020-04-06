@@ -20,6 +20,22 @@ ENVIRONMENTS = {
         'dpi':150,
         'size_factor': 1.,
     },
+    'notebook': {
+	'fontsize':11,
+	'default_color':'k',
+        'single_plot_size':(28.*1.5, 20.*1.5), # mm
+        'hspace_size':12.*1.5, # mm
+        'wspace_size':16.*1.5, # mm
+        'left_size':20*1.5, # mm
+        'right_size':4.*1.5, # mm
+        'top_size':7.*1.5, # mm
+        'bottom_size':19.*1.5, # mm
+        'background':'w',
+        'facecolor':'none',
+        'transparency':True,
+        'dpi':200,
+        'size_factor': 1.,
+    },
     'screen': {
         'size_factor': 1.5,
     },
