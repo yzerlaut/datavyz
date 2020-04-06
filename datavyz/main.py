@@ -67,7 +67,8 @@ class graph_env:
                bottom=1., top=1.,
                wspace=1., hspace=1.,
                with_legend_space=False,
-               with_space_for_bar_legend=False,
+               with_bar_legend=False,
+               bar_inset_loc=None,
                shift_up=0., shrink=1.):
 
         if with_legend_space:
@@ -77,7 +78,8 @@ class graph_env:
                                 figsize=figsize,
                                 fontsize=self.fontsize)
             return fig, ax
-        elif with_space_for_bar_legend:
+            
+        elif with_bar_legend:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
                                 right=5,
@@ -90,7 +92,12 @@ class graph_env:
                                 axes, axes_extents, grid,
                                 np.array(figsize),
                                 left, right, bottom, top, wspace, hspace)
-            return fig, AX
+            if bar_inset_loc is not None:
+                acb = df.add_inset(ax, bar_inset_loc)
+                return fig, AX, acb
+            else:
+                return fig, AX
+
 
     def plot(self,
              x=None, y=None, sy=None, color=None,
@@ -519,7 +526,7 @@ if __name__=='__main__':
     # fig_lf, AX = mg.figure(axes_extents=[[[3,1]],[[1,2],[1,2],[1,2]]], figsize=(1.,.5), wspace=3., hspace=2.)
     # for ax in [item for sublist in AX for item in sublist]:
     #     mg.top_left_letter(ax, 'a')
-    # # _, ax, _ = mg.figure(with_space_for_bar_legend=True)
+    # # _, ax, _ = mg.figure(with_bar_legend=True)
     # AX[1][0].hist(np.random.randn(100))
     # fig, ax = mg.figure()
     # ax.hist(np.random.randn(100))
