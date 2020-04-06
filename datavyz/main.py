@@ -93,7 +93,10 @@ class graph_env:
                                 np.array(figsize),
                                 left, right, bottom, top, wspace, hspace)
             if bar_inset_loc is not None:
-                acb = df.add_inset(ax, bar_inset_loc)
+                if type(AX) is list:
+                    acb = df.add_inset(AX[-1], bar_inset_loc)
+                else:
+                    acb = df.add_inset(AX, bar_inset_loc)
                 return fig, AX, acb
             else:
                 return fig, AX
