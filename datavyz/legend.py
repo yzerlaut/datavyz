@@ -56,8 +56,8 @@ def build_bar_legend(X, ax, mymap,
     return cb
 
 def build_bar_legend_continuous(ax, mymap,
+                                bounds=[0,1],
                                 label='$\\nu$ (Hz)',\
-                                bounds=None,
                                 ticks=None,
                                 ticks_labels=None,
                                 orientation='vertical',
@@ -65,29 +65,40 @@ def build_bar_legend_continuous(ax, mymap,
                                 alpha=1.,
                                 scale='linear'):
 
-    cb = mpl.colorbar.ColorbarBase(ax, cmap=mymap, orientation=orientation, alpha=alpha)
+    cb = mpl.colorbar.ColorbarBase(ax,
+                                   cmap=mymap,
+                                   orientation=orientation,
+                                   alpha=alpha)
     
     if (bounds is None):
         cb.set_ticks([])
+        
     else:
+        
         if scale=='log':
+            
             if bounds[0]<=0.:
                 print('need to set a positive lower bound for the data')
                 print('set to 0.01')
                 bounds[0] = 0.01
+                
             if orientation=='vertical':
                 set_ticks_to_log10_axis(cb.ax.yaxis, bounds, normed_to_unit=True)
-                if ticks_labels is not None:
-                    cb.ax.yaxis.set_ticklabels(ticks_labels)
+                # if ticks_labels is not None:
+                #     cb.ax.yaxis.set_ticklabels(ticks_labels)
             elif orientation=='horizontal':
                 set_ticks_to_log10_axis(cb.ax.xaxis, bounds, normed_to_unit=True)
-                if ticks_labels is not None:
-                    cb.ax.xaxis.set_ticklabels(ticks_labels)
+                # if ticks_labels is not None:
+                #     cb.ax.xaxis.set_ticklabels(ticks_labels)
+            
         else:
+            
             if ticks is None:
                 ticks = np.linspace(bounds[0]+.1*(bounds[1]-bounds[0]), bounds[1]-.1*(bounds[1]-bounds[0]), 3)
+                
             if ticks_labels is None:
                 ticks_labels = ['%.1f' % t for t in ticks]
+
             cb.set_ticks((np.array(ticks)-bounds[0])/(bounds[1]-bounds[0]))
             cb.set_ticklabels(ticks_labels)
         
@@ -161,7 +172,7 @@ if __name__=='__main__':
 
     
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
-    fig, ax, acb = ge.figure(figsize=(2,2), with_space_for_bar_legend=True)
+    fig, ax, acb = ge.figure(figsize=(2,2), with_bar_legend=True)
     ge.plot(Y=Y,
          xlabel='time', ylabel='y-value',
          colormap=ge.copper,
@@ -182,7 +193,9 @@ if __name__=='__main__':
                colormap=ge.copper,
                # orientation='horizontal',
                label='Trial ID', no_ticks=True)
-    ge.build_bar_legend_continuous(acb, ge.copper)
-    ge.set_plot(acb, [])
     
+    ge.build_bar_legend_continuous(acb,
+                                   ge.copper,
+                                   bounds = [1e-3, 10],
+                                   scale='log')
     ge.show()
