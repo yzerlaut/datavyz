@@ -166,39 +166,33 @@ def adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
         
 
 def find_good_log_ticks(lim=[0.009, 0.0099]):
+    
     if lim[0]<=0:
         print('/!\ need positive lower bound of graphs, set to 1e-3')
         lim[0] = 1e-3
     if lim[1]<=0:
         print('/!\ need positive lower bound of graphs, set to 10')
         lim[1] = 10
-    i0 =  np.floor(np.log(lim[0])/np.log(10))
-    i1 =  np.floor(np.log(lim[1])/np.log(10))
-    
-    major_ticks = np.power(10., np.arange(i0, i1+1))
-    major_ticks = major_ticks[(major_ticks>=lim[0]) & (major_ticks<=lim[1])]
 
-    i0 =  int(np.log(lim[0])/np.log(10))
-    i1 =  int(np.log(lim[1])/np.log(10))
-    # i0 =  int(np.log(lim[0])/np.log(10))-1
-    if i0==i1:
-        i0 -=1
-    xx, ii = int(lim[0]/(10.**(i0))), i0
-    while xx>10:
-        xx, ii = int(lim[0]/(10.**(ii+1))), ii+1
-
-    minor_ticks = []
-    while (xx*np.power(10., ii)<lim[1]):
-        # print(xx*np.power(10., ii), lim[1])
-        minor_ticks.append(xx*np.power(10., ii))
-        xx +=1
-        if xx==10:
-            ii+=1
-            xx=1
-    minor_ticks = np.unique(np.array(minor_ticks))
-    minor_ticks = minor_ticks[(minor_ticks>=lim[0]) & (minor_ticks<=lim[1])]
+    minorticks, majorticks = [], []
     
-    return lim, major_ticks, minor_ticks
+    # before the first order of magnitude
+    i0 = np.floor(np.log10(lim[0]))
+    if lim[0]%np.exp(i0*np.log(10))!=0:
+        for l in range(1, 10):
+            if l*np.exp(i0*np.log(10))>lim[0]:
+                minorticks.append(l*np.power(10., i0))
+                
+    # after the first order of magnitude
+    for k in np.arange(int(np.floor(np.log10(lim[0]))+1),
+                       int(np.floor(np.log10(lim[1])))+1):
+        for l in range(1, 10):
+            if l%10==1:
+                majorticks.append(l*np.power(10., k))
+            elif l*np.power(10., k)<=lim[1]:
+                minorticks.append(l*np.power(10., k))
+
+    return lim, majorticks, minorticks
 
 def set_ticks_to_log10_axis(axis, bounds, normed_to_unit=False):
     
@@ -264,12 +258,12 @@ if __name__=='__main__':
 
     fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
     ax2 = ax.twinx()
-    ax.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=2, color=ge.blue)
+    ax.plot(np.log10(np.logspace(-2.2,3,100)), np.exp(np.random.randn(100)), 'o', ms=2, color=ge.blue)
     ax2.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=1, color=ge.red)
     ge.set_plot(ax2, ['right'], yscale='log', ylabel='blabal',
              tck_outward=2, ycolor=ge.red)
     ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
-             yscale='log', ylabel='blabal', xscale='already-log10',
-             tck_outward=2, xlabel='trying', ylabelpad=-5)
+                yscale='log', ylabel='blabal', xscale='already-log10',
+                tck_outward=2, xlabel='trying', ylabelpad=-5)
     fig.savefig('docs/twin-log-scale.svg')
     ge.show()
