@@ -12,6 +12,7 @@ import datavyz.adjust_plots as ap
 
 from datavyz import annotations, line_plots, scatter_plots, legend, features_plot, cross_correl_plot
 from datavyz.cross_correl_plot import cross_correl_plot_func
+from datavyz.parallel_plots import parallel_plot
 from datavyz.hist_plots import hist
 from datavyz.inset import add_inset, inset
 from datavyz.surface_plots import twoD_plot, matrix
@@ -250,6 +251,9 @@ class graph_env:
     def multicolored_line(self, x, y, norm_color_value, **args):
         return line_plots.multicolored_line(self, x, y, norm_color_value, **args)
 
+    def parallel_plot(self, Y, **args):
+        return parallel_plot(self, Y, **args)
+    
     # histogram 
     def hist(self, x, **args):
         return hist(self, x, **args)
