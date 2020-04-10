@@ -135,9 +135,7 @@ def bar_legend(X, ax,
     return cb
 
 
-def legend(list_of_lines,
-           list_of_labels,
-           fig=None,
+def legend(ax,
            frameon=False,
            handletextpad=0.3,
            handlelength=1.,
@@ -145,24 +143,47 @@ def legend(list_of_lines,
            title='',
            fontsize=8,
            columnspacing=1.,
-           loc='upper center'):
+           loc='best'):
 
-    if fig is None:
-        fig = plt.gcf()
+    ax.legend(loc=loc,
+              frameon=frameon,
+              ncol=ncol,
+              numpoints=1,
+              scatterpoints=1,
+              columnspacing=columnspacing,
+              handletextpad=handletextpad,
+              handlelength=handlelength,
+              title=title,
+              fontsize=fontsize)
 
-    fig.legend(list_of_lines,
-               list_of_labels,
-               loc=loc,
-               frameon=frameon,
-               ncol=ncol,
-               # numpoints=1,
-               # scatterpoints=1,
-               columnspacing=columnspacing,
-               handletextpad=handletextpad,
-               handlelength=handlelength,
-               title=title,
-               fontsize=fontsize)
+# def legend(list_of_lines,
+#            list_of_labels,
+#            fig=None,
+#            frameon=False,
+#            handletextpad=0.3,
+#            handlelength=1.,
+#            ncol=1,
+#            title='',
+#            fontsize=8,
+#            columnspacing=1.,
+#            loc='upper center'):
 
+#     if fig is None:
+#         fig = plt.gcf()
+
+#     fig.legend(list_of_lines,
+#                list_of_labels,
+#                loc=loc,
+#                frameon=frameon,
+#                ncol=ncol,
+#                # numpoints=1,
+#                # scatterpoints=1,
+#                columnspacing=columnspacing,
+#                handletextpad=handletextpad,
+#                handlelength=handlelength,
+#                title=title,
+#                fontsize=fontsize)
+    
     
 
 if __name__=='__main__':
@@ -173,21 +194,17 @@ if __name__=='__main__':
     
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
     fig, ax, acb = ge.figure(figsize=(2,2), with_bar_legend=True)
+    for i in range(2):
+        ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), 'o', ms=2, label='line'+str(i+1))
+    for i in range(2):
+        ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), '-', label='line'+str(i+1))
+    ge.legend(ax, ncol=2, loc=(.2,.6))
+        
     ge.plot(Y=Y,
          xlabel='time', ylabel='y-value',
          colormap=ge.copper,
          lw=1., ax=ax)
-    LINES, LABELS = [], []
-    for i in range(2):
-        line, = ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), 'o', ms=2)
-        LINES.append(line)
-        LABELS.append('line'+str(i+1))
-    for i in range(2):
-        line, = ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), '-')
-        LINES.append(line)
-        LABELS.append('line'+str(i+1))
 
-    ge.legend(LINES, LABELS, ncol=2, loc=(.2,.6))
     
     ge.bar_legend(np.arange(5), ax,
                colormap=ge.copper,

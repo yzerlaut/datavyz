@@ -15,7 +15,7 @@ def hist(graph,
          x, bins=20, ax=None,
          orientation='horizontal',
          edgecolor='k', facecolor='lightgray',
-         c=None,
+         c=None,label='',
          lw=0.3,
          xlabel='', ylabel='count', title='',
          normed=False,
@@ -34,10 +34,10 @@ def hist(graph,
 
     if orientation=='vertical':
         ax.barh(.5*(be[1:]+be[:-1]), hist, height=be[1]-be[0], 
-                edgecolor=edgecolor, facecolor=facecolor, lw=lw)
+                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label)
     elif orientation=='horizontal':
         ax.bar(.5*(be[1:]+be[:-1]), hist, width=be[1]-be[0], 
-                edgecolor=edgecolor, facecolor=facecolor, lw=lw)
+                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label)
 
     if 'xlabel' not in axes_args:
         axes_args['xlabel'] = xlabel
