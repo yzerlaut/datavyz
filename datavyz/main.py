@@ -345,7 +345,7 @@ class graph_env:
     # def legend(self, list_of_lines, list_of_labels, **args):
     #     return legend.legend(list_of_lines, list_of_labels, **args)
     def legend(self, ax, **args):
-        return legend.legend(ax, **args)
+        return legend.legend(self, ax, **args)
 
     def bar_legend(self, X, ax, **args):
         return legend.bar_legend(X, ax, **args)

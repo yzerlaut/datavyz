@@ -19,12 +19,17 @@ def set_fontsize(graph, size):
 
 def title(graph, ax, title,
           size=None, fontsize=None, color=None,
+          bold=False, italic=False,
           weight='normal', style='normal'):
 
     if fontsize is None:
         fontsize=set_fontsize(graph, size)
     if color is None:
         color=graph.default_color
+    if bold and (weight=='normal'):
+        weight = 'bold'
+    if italic and (style=='normal'):
+        style = 'italic'
     ax.set_title(title,
                  weight=weight, fontsize=fontsize, style=style,
                  color=color)
