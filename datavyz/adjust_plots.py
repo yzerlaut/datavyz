@@ -7,7 +7,8 @@ from matplotlib.ticker import MaxNLocator, NullFormatter
 
 def set_plot(ax, spines=['left', 'bottom'],
              num_xticks=3, num_yticks=3,
-             xlabel='', ylabel='', tck_outward=3, tck_length=4,
+             xlabel='', ylabel='', title='',
+             tck_outward=3, tck_length=4,
              xticks=None, yticks=None,
              xminor_ticks=None, yminor_ticks=None,
              xticks_labels=None, yticks_labels=None,\
@@ -117,6 +118,9 @@ def set_plot(ax, spines=['left', 'bottom'],
     ax.set_ylabel(ylabel, fontsize=fontsize, color=ycolor,
                   labelpad=ylabelpad)
 
+    if title!='':
+        ax.set_title(title, fontsize=fontsize)
+    
     if grid:
         ax.grid()
 

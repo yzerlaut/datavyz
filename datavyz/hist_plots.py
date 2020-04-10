@@ -15,16 +15,16 @@ def hist(graph,
          x, bins=20, ax=None,
          orientation='horizontal',
          edgecolor='k', facecolor='lightgray',
-         c=None,label='',
-         lw=0.3,
+         color=None,label='',
+         lw=0.3, alpha=1.,
          xlabel='', ylabel='count', title='',
          normed=False,
          fig_args={}, axes_args={}):
     
     hist, be = np.histogram(x, bins=bins, density=normed)
 
-    if c is not None:
-        facecolor = c
+    if color is not None:
+        facecolor = color
         lw = 0
         
     if ax is None:
@@ -34,10 +34,12 @@ def hist(graph,
 
     if orientation=='vertical':
         ax.barh(.5*(be[1:]+be[:-1]), hist, height=be[1]-be[0], 
-                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label)
+                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label,
+                alpha=alpha)
     elif orientation=='horizontal':
         ax.bar(.5*(be[1:]+be[:-1]), hist, width=be[1]-be[0], 
-                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label)
+                edgecolor=edgecolor, facecolor=facecolor, lw=lw, label=label,
+                alpha=alpha)
 
     if 'xlabel' not in axes_args:
         axes_args['xlabel'] = xlabel
