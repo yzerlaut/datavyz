@@ -371,6 +371,28 @@ ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
   <img src="docs/surface-plot.png"/>
 </p>
 
+### Parallel coordinates plots
+
+For multidimensional data:
+
+```
+# LOADING THE DATA
+from sklearn.datasets import load_iris
+dataset = load_iris()
+    fig.savefig('docs/parallel-plot.png')
+
+# PLOT
+fig, ax = ge.parallel_plot(dataset['data'],
+						  SET_OF_LABELS=['sepal length\n(cm)','sepal width\n(cm)',
+										 'petal length\n(cm)', 'petal width\n(cm)'],
+						  COLORS = [ge.viridis(x/2) for x in dataset['target']])
+for i, name in enumerate(dataset['target_names']):
+	ge.annotate(ax, name, ((i+1)/3., 1.1), color=ge.viridis(i/2), ha='right')
+```
+<p align="center">
+  <img src="docs/parallel-plot.png"/>
+</p>
+
 
 ### Insets
 
