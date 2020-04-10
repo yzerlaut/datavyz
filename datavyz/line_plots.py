@@ -6,7 +6,7 @@ from matplotlib.cm import viridis
 from matplotlib.collections import LineCollection
 
 def single_curve(ax, x, y, sy,
-                 color='k-',
+                 color='k',
                  lw=1, ms=0, ls='-', m='',
                  label=None, alpha=1.,
                  alpha_std=0.3):

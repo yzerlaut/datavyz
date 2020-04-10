@@ -378,7 +378,7 @@ class graph_env:
     def set_plot(self, ax,
                  spines=['left', 'bottom'],
                  num_xticks=3, num_yticks=3,
-                 xlabel='', ylabel='',
+                 xlabel='', ylabel='', title='',
                  tck_outward=3, tck_length=4,
                  xticks=None, yticks=None,
                  xminor_ticks=None, yminor_ticks=None,
@@ -400,7 +400,8 @@ class graph_env:
 
         ap.set_plot(ax, spines,
                     num_xticks, num_yticks,
-                    xlabel, ylabel, tck_outward, tck_length,
+                    xlabel, ylabel, title,
+                    tck_outward, tck_length,
                     xticks, yticks, xminor_ticks, yminor_ticks,
                     xticks_labels, yticks_labels,
                     xlabelpad, ylabelpad,
