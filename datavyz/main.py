@@ -140,12 +140,14 @@ class graph_env:
             line_plots.multiple_curves(ax, X, Y, sY, COLORS, LABELS,
                                        alpha_std=alpha_std,
                                        colormap=colormap,
-                                       lw=lw, ls=ls, m=m, ms=ms)
+                                       lw=lw, ls=ls, m=m, ms=ms,
+                                       alpha=alpha)
         else:
             line_plots.single_curve(ax, x, y, sy,
                                     color=color,
                                     alpha_std=alpha_std,
-                                    lw=lw, label=label, ls=ls, m=m, ms=ms)
+                                    lw=lw, label=label, ls=ls, m=m, ms=ms,
+                                    alpha=alpha)
 
         if bar_legend_args is not None:
             cb = add_inset(ax, **bar_legend_args)
