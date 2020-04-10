@@ -6,6 +6,7 @@ from datavyz.dependencies import *
 from datavyz.inset import add_inset
 from datavyz.adjust_plots import find_good_log_ticks, set_ticks_to_log10_axis
 from datavyz.colors import get_linear_colormap
+from datavyz.annotations import set_fontsize
 
 
 def build_bar_legend(X, ax, mymap,
@@ -135,15 +136,18 @@ def bar_legend(X, ax,
     return cb
 
 
-def legend(ax,
+def legend(graph, ax,
+           size='', fontsize=None,
            frameon=False,
            handletextpad=0.3,
            handlelength=1.,
            ncol=1,
            title='',
-           fontsize=8,
            columnspacing=1.,
            loc='best'):
+
+    if fontsize is None:
+        fontsize=set_fontsize(graph, size)
 
     ax.legend(loc=loc,
               frameon=frameon,
