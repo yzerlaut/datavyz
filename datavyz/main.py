@@ -107,7 +107,7 @@ class graph_env:
              X=None, Y=None, sY=None,
              COLORS=None, colormap=viridis,
              fig = None, ax=None,
-             lw=1, alpha_std=0.3, ms=0, m='', ls='-',
+             lw=1, alpha_std=0.3, ms=0, m='', ls='-',alpha=1.,
              xlabel='', ylabel='', bar_label='', title='',
              label=None,
              LABELS=None,
@@ -342,8 +342,10 @@ class graph_env:
     ###### legend function #######################
     ################################################
 
-    def legend(self, list_of_lines, list_of_labels, **args):
-        return legend.legend(list_of_lines, list_of_labels, **args)
+    # def legend(self, list_of_lines, list_of_labels, **args):
+    #     return legend.legend(list_of_lines, list_of_labels, **args)
+    def legend(self, ax, **args):
+        return legend.legend(ax, **args)
 
     def bar_legend(self, X, ax, **args):
         return legend.bar_legend(X, ax, **args)

@@ -8,17 +8,17 @@ from matplotlib.collections import LineCollection
 def single_curve(ax, x, y, sy,
                  color='k-',
                  lw=1, ms=0, ls='-', m='',
-                 label=None,
+                 label=None, alpha=1.,
                  alpha_std=0.3):
     # we print a single curve
-    ax.plot(x, y, color=color, lw=lw, label=label, linestyle=ls, marker=m, ms=ms)
+    ax.plot(x, y, color=color, lw=lw, label=label, linestyle=ls, marker=m, ms=ms, alpha=alpha)
     # then errorbars if needed:
     if (sy is not None):
         ax.fill_between(x, y-sy, y+sy,
                         color=color, lw=0, alpha=alpha_std)
 
 def multicolored_line(graph, x, y, norm_color_value,
-                      ax=None,
+                      ax=None, alpha=1.,
                       cmap='cool', lw=2):
 
     if ax is None:
@@ -40,7 +40,7 @@ def multicolored_line(graph, x, y, norm_color_value,
     return fig, ax, line
 
 def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
-                    lw=1, ms=0, ls='-', m='',
+                    lw=1, ms=0, ls='-', m='', alpha=1.,
                     alpha_std=0.3, colormap=viridis):
     
     # meaning we have to plot several curves
@@ -51,7 +51,7 @@ def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
     for x, y, l, c in zip(X, Y, LABELS, COLORS):
         ax.plot(x, y,
                 color=c, linestyle=ls,
-                lw=lw, marker=m, ms=ms, label=l)
+                lw=lw, marker=m, ms=ms, label=l, alpha=alpha)
 
     # then errorbars if needed:
     if (sY is not None):
