@@ -9,10 +9,14 @@ def set_fontsize(graph, size):
         fontsize=graph.fontsize-1
     elif size=='x-small':
         fontsize=graph.fontsize-2
+    elif size=='xx-small':
+        fontsize=graph.fontsize-3
     elif size=='large':
         fontsize=graph.fontsize+1
     elif size=='x-large':
         fontsize=graph.fontsize+2
+    elif size=='xx-large':
+        fontsize=graph.fontsize+3
     else:
         fontsize=graph.fontsize
     return fontsize
@@ -49,6 +53,8 @@ def annotate(graph, stuff, s, xy,
         weight = 'bold'
     if italic and (style=='normal'):
         style = 'italic'
+    if fontsize is None:
+        fontsize=set_fontsize(graph, size)
 
     if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
         plt.annotate(s, xy, xycoords='figure fraction',
