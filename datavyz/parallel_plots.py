@@ -13,6 +13,7 @@ def parallel_plot(graph, Y,
                   expansion_factor=0.01,
                   color='k', lw=0.5,
                   fig_args=dict(bottom=.5, left=.5, right=2.),
+                  label_annotation_args=dict(va='top', ha='center',rotation=0.),                  
                   ax=None):
     """
     manually constructed:
@@ -58,7 +59,8 @@ def parallel_plot(graph, Y,
                            (xx, tn/(tick_number-1)),
                            xycoords='data', size='small', color='k', va='center')
 
-        graph.annotate(ax, SET_OF_LABELS[j], (xx, -0.1), va='top', ha='center')
+        graph.annotate(ax, SET_OF_LABELS[j], (xx, -0.1),
+                       **label_annotation_args)
 
     ax.set_xlim([-tick_size/2, 1+tick_size/2])
     
