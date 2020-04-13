@@ -98,7 +98,7 @@ def set_plot(graph, ax,
         ax.xaxis.set_minor_formatter(NullFormatter())
         ax.set_xticks(xticks)
         
-    if xscale=='log':
+    if xminor_ticks is not None:
         ax.set_xticks(xminor_ticks, minor=True)
     
     if xticks_labels is not None:
@@ -127,6 +127,9 @@ def set_plot(graph, ax,
         ax.set_yticklabels(yticks_labels, rotation=yticks_rotation, fontsize=fontsize)
     else:
         ax.yaxis.set_tick_params(labelsize=fontsize, labelrotation=yticks_rotation)
+        
+    if yminor_ticks is not None:
+        ax.set_yticks(yminor_ticks, minor=True)
         
     ax.set_xlabel(xlabel, fontsize=fontsize, color=xcolor,
                   labelpad=xlabelpad)
