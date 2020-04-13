@@ -2,7 +2,9 @@
 
 # datavyz
 
-*Get your plots right ! All along your analysis and dissemination workflow, from data exploration to final figure production. A layer on top of `matplotlib` to achieve flexible & high-standard data visualization across mediums.*
+*Get your plots right ! All along your analysis and dissemination workflow, from data exploration to final figure production.*
+
+*A layer on top of `matplotlib` to achieve flexible & high-standard data visualization across mediums.*
 
 ## Principle / Use
 
