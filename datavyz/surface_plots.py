@@ -25,7 +25,7 @@ def twoD_plot(graph,
     """
     
     if (ax is None) and (acb is None):
-        fig, ax, acb = graph.figure(figsize=(.9,1), with_space_for_bar_legend=True)
+        fig, ax, acb = graph.figure(figsize=(.9,1), with_bar_legend=True)
     else:
         fig = plt.gcf()
         
@@ -102,7 +102,7 @@ def matrix(graph,
         x, y = np.meshgrid(np.arange(z.shape[0]), np.arange(z.shape[1]), indexing='ij')
         
     if (ax is None) and (acb is None):
-        fig, ax, acb = graph.figure(figsize=(.9,1), with_space_for_bar_legend=True)
+        fig, ax, acb = graph.figure(figsize=(.9,1), with_bar_legend=True)
     else:
         fig = plt.gcf()
         
@@ -148,10 +148,10 @@ if __name__=='__main__':
 
     ge = graph_env('manuscript')
 
-    x, y = np.meshgrid(np.arange(1, 20), np.arange(1, 11), indexing='ij')
-    z = y
+    x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 20), indexing='ij')
+    z = y*x*x
 
-    fig1, ax, _ = matrix(ge, z)
+    fig1, ax, _ = matrix(ge, z, aspect='')
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
 
     

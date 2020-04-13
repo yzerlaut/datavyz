@@ -381,40 +381,8 @@ class graph_env:
         ap.adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
                              xcolor=xcolor, ycolor=ycolor)
 
-    def set_plot(self, ax,
-                 spines=['left', 'bottom'],
-                 num_xticks=3, num_yticks=3,
-                 xlabel='', ylabel='', title='',
-                 tck_outward=3, tck_length=4,
-                 xticks=None, yticks=None,
-                 xminor_ticks=None, yminor_ticks=None,
-                 xticks_labels=None, yticks_labels=None,
-                 xlabelpad=1.5, ylabelpad=1.5,
-                 xticks_rotation=0, yticks_rotation=0,
-                 xscale='linear', yscale='linear',
-                 xlim_enhancment=1., ylim_enhancment=1.,
-                 xlim=None, ylim=None,
-                 grid=False,
-                 xcolor=None, ycolor=None, fontsize=None):
-        
-        if fontsize is None:
-            fontsize=self.fontsize
-        if xcolor is None:
-            xcolor = self.default_color
-        if ycolor is None:
-            ycolor = self.default_color
-
-        ap.set_plot(ax, spines,
-                    num_xticks, num_yticks,
-                    xlabel, ylabel, title,
-                    tck_outward, tck_length,
-                    xticks, yticks, xminor_ticks, yminor_ticks,
-                    xticks_labels, yticks_labels,
-                    xlabelpad, ylabelpad,
-                    xticks_rotation, yticks_rotation,
-                    xscale, yscale,
-                    xlim_enhancment, ylim_enhancment,
-                    xlim, ylim, grid, xcolor, ycolor, fontsize)
+    def set_plot(self, ax, spines=['left', 'bottom'], **args):
+        ap.set_plot(self, ax, spines, **args)
 
         
     ################################################
