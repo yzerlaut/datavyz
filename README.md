@@ -2,30 +2,24 @@
 
 # datavyz
 
-*Get your plots right ! All along your analysis and dissemination workflow, from data exploration to final figure production.*
+*Get your plots right, all along your analysis and dissemination workflow, from data exploration to final figure production.*
 
 *A layer on top of `matplotlib` to achieve flexible & high-standard data visualization across mediums.*
 
-## Principle / Use
+## Principle / Motivation
 
-The motivation behind building this extension of the `matplotlib` library is two-fold:
+The motivation behind this extension of the *matplotlib* library is two-fold:
 
-- the default settings of *matplotlib* do not really match the relatively specific constraints in figure production for scientific communication (constraints on size of labels, axis sizes, ...) as requested by international journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
+- the default settings of *matplotlib* do not really match the relatively specific constraints in figure production (constraints on fontsize, axes size, etc...) as requested by international scientific journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
 
-- a single graphical setting to display figures will never capture the 
+- a single graphical setting to display figures is not very practical in the process of scientific analysis, as this is usually performed on different mediums: notebooks with embedded figures, script with on-display figures, multipanel figures, ...
 
-
-At the core is this library lies the concept of *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings 
-
-
-
-Create a graph enivironment associated to a specific visualization setting, below "screen":
+Therefore, at the core is this library, lies the concept of a *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings that will best adapt to the specific medium used (and will generalize to others). Create a graph enivironment associated to a specific visualization setting, below "screen":
 
 ```
 from datavyz.main import graph_env
 ge = graph_env('screen')
 ```
-
 You then call all of your plotting functions relative to this environment, e.g.:
 
 ```
@@ -39,7 +33,6 @@ ge.plot(Y=numpy.random.randn(4, 10),
 ge.show()
 ```
 pops up:
-
 <p align="center">
   <img src="docs/demo.svg"/>
 </p>
