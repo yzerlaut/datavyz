@@ -95,6 +95,7 @@ def matrix(graph,
            vmin=None, vmax=None,
            bar_legend=None, # switch to None to make it disappear
            aspect='equal', # switch to 'auto' if needed
+           origin='lower',           
            interpolation='none'):
 
     if (z is None) and (y is None):
@@ -121,7 +122,7 @@ def matrix(graph,
                    vmax = vmax,
                    alpha=alpha,
                    cmap=colormap,
-                   origin='lower',
+                   origin=origin,
                    aspect=aspect)
     
     if bar_legend is not None:
