@@ -29,7 +29,7 @@ def parallel_plot(graph, Y,
     Y = np.array(Y)
 
     if COLORS is None:
-        COLORS=['k' for k in range(Y.shape[0])]
+        COLORS=[color for k in range(Y.shape[0])]
 
     if SET_OF_LIMS is None:
         SET_OF_LIMS = [((1-expansion_factor)*Y[:,i].min(),
