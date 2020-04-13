@@ -21,6 +21,9 @@ def parallel_plot(graph, Y,
 
     if ax is None:
         fig, ax = graph.figure(axes_extents=[[[2,1]]], **fig_args)
+    else:
+        fig = None
+        
     ax.axis('off')
 
     Y = np.array(Y)
