@@ -1,6 +1,6 @@
-from datavyz.atplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 import numpy as np
-from datavyz.umpy.random import randint
+from numpy.random import randint
 import matplotlib
 
 x = np.arange(0.0, 100.0, 2.0)
@@ -22,16 +22,18 @@ def getMarker(i):
     # Use modulus in order not to have the index exceeding the lenght of the list (markers)
     return "$"+markers[i % len(markers)]+"$"
 
-for i, mi in enumerate(markers):
-    # plt.plot(x[i], y[i], "b", alpha=0.5, marker=getRandomMarker(), markersize=randint(16,26,1))
-    plt.plot(x[i], y[i]+50, "m", alpha=0.5, marker=getMarker(i), markersize=randint(16,26,1))
-    # Let's see if their "center" is located where we expect them to be...
-    plt.plot(x[i], y[i]+100, "y", alpha=0.5, marker=getMarker(i), markersize=24)
-    plt.plot(x[i], y[i]+100, "k+", markersize=12, markeredgewidth=2)
+if __name__=='__main__':
 
-plt.xlabel("x-axis")
-plt.ylabel("y-axis")
-plt.xlim( -5, plt.xlim()[1]+5 )
-plt.ylim( 0, plt.ylim()[1]*1.1 )
-# plt.gcf().set_size_inches(12,6)
-plt.show()
+    from datavyz import ges, gem
+    fig, ax= gem.figure()
+
+    for i, mi in enumerate(markers):
+        # plt.plot(x[i], y[i], "b", alpha=0.5, marker=getRandomMarker(), markersize=randint(16,26,1))
+        ax.plot(x[i], y[i]+50, "m", alpha=0.5, marker=getMarker(i), markersize=3)
+        # Let's see if their "center" is located where we expect them to be...
+        ax.plot(x[i], y[i]+100, "y", alpha=0.5, marker=getMarker(i), markersize=3)
+        ax.plot(x[i], y[i]+100, "k+", markersize=12, markeredgewidth=3)
+
+
+    gem.set_plot(ax, xlabel='xlabel', ylabel='ylabel', title='special marker demo')
+    gem.show()

@@ -35,7 +35,6 @@ class graph_env:
 
         use of seaborn and ggplot deprecated ....
         """
-
         set_env_variables(self, env)
 
         self.override_style=True
@@ -182,7 +181,9 @@ class graph_env:
                 X=None, Y=None, sX=None, sY=None,
                 COLORS=None, colormap=viridis,
                 ax=None, fig=None,
-                lw=0, alpha_std=0.3, ms=3, m='', ls='-',
+                lw=0, alpha_std=0.3,
+                ms=None,
+                m='', ls='-',
                 xlabel='', ylabel='', bar_label='', title='',
                 label=None,
                 LABELS=None,
@@ -201,6 +202,8 @@ class graph_env:
             
         if color is None:
             color = self.default_color
+        if ms is None:
+            ms = self.markersize
             
         if (y is None) and (Y is None):
             y = x
