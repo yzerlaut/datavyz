@@ -3,6 +3,9 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.
 
 from datavyz.dependencies import *
 
+"""
+MANUSCRIPT ENVIRONMENT
+"""
 ENVIRONMENTS = {
     'manuscript': {
 	'fontsize':8,
@@ -13,14 +16,32 @@ ENVIRONMENTS = {
         'left_size':20., # mm
         'right_size':4., # mm
         'top_size':7., # mm
-        'bottom_size':19., # mm
+        'bottom_size':15., # mm
         'background':'w',
         'facecolor':'none',
         'transparency':True,
         'dpi':150,
         'size_factor': 1.,
-    },
-    'notebook': {
+        'markersize':3,
+    }
+}
+
+
+# SCREEN ENVIRONMENT
+# "screen" is just an expanded version of 
+ENVIRONMENTS['screen'], screen_factor = {}, 1.5
+for key, val in ENVIRONMENTS['manuscript'].items():
+    if 'plot_size' in key:
+        ENVIRONMENTS['screen'][key]=(screen_factor*val[0],screen_factor*val[1])
+    elif 'size' in key:
+        ENVIRONMENTS['screen'][key]=screen_factor*np.float(val)
+    else:
+        ENVIRONMENTS['screen'][key] = val
+        
+"""
+NOTEBOOK ENVIRONMENT
+"""
+ENVIRONMENTS['notebook'] = {
 	'fontsize':11,
 	'default_color':'k',
         'single_plot_size':(28.*1.5, 20.*1.5), # mm
@@ -32,14 +53,22 @@ ENVIRONMENTS = {
         'bottom_size':19.*1.5, # mm
         'background':'w',
         'facecolor':'none',
-        'transparency':True,
+        'transparency':False,
         'dpi':200,
         'size_factor': 1.,
-    },
-    'screen': {
-        'size_factor': 1.5,
-    },
-    'visual_stim': {
+}
+"""
+DARK NOTEBOOK ENVIRONMENT
+"""
+# "screen" is just an expanded version of 
+ENVIRONMENTS['dark_notebook'] = ENVIRONMENTS['notebook'].copy()
+ENVIRONMENTS['dark_notebook']['facecolor'] = 'darkslategray'
+ENVIRONMENTS['dark_notebook']['default_color'] = 'w'
+
+"""
+VISUAL STIMULATION ENVIRONMENT
+"""
+ENVIRONMENTS['visual_stim'] = {
 	'fontsize':12,
 	'default_color':'w',
         'single_plot_size':(200.*16./9., 200.), # mm
@@ -53,7 +82,6 @@ ENVIRONMENTS = {
         'facecolor':'dimgrey',
         'transparency':True,
         'dpi':150,
-    },
 }
 
 def set_env_variables(cls, key):
@@ -64,9 +92,6 @@ def set_env_variables(cls, key):
     for k, val in ENVIRONMENTS['manuscript'].items():
         if k not in dir(cls):
             setattr(cls, k, val)
-            # if ('size' in k) and ('size_factor' in ENVIRONMENTS[key]):
-            #     setattr(cls, k, ENVIRONMENTS[key]['size_factor']*val)
-            # else:
         
     
 def update_rcParams(cls):
@@ -83,7 +108,6 @@ def update_rcParams(cls):
                          'savefig.transparent':cls.transparency,
                          'savefig.dpi':cls.dpi,
                          'savefig.facecolor': cls.facecolor})
-
     
 if __name__=='__main__':
 
@@ -94,7 +118,6 @@ if __name__=='__main__':
     
     from main import graph_env
     for key in ENVIRONMENTS:
-        
         ge = graph_env(key)
         ge.scatter(np.random.randn(100), np.random.randn(100))
         ge.title(plt.gca(), key)

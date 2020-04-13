@@ -10,26 +10,22 @@
 
 The motivation behind this extension of the *matplotlib* library is two-fold:
 
-- the default settings of *matplotlib* do not really match the relatively specific constraints in figure production (constraints on fontsize, axes size, etc...) as requested by international scientific journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
+- the default settings of *matplotlib* do not really match the relatively specific constraints (on fontsize, axes size, etc...) of figure production in international scientific journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
 
-- a single graphical setting to display figures is not very practical in the process of scientific analysis, as this is usually performed on different mediums: notebooks with embedded figures, script with on-display figures, multipanel figures, ...
+- a single graphical setting to display figures is not very practical in the process of scientific analysis. This is usually performed on different mediums: notebooks with embedded figures, script that result in on-display figures, multipanel figures on A4 page, ...
 
 Therefore, at the core is this library, lies the concept of a *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings that will best adapt to the specific medium used (and will generalize to others). Create a graph enivironment associated to a specific visualization setting, below "screen":
 
 ```
-from datavyz.main import graph_env
+from datavyz import graph_env
 ge = graph_env('screen')
 ```
 You then call all of your plotting functions relative to this environment, e.g.:
 
 ```
-import numpy
-
-ge.plot(Y=numpy.random.randn(4, 10),
-	sY=numpy.random.randn(4, 10),
-        xlabel='xlabel (xunit)',
-        ylabel='ylabel (yunit)',
-        title='datavyz demo plot')
+import numpy # to generate random data
+ge.plot(Y=numpy.random.randn(4, 10), sY=numpy.random.randn(4, 10),
+        xlabel='xlabel (xunit)', ylabel='ylabel (yunit)', title='datavyz demo plot')
 ge.show()
 ```
 pops up:
@@ -338,7 +334,7 @@ fig, ax = ge.plot(t, x,
 ### Scatter plots
 
 ```
-from datavyz.main import graph_env
+from datavyz import graph_env
 ge = graph_env('manuscript')
 
 fig, ax = ge.scatter(Y=np.random.randn(4, 10),
@@ -403,7 +399,7 @@ for i, name in enumerate(dataset['target_names']):
 ### Insets
 
 ```
-from datavyz.main import graph_env
+from datavyz import graph_env
 ge = graph_env('manuscript')
 
 y = np.exp(np.random.randn(100))
@@ -421,7 +417,7 @@ ge.show()
 
 ### Twin axis
 ```
-from datavyz.main import graph_env
+from datavyz import graph_env
 ge = graph_env('manuscript')
 
 fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
