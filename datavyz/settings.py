@@ -1,4 +1,4 @@
-import sys, os, platform
+import sys, os, platform, copy
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
 
 from datavyz.dependencies import *
@@ -61,7 +61,7 @@ ENVIRONMENTS['notebook'] = {
 DARK NOTEBOOK ENVIRONMENT
 """
 # "screen" is just an expanded version of 
-ENVIRONMENTS['dark_notebook'] = ENVIRONMENTS['notebook'].copy()
+ENVIRONMENTS['dark_notebook'] = copy.deepcopy(ENVIRONMENTS['notebook'])
 ENVIRONMENTS['dark_notebook']['facecolor'] = 'darkslategray'
 ENVIRONMENTS['dark_notebook']['default_color'] = 'w'
 
