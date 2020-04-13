@@ -2,24 +2,35 @@ import sys, pathlib
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from datavyz.dependencies import *
+from datavyz.annotations import set_fontsize
 
 from matplotlib.ticker import MaxNLocator, NullFormatter
 
-def set_plot(ax, spines=['left', 'bottom'],
+def set_plot(graph, ax,
+             spines=['left', 'bottom'],
              num_xticks=3, num_yticks=3,
              xlabel='', ylabel='', title='',
              tck_outward=3, tck_length=4,
              xticks=None, yticks=None,
              xminor_ticks=None, yminor_ticks=None,
-             xticks_labels=None, yticks_labels=None,\
-             xlabelpad=1, ylabelpad=1,\
-             xticks_rotation=0, yticks_rotation=0,\
+             xticks_labels=None, yticks_labels=None,
+             xlabelpad=1, ylabelpad=1,
+             xticks_rotation=0, yticks_rotation=0,
              xscale='linear', yscale='linear',
              xlim_enhancment=1., ylim_enhancment=1.,
              xlim=None, ylim=None,
              grid=False,
-             xcolor='k', ycolor='k',
-             fontsize=9):
+             xcolor=None, ycolor=None,
+             fontsize=None, size=None):
+
+    
+    if fontsize is None:
+        fontsize=set_fontsize(graph, size)
+    if xcolor is None:
+        xcolor = graph.default_color
+    if ycolor is None:
+        ycolor = graph.default_color
+
 
     # no ticks if no axis bar
     if not (('top' in spines) or ('bottom' in spines)):
@@ -28,7 +39,7 @@ def set_plot(ax, spines=['left', 'bottom'],
         yticks=[]
         
     # drawing spines
-    adjust_spines(ax, spines,
+    adjust_spines(graph, ax, spines,
                   tck_outward=tck_outward, tck_length=tck_length,
                   ycolor=ycolor, xcolor=xcolor)
     
@@ -92,6 +103,8 @@ def set_plot(ax, spines=['left', 'bottom'],
     
     if xticks_labels is not None:
         ax.set_xticklabels(xticks_labels, rotation=xticks_rotation, fontsize=fontsize)
+    else:
+        ax.xaxis.set_tick_params(labelsize=fontsize, labelrotation=xticks_rotation)
 
     # y-Ticks
     if yscale=='already-log10':
@@ -112,7 +125,9 @@ def set_plot(ax, spines=['left', 'bottom'],
         
     if yticks_labels is not None:
         ax.set_yticklabels(yticks_labels, rotation=yticks_rotation, fontsize=fontsize)
-
+    else:
+        ax.yaxis.set_tick_params(labelsize=fontsize, labelrotation=yticks_rotation)
+        
     ax.set_xlabel(xlabel, fontsize=fontsize, color=xcolor,
                   labelpad=xlabelpad)
     ax.set_ylabel(ylabel, fontsize=fontsize, color=ycolor,
@@ -132,8 +147,14 @@ def ticks_number(ax, xticks=3, yticks=3):
         ax.yaxis.set_major_locator( MaxNLocator(nbins = yticks) )
 
         
-def adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
-                  xcolor='k', ycolor='k'):
+def adjust_spines(graph, ax, spines, tck_outward=3, tck_length=4.,
+                  xcolor=None, ycolor=None):
+
+    if xcolor is None:
+        xcolor = graph.default_color
+    if ycolor is None:
+        ycolor = graph.default_color
+    
     for loc, spine in ax.spines.items():
         if loc in spines:
             spine.set_position(('outward', tck_outward)) # outward by 10 points by default
@@ -264,10 +285,13 @@ if __name__=='__main__':
     ax2 = ax.twinx()
     ax.plot(np.log10(np.logspace(-2.2,3,100)), np.exp(np.random.randn(100)), 'o', ms=2, color=ge.blue)
     ax2.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=1, color=ge.red)
-    ge.set_plot(ax2, ['right'], yscale='log', ylabel='blabal',
-             tck_outward=2, ycolor=ge.red)
+    ge.set_plot(ax2, ['right'],
+                yscale='log',
+                ylabel='blabal',
+                # yticks_rotation=20, size='x-small',
+                tck_outward=2, ycolor=ge.red)
     ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
-                yscale='log', ylabel='blabal', xscale='already-log10',
+                yscale='log', xscale='already-log10', ylabel='blabal', 
                 tck_outward=2, xlabel='trying', ylabelpad=-5)
     fig.savefig('docs/twin-log-scale.svg')
     ge.show()
