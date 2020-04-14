@@ -2,9 +2,11 @@
 
 # datavyz
 
-*Get your plots right, all along your analysis and dissemination workflow, from data exploration to final figure production.*
+*From data exploration to final figure production, get your plots right, all along your analysis pipeline.*
 
 *A layer on top of `matplotlib` to achieve flexible & high-standard data visualization across mediums.*
+
+Part of the software suite for data science: [analyz](https://github.com/yzerlaut/analyz), [datavyz](https://github.com/yzerlaut/datavyz), [finalyz](https://github.com/yzerlaut/finalyz)
 
 ## Principle / Motivation
 
@@ -12,7 +14,7 @@ The motivation behind this extension of the *matplotlib* library is two-fold:
 
 - the default settings of *matplotlib* do not really match the relatively specific constraints (on fontsize, axes size, etc...) of figure production in international scientific journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
 
-- a single graphical setting to display figures is not very practical in the process of scientific analysis. This is usually performed on different mediums: notebooks with embedded figures, script that result in on-display figures, multipanel figures on A4 page, ...
+- a single graphical setting to display figures is not very practical in the process of scientific analysis. Such analysis is usually made of several steps and is performed on different mediums: notebooks with embedded figures, script that produce on-display figures, multipanel figures on A4 page, ...
 
 Therefore, at the core is this library, lies the concept of a *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings that will best adapt to the specific medium used (and will generalize to others). Create a graph enivironment associated to a specific visualization setting, below "screen":
 
