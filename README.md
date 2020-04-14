@@ -16,7 +16,7 @@ The motivation behind this extension of the *matplotlib* library is two-fold:
 
 - a single graphical setting to display figures is not very practical in the process of scientific analysis. Such analysis is usually made of several steps and is performed on different mediums: notebooks with embedded figures, script that produce on-display figures, multipanel figures on A4 page, ...
 
-Therefore, at the core is this library, lies the concept of a *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings that will best adapt to the specific medium used (and will generalize to others). Create a graph enivironment associated to a specific visualization setting, below "screen":
+Therefore, at the core is this library, lies the concept of a *Graphical Environment" (implemented as the `graph_env` class). It is a set of settings that will best adapt to the specific medium used (and will generalize to others). Create a graph environment associated to a specific visualization setting, below "screen":
 
 ```
 from datavyz import graph_env
