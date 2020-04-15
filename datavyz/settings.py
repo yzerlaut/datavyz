@@ -95,18 +95,18 @@ def set_env_variables(cls, key):
             setattr(cls, k, val)
         
     
-def update_rcParams(cls):
-    mpl.rcParams.update({'axes.labelsize': cls.fontsize,
-                         'axes.titlesize': cls.fontsize,
-                         'figure.titlesize': cls.fontsize,
-                         'font.size': cls.fontsize,
-                         'legend.fontsize': cls.fontsize,
-                         'xtick.labelsize': cls.fontsize,
-                         'ytick.labelsize': cls.fontsize,
-                         'legend.facecolor': cls.facecolor,
-                         'savefig.transparent':cls.transparency,
-                         'savefig.dpi':cls.dpi,
-                         'savefig.facecolor': cls.facecolor})
+# def update_rcParams(cls):
+#     mpl.rcParams.update({'axes.labelsize': cls.fontsize,
+#                          'axes.titlesize': cls.fontsize,
+#                          'figure.titlesize': cls.fontsize,
+#                          'font.size': cls.fontsize,
+#                          'legend.fontsize': cls.fontsize,
+#                          'xtick.labelsize': cls.fontsize,
+#                          'ytick.labelsize': cls.fontsize,
+#                          'legend.facecolor': cls.facecolor,
+#                          'savefig.transparent':cls.transparency,
+#                          'savefig.dpi':cls.dpi,
+#                          'savefig.facecolor': cls.facecolor})
     
 if __name__=='__main__':
 
