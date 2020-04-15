@@ -61,9 +61,10 @@ ENVIRONMENTS['notebook'] = {
 DARK NOTEBOOK ENVIRONMENT
 """
 # "screen" is just an expanded version of 
-ENVIRONMENTS['dark_notebook'] = copy.deepcopy(ENVIRONMENTS['notebook'])
-ENVIRONMENTS['dark_notebook']['facecolor'] = 'darkslategray'
-ENVIRONMENTS['dark_notebook']['default_color'] = 'w'
+ENVIRONMENTS['dark_notebook'] = {'facecolor':'dimgrey', 'default_color':'w'}
+for key, val in ENVIRONMENTS['notebook'].items():
+    if key not in ENVIRONMENTS['dark_notebook']:
+        ENVIRONMENTS['dark_notebook'][key] = val
 
 """
 VISUAL STIMULATION ENVIRONMENT
@@ -102,9 +103,7 @@ def update_rcParams(cls):
                          'legend.fontsize': cls.fontsize,
                          'xtick.labelsize': cls.fontsize,
                          'ytick.labelsize': cls.fontsize,
-                         'figure.facecolor': cls.facecolor,
                          'legend.facecolor': cls.facecolor,
-                         'axes.facecolor': cls.facecolor,
                          'savefig.transparent':cls.transparency,
                          'savefig.dpi':cls.dpi,
                          'savefig.facecolor': cls.facecolor})

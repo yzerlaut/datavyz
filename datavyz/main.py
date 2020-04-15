@@ -14,7 +14,7 @@ from datavyz import annotations, line_plots, scatter_plots, legend, features_plo
 from datavyz.cross_correl_plot import cross_correl_plot_func
 from datavyz.parallel_plots import parallel_plot
 from datavyz.hist_plots import hist
-from datavyz.inset import add_inset, inset
+from datavyz.inset import inset
 from datavyz.surface_plots import twoD_plot, matrix
 from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
 from datavyz.pie_plots import pie
@@ -75,17 +75,17 @@ class graph_env:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
                                 right=5.5,
-                                figsize=figsize,
-                                fontsize=self.fontsize)
+                                figsize=figsize)
             return fig, ax
             
         elif with_bar_legend:
             fig, ax = df.figure(self,
                                 axes, axes_extents, grid,
                                 right=5,
-                                figsize=figsize,
-                                fontsize=self.fontsize)
-            acb = df.add_inset(ax, [1.17, -.08+shift_up, .08, shrink*1.])
+                                figsize=figsize)
+            acb = self.inset(ax,
+                             [1.17, -.08+shift_up, .08, shrink*1.],
+                             facecolor=self.facecolor)
             return fig, ax, acb
         else:
             fig, AX = df.figure(self,
@@ -94,9 +94,11 @@ class graph_env:
                                 left, right, bottom, top, wspace, hspace)
             if bar_inset_loc is not None:
                 if type(AX) is list:
-                    acb = df.add_inset(AX[-1], bar_inset_loc)
+                    acb = self.inset(AX[-1], bar_inset_loc,
+                                     facecolor=self.facecolor)
                 else:
-                    acb = df.add_inset(AX, bar_inset_loc)
+                    acb = self.inset(AX, bar_inset_loc,
+                                     facecolor=self.facecolor)
                 return fig, AX, acb
             else:
                 return fig, AX
@@ -109,8 +111,7 @@ class graph_env:
              fig = None, ax=None,
              lw=1, alpha_std=0.3, ms=0, m='', ls='-',alpha=1.,
              xlabel='', ylabel='', bar_label='', title='',
-             label=None,
-             LABELS=None,
+             label=None, LABELS=None,
              fig_args={},
              axes_args={},
              bar_scale_args=None,
@@ -150,15 +151,13 @@ class graph_env:
                                     alpha=alpha)
 
         if bar_legend_args is not None:
-            cb = add_inset(ax, **bar_legend_args)
-            legend.build_bar_legend(np.arange(len(LABELS)+1),
-                                    cb,
-                                    colormap,
-                                    label=bar_label,
-                                    ticks_labels=LABELS)
+            self.bar_legend(ax, **bar_legend_args)
 
-        if legend_args is not None:
-            ax.legend(**legend_args)
+        if (label is not None) or (LABELS is not None):
+            if legend_args is not None:
+                self.legend(ax, **legend_args)
+            else:
+                self.legend(ax, frameon=False, size='small', loc='best')
 
         if bar_scale_args is not None:
             self.draw_bar_scales(ax, **bar_scale_args)
@@ -171,9 +170,6 @@ class graph_env:
             if not no_set:
                 self.set_plot(ax, **axes_args)
 
-        if title!='':
-            self.title(ax, title)
-            
         return fig, ax
 
     def scatter(self,
@@ -324,12 +320,8 @@ class graph_env:
     def annotate(self, stuff, s, xy, **args):
         annotations.annotate(self, stuff, s, xy, **args)
 
-    def top_left_letter(self, stuff, s,
-                        xy=(0,1.), bold=True, fontsize=None):
-        if fontsize is None:
-            fontsize=self.fontsize+1
-        args = dict(bold=bold, fontsize=fontsize, xycoords='axes fraction')
-        annotations.annotate(self, stuff, s, xy, **args, ha='right')
+    def top_left_letter(self, stuff, s, **args):
+        annotations.annotate(self, stuff, s, (0,1), a='right', **args)
 
     def draw_bar_scales(self, ax, Xbar, Xbar_label, Ybar, Ybar_label, **args):
         return annotations.draw_bar_scales(self,
@@ -356,8 +348,8 @@ class graph_env:
     def legend(self, ax, **args):
         return legend.legend(self, ax, **args)
 
-    def bar_legend(self, X, ax, **args):
-        return legend.bar_legend(X, ax, **args)
+    def bar_legend(self, stuff, **args): # stuff can be either ax or fig
+        return legend.bar_legend(self, stuff, **args)
 
     def build_bar_legend(self, X, ax, mymap, **args):
         return legend.build_bar_legend(X, ax, mymap, **args)
@@ -372,8 +364,8 @@ class graph_env:
     ###### Axes function #######################
     ################################################
     
-    def inset(self, ax, **args):
-        return inset(self, ax, **args)
+    def inset(self, stuff, rect=[.5,.5,.5,.4], facecolor=None):
+        return inset(self, stuff, rect=rect, facecolor=facecolor)
 
     def adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
                       xcolor='w', ycolor='w'):
