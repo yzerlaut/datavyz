@@ -12,7 +12,7 @@ import datavyz.adjust_plots as ap
 
 from datavyz import annotations, line_plots, scatter_plots, legend, features_plot, cross_correl_plot
 from datavyz.cross_correl_plot import cross_correl_plot_func
-from datavyz.parallel_plots import parallel_plot
+from datavyz.parallel_plots import parallel_plot, components_plot
 from datavyz.hist_plots import hist
 from datavyz.inset import inset
 from datavyz.surface_plots import twoD_plot, matrix
@@ -24,7 +24,7 @@ from datavyz.dynamic_plot import movie_plot, animated_plot
 
 from datavyz.colors import *
 
-from datavyz.settings import set_env_variables, update_rcParams
+from datavyz.settings import set_env_variables #, update_rcParams
     
 class graph_env:
     
@@ -49,7 +49,7 @@ class graph_env:
         #     self.set_style('seaborn')
         #     self.override_style = False
 
-        update_rcParams(self)
+        # update_rcParams(self)
 
         give_color_attributes(self)
         
@@ -253,6 +253,9 @@ class graph_env:
     def parallel_plot(self, Y, **args):
         return parallel_plot(self, Y, **args)
     
+    def components_plot(self, Y, **args):
+        return components_plot(self, Y, **args)
+    
     # histogram 
     def hist(self, x, **args):
         return hist(self, x, **args)
@@ -327,8 +330,8 @@ class graph_env:
         return annotations.draw_bar_scales(self,
                                            ax, Xbar, Xbar_label, Ybar, Ybar_label, **args)
 
-    def arrow(self, stuff, **args):
-        return annotations.arrow(self, stuff, **args)
+    def arrow(self, stuff, rect, **args):
+        return annotations.arrow(self, stuff, rect, **args)
 
     def int_to_roman(self, input, capitals=False):
         return annotations.int_to_roman(input, capitals=capitals)
@@ -403,8 +406,15 @@ class graph_env:
         else:
             plt.show()
 
+    def savefig(self, fig, figname='temp.svg'):
+
+        fig.savefig(figname,
+                    dpi=self.dpi,
+                    transparent=self.transparency,
+                    facecolor=self.facecolor)
+        
     def save_on_desktop(self, fig, figname='temp.svg'):
-        fig.savefig(desktop+figname)
+        self.savefig(fig, desktop+figname)
 
 
     def gcf(self):

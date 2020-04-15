@@ -11,12 +11,20 @@ def set_fontsize(graph, size):
         fontsize=graph.fontsize-2
     elif size=='xx-small':
         fontsize=graph.fontsize-3
+    elif size=='xxx-small':
+        fontsize=graph.fontsize-4
+    elif size=='xxxx-small':
+        fontsize=graph.fontsize-5
     elif size=='large':
         fontsize=graph.fontsize+1
     elif size=='x-large':
         fontsize=graph.fontsize+2
     elif size=='xx-large':
         fontsize=graph.fontsize+3
+    elif size=='xxx-large':
+        fontsize=graph.fontsize+4
+    elif size=='xxxx-large':
+        fontsize=graph.fontsize+5
     else:
         fontsize=graph.fontsize
     return fontsize
@@ -66,28 +74,44 @@ def annotate(graph, stuff, s, xy,
                        color=color, rotation=rotation, ha=ha, va=va)
 
 def arrow(graph, stuff,
-          x0=0.1, y0=0.1,
-          dx=0.7, dy=0.,
+          rect = [0.1, 0.1, 0.7, 0.],
           width=.02,
           head_width=0.15, head_length=0.02,
           width_margin=0., height_margin=0.1,
+          shape='full',
           color='k'):
+    
+    [x0,y0, dx, dy] = rect
 
+    if (dx==0) and width_margin==0:
+        width_margin, height_margin = height_margin, 0
+        
     if type(stuff)==mpl.figure.Figure: # if figure, we create an axis
-        sax = graph.inset(stuff,
-                          x0=x0-width_margin,
-                          y0=y0-height_margin,
-                          dx=dx+2*width_margin,
-                          dy=dy+2*height_margin)
+        if (dy<0) and (dx<0):
+            sax = graph.inset(stuff,
+                              [x0+dx-width_margin, y0+dy-height_margin,
+                               -dx+2*width_margin,-dy+2*height_margin])
+        elif (dx<0):
+            sax = graph.inset(stuff,
+                              [x0+dx-width_margin, y0-height_margin,
+                               -dx+2*width_margin,dy+2*height_margin])
+        elif (dy<0):
+            sax = graph.inset(stuff,
+                              [x0-width_margin, y0+dy-height_margin,
+                               dx+2*width_margin,-dy+2*height_margin])
+        else:
+            sax = graph.inset(stuff,
+                              [x0-width_margin, y0-height_margin,
+                               dx+2*width_margin,dy+2*height_margin])
         sax.axis('off')
     else: # means subplot
         sax = stuff
         
     sax.arrow(x0, y0, dx, dy,
               length_includes_head=True,
-              width=width,
+              width=width, shape=shape,
               head_width=head_width, head_length=head_length,
-              facecolor=color, edgecolor=color)
+              facecolor=color, edgecolor=color, clip_on=False)
     
 def from_pval_to_star(p,
                       threshold1=1e-3,
