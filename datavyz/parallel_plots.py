@@ -97,24 +97,38 @@ def components_plot(graph,
     graph.annotate(fig, components_label, (.08,.5), rotation=90)
     graph.arrow(fig, [0.1, .87, 0.83, 0.], width=.01, head_width=0.05)
     graph.annotate(fig, features_label, (.55,.95))
+    
+    return fig, AX
 
 if __name__=='__main__':
     
-    from datavyz import ges as ge
+    from datavyz import ge as ge
 
-    ge.components_plot(np.random.randn(10,20))
+    # LOADING THE DATA
+    from sklearn.datasets import load_breast_cancer
+    data = load_breast_cancer()
 
+    # PERFORMING PCA
+    from sklearn.decomposition import PCA as sklPCA
+    pca = sklPCA(n_components=10)
+    pca.fit_transform(data['data'])
+
+    # PLOT
+    fig, AX = ge.components_plot(pca.components_)
+    ge.savefig(fig, 'docs/components-plot.png')
     ge.show()
-    
-    # from sklearn.datasets import load_iris
-    # dataset = load_iris()
-    # fig, ax = ge.parallel_plot(dataset['data'],
-    #                           SET_OF_LABELS=['sepal length\n(cm)','sepal width\n(cm)',
-    #                                          'petal length\n(cm)', 'petal width\n(cm)'],
-    #                           COLORS = [ge.viridis(x/2) for x in dataset['target']])
-    # for i, name in enumerate(dataset['target_names']):
-    #     ge.annotate(ax, name, ((i+1)/3., 1.1), color=ge.viridis(i/2), ha='right')
-    # ge.savefig(fig, 'docs/parallel-plot.png')
-    # ge.show()
+
+
+    from sklearn.datasets import load_iris
+    dataset = load_iris()
+    fig, ax = ge.parallel_plot(dataset['data'],
+                              SET_OF_LABELS=['sepal length\n(cm)','sepal width\n(cm)',
+                                             'petal length\n(cm)', 'petal width\n(cm)'],
+                              COLORS = [ge.viridis(x/2) for x in dataset['target']])
+    for i, name in enumerate(dataset['target_names']):
+        ge.annotate(ax, name, ((i+1)/3., 1.1), color=ge.viridis(i/2), ha='right')
+    ge.savefig(fig, 'docs/parallel-plot.png')
+    ge.show()
+
 
 
