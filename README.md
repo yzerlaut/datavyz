@@ -398,6 +398,28 @@ for i, name in enumerate(dataset['target_names']):
 </p>
 
 
+### Components plots
+
+Plotting the components extracted from of a high dimensional dataset. For example, we show below the 10 first components extracted from PCA in the  "breast cancer" dataset of `sklearn`.
+
+```
+# LOADING THE DATA
+from sklearn.datasets import load_breast_cancer
+data = load_breast_cancer()
+
+# PERFORMING PCA
+from sklearn.decomposition import PCA as sklPCA
+pca = sklPCA(n_components=10)
+pca.fit_transform([data[key] for key in data])
+
+# PLOT
+fig, AX = ge.components_plot(pca.components_)
+```
+<p align="center">
+  <img src="docs/components-plot.png"/>
+</p>
+
+
 ### Insets
 
 ```
