@@ -3,7 +3,6 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from datavyz.dependencies import *
 from datavyz.scaling import mm2inch
-from datavyz.inset import add_inset
 
 def dimension_calculus(cls,
                        figsize,
@@ -44,11 +43,7 @@ def figure(cls,
            figsize=(1.,1.),
            left=1., right=1.,
            bottom=1., top=1.,
-           wspace=1., hspace=1.,
-           with_top_left_letter='',
-           Single_Plot_Size=(0.2,0.12),
-           fontsize=9,
-           fontweight='bold'):
+           wspace=1., hspace=1.):
     
     """
     scales figures according to the specification of "settings.py" (for each graph environment)
@@ -93,12 +88,12 @@ def figure(cls,
         dim =  dimension_calculus(cls, figsize,left, right, bottom, top, wspace, hspace, x_plots, y_plots)
         
         fig = plt.figure(figsize=(mm2inch(dim['full_width']),
-                                  mm2inch(dim['full_height'])))
+                                  mm2inch(dim['full_height'])), facecolor=cls.facecolor)
         for g in grid:
             ax = plt.subplot2grid((y_plots, x_plots),
                                   (g[1], g[0]),
                                   colspan=g[2],
-                                  rowspan=g[3])
+                                  rowspan=g[3], facecolor=cls.facecolor)
             AX.append(ax)
     else:
         if axes_extents is None:
@@ -120,7 +115,7 @@ def figure(cls,
         dim =  dimension_calculus(cls, figsize,left, right, bottom, top, wspace, hspace, x_plots, y_plots)
         
         fig = plt.figure(figsize=(mm2inch(dim['full_width']),
-                                  mm2inch(dim['full_height'])))
+                                  mm2inch(dim['full_height'])), facecolor=cls.facecolor)
         
         j0_row = 0
         for j in range(len(axes_extents)):
@@ -131,11 +126,11 @@ def figure(cls,
                                                 (y_plots, x_plots),
                                                 (j0_row, i0_line),\
                                                 colspan=axes_extents[j][i][0],
-                                                rowspan=axes_extents[j][i][1]))
+                                                rowspan=axes_extents[j][i][1],
+                                                facecolor=cls.facecolor))
                 i0_line += axes_extents[j][i][0]
             j0_row += axes_extents[j][i][1]
             AX.append(AX_line)
-
 
     
     if dim['left']>=(1-dim['right']):
@@ -156,10 +151,6 @@ def figure(cls,
                         wspace=dim['wspace'],
                         hspace=dim['hspace'])
 
-    plt.annotate(with_top_left_letter, (0.01,.99),
-                 xycoords='figure fraction',
-                 fontsize=fontsize+1, fontweight='bold')
-
     if grid is not None:
         return fig, AX
     elif len(AX)==1 and (len(AX[0])==1):
@@ -171,15 +162,6 @@ def figure(cls,
     else:
         return fig, AX
 
-def figure_with_legend_space():
-    fig, ax = figure(right=5.5)
-    
-def figure_with_bar_legend(shift_up=0., shrink=1.):
-
-    fig, ax = figure_with_legend_space()
-    acb = add_inset(ax, [1.17, -.08+shift_up, .08, shrink*1.])
-
-    return fig, ax, acb
     
 if __name__=='__main__':
     

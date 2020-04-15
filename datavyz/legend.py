@@ -3,19 +3,91 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from datavyz.dependencies import *
 
-from datavyz.inset import add_inset
 from datavyz.adjust_plots import find_good_log_ticks, set_ticks_to_log10_axis
 from datavyz.colors import get_linear_colormap
 from datavyz.annotations import set_fontsize
 
 
-def build_bar_legend(X, ax, mymap,
-                     label='$\\nu$ (Hz)',\
+def bar_legend(graph, stuff,
+               X = None, continuous=False,
+               inset=dict(rect=[.72,.3,.03,.5], facecolor=None),
+               colormap=mpl.cm.copper,
+               bar_legend_args={},
+               label='',
+               bounds=None,
+               ticks = None,
+               ticks_labels=None,
+               no_ticks=False,
+               orientation='vertical',
+               scale='linear',\
+               labelpad=2., size='', fontsize=None, alpha=1.,
+               color_discretization=None):
+    """
+    
+    """
+    if X is None:
+        continuous = True
+        
+    ax_cb = graph.inset(stuff, **inset)
+
+    if continuous:
+        cb = build_bar_legend_continuous(ax_cb, colormap,
+                                         bounds=bounds,
+                                         ticks=ticks,
+                                         ticks_labels=ticks,
+                                         orientation=orientation,
+                                         alpha=alpha,
+                                         scale=scale)
+    else:
+        cb = build_bar_legend(ax_cb, X,
+                              colormap,
+                              scale=scale, bounds=bounds,
+                              orientation=orientation,
+                              color_discretization=color_discretization,
+                              no_ticks=no_ticks,
+                              ticks_labels=ticks_labels)
+
+
+    bar_legend_args['orientation'] = orientation
+    bar_legend_args['label'] = label
+        
+    set_bar_legend(graph, ax_cb, cb, **bar_legend_args)
+    
+    return cb
+
+
+
+def set_bar_legend(graph, ax_cb, cb,
+                   label='',
+                   orientation='vertical',
+                   label_position='right',
+                   labelpad=1.,
+                   size='', fontsize=None):
+    """
+    Just for labels and fontsize
+    """
+    if fontsize is None:
+        fontsize=set_fontsize(graph, size)
+        
+    cb.set_label(label, labelpad=labelpad, fontsize=fontsize)
+    
+    if orientation=='vertical':
+        ax_cb.tick_params(axis='y', labelsize=fontsize)
+        ax_cb.yaxis.set_label_position(label_position)
+    elif (orientation=='horizontal') and label_position=='right':
+        ax_cb.tick_params(axis='x', labelsize=fontsize)
+        ax_cb.xaxis.set_label_position('top') # top by default
+    elif orientation=='horizontal':
+        ax_cb.tick_params(axis='x', labelsize=fontsize)
+        ax_cb.xaxis.set_label_position(label_position)
+        
+
+    
+def build_bar_legend(ax_cb, X, mymap,
                      bounds=None,
                      ticks_labels=None,
                      no_ticks=False,
                      orientation='vertical',
-                     labelpad=1.,
                      alpha=1.,
                      scale='linear',\
                      color_discretization=None):
@@ -23,7 +95,7 @@ def build_bar_legend(X, ax, mymap,
     """ X -> ticks """
     if color_discretization is None:
         color_discretization = len(X)
-
+        
     # scale : 'linear' / 'log' / 'custom'
     if scale is 'linear':
         if bounds is None:
@@ -44,7 +116,7 @@ def build_bar_legend(X, ax, mymap,
         bounds = np.linspace(X[0]+(X[1]-X[0])/2., X[-1]+(X[1]-X[0])/2., color_discretization)
         
     norm = mpl.colors.BoundaryNorm(bounds, mymap.N)
-    cb = mpl.colorbar.ColorbarBase(ax, cmap=mymap, norm=norm,\
+    cb = mpl.colorbar.ColorbarBase(ax_cb, cmap=mymap, norm=norm,\
                                    orientation=orientation, alpha=alpha)
     if no_ticks:
         cb.set_ticks([])
@@ -53,20 +125,17 @@ def build_bar_legend(X, ax, mymap,
         if ticks_labels is not None:
             cb.set_ticklabels(ticks_labels)
         
-    cb.set_label(label, labelpad=labelpad)
     return cb
 
-def build_bar_legend_continuous(ax, mymap,
+def build_bar_legend_continuous(ax_cb, mymap,
                                 bounds=[0,1],
-                                label='$\\nu$ (Hz)',\
                                 ticks=None,
                                 ticks_labels=None,
                                 orientation='vertical',
-                                labelpad=1.,
                                 alpha=1.,
                                 scale='linear'):
 
-    cb = mpl.colorbar.ColorbarBase(ax,
+    cb = mpl.colorbar.ColorbarBase(ax_cb,
                                    cmap=mymap,
                                    orientation=orientation,
                                    alpha=alpha)
@@ -103,36 +172,6 @@ def build_bar_legend_continuous(ax, mymap,
             cb.set_ticks((np.array(ticks)-bounds[0])/(bounds[1]-bounds[0]))
             cb.set_ticklabels(ticks_labels)
         
-    cb.set_label(label, labelpad=labelpad)
-    return cb
-
-def bar_legend(X, ax,
-               inset_rect=[.8,.5,.07,.46],
-               colormap=mpl.cm.copper,
-               facecolor='w',
-               label='$\\nu$ (Hz)',\
-               bounds=None,
-               ticks_labels=None,
-               no_ticks=False,
-               orientation='vertical',
-               scale='linear',\
-               labelpad=2.,
-               color_discretization=None):
-
-    cb = add_inset(ax,
-                   rect=inset_rect,
-                   facecolor=facecolor)
-
-    build_bar_legend(X,
-                     cb,
-                     colormap,
-                     label=label,
-                     scale=scale, bounds=bounds,
-                     orientation=orientation,
-                     labelpad=labelpad,
-                     color_discretization=color_discretization,
-                     no_ticks=no_ticks, ticks_labels=ticks_labels)
-    
     return cb
 
 
@@ -158,7 +197,8 @@ def legend(graph, ax,
               handletextpad=handletextpad,
               handlelength=handlelength,
               title=title,
-              fontsize=fontsize)
+              fontsize=fontsize,
+              facecolor=graph.facecolor)
 
 # def legend(list_of_lines,
 #            list_of_labels,
@@ -192,31 +232,33 @@ def legend(graph, ax,
 
 if __name__=='__main__':
 
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
+    from datavyz import ge
 
-    
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
-    fig, ax, acb = ge.figure(figsize=(2,2), with_bar_legend=True)
+    
+    fig, ax = ge.figure(right=5.) # with extended right space
+    
     for i in range(2):
         ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), 'o', ms=2, label='line'+str(i+1))
     for i in range(2):
         ax.plot(np.arange(10)*10, np.exp(np.random.randn(10)), '-', label='line'+str(i+1))
-    ge.legend(ax, ncol=2, loc=(.2,.6))
+        
+    ge.legend(ax, ncol=2)
         
     ge.plot(Y=Y,
-         xlabel='time', ylabel='y-value',
-         colormap=ge.copper,
-         lw=1., ax=ax)
+            xlabel='time', ylabel='y-value',
+            colormap=ge.copper,
+            lw=1., ax=ax)
 
     
-    ge.bar_legend(np.arange(5), ax,
-               colormap=ge.copper,
-               # orientation='horizontal',
-               label='Trial ID', no_ticks=True)
+    ge.bar_legend(fig,
+                  X = np.arange(5),
+                  inset={'rect':[.3,.8,.3,.05]},
+                  colormap=ge.copper,
+                  orientation='horizontal',
+                  label='Trial ID', no_ticks=True)
     
-    ge.build_bar_legend_continuous(acb,
-                                   ge.copper,
-                                   bounds = [1e-3, 10],
-                                   scale='log')
+    ge.bar_legend(fig,
+                  bounds = [1e-3, 10],
+                  scale='log')
     ge.show()

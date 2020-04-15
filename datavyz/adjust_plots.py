@@ -222,7 +222,7 @@ def find_good_log_ticks(lim=[0.009, 0.0099]):
 
     return lim, majorticks, minorticks
 
-def set_ticks_to_log10_axis(axis, bounds, normed_to_unit=False):
+def set_ticks_to_log10_axis(axis, bounds, normed_to_unit=False, fontsize=8):
     
     lim, major_ticks, minor_ticks = find_good_log_ticks(lim=bounds)
 
@@ -232,9 +232,11 @@ def set_ticks_to_log10_axis(axis, bounds, normed_to_unit=False):
         axis.set_ticks(np.log10(major_ticks))
         
     if (bounds[0]>.1) and (bounds[1]<2e3):
-        axis.set_ticklabels(['%i' % mt for mt in major_ticks])
+        axis.set_ticklabels(['%i' % mt for mt in major_ticks],
+                       fontsize=fontsize)
     else:
-        axis.set_ticklabels(['$10^{%i}$' % np.log10(mt) for mt in major_ticks])
+        axis.set_ticklabels(['$10^{%i}$' % np.log10(mt) for mt in major_ticks],
+                       fontsize=fontsize)
         
     if normed_to_unit:
         axis.set_ticks((np.log10(minor_ticks)-np.log10(lim[0]))/(np.log10(lim[1])-np.log10(lim[0])), minor=True)
