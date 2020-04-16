@@ -137,7 +137,7 @@ def set_plot(graph, ax,
                   labelpad=ylabelpad)
 
     if title!='':
-        ax.set_title(title, fontsize=fontsize)
+        ax.set_title(title, fontsize=fontsize, color=xcolor)
     
     if grid:
         ax.grid()

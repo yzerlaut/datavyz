@@ -163,6 +163,8 @@ class graph_env:
             self.draw_bar_scales(ax, **bar_scale_args)
             self.set_plot(ax, [], **axes_args)
         else:
+            if 'title' not in axes_args:
+                axes_args['title'] = title
             if 'xlabel' not in axes_args:
                 axes_args['xlabel'] = xlabel
             if 'ylabel' not in axes_args:
