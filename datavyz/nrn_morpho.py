@@ -94,8 +94,8 @@ def plot_nrn_shape(graph,
             annotation_color = graph.default_color
             ax.plot(xlim[0]*np.ones(2), ylim[1]-np.array([0,scale_bar]),
                     lw=1, color=annotation_color)
-            ax.annotate(str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
-                        color=annotation_color)
+            ge.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
+                        xycoords='data', color=annotation_color)
         ax.axis('off')
         
     return fig, ax
@@ -210,6 +210,8 @@ if __name__=='__main__':
     
     args = parser.parse_args()
 
+    from datavyz import ge
+    
     if (args.filename=='') and (args.directory==''):
         print("""
         please provide as arguments either a filename of a morphology or a directory containing some
@@ -218,39 +220,41 @@ if __name__=='__main__':
         OR:
         python nrn_morpho.py --directory ./neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/
         """)
+    elif args.directory!='':
+        file_list = [fn for fn in os.listdir(args.directory) if fn.endswith('.swc')]
+
+        fig, AX = ge.figure(figsize=(.6,.6), axes=(int(len(file_list)/8)+1,8))
+        
+        n = 0
+        for fn, ax in zip(file_list, ge.flat(AX)):
+            morpho = ntwk.Morphology.from_swc_file(os.path.join(args.directory, fn))
+            SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
+            colors = [ge.green if comp_type=='axon' else ge.red for comp_type in SEGMENTS['comp_type']]
+            plot_nrn_shape(ge, SEGMENTS, colors=colors, ax=ax)
+            ge.title(ax, fn.split('-')[0], bold=True, style='italic', size='')
+            n+=1
+        while n<len(ge.flat(AX)):
+            ge.flat(AX)[n].axis('off')
+            n+=1
     else:
+
+        if args.movie_demo:
+            t = np.arange(100)*0.001
+            Quant = np.array([.5*(1-np.cos(20*np.pi*t))*i/len(SEGMENT_LIST['xcoords']) \
+                              for i in np.arange(len(SEGMENT_LIST['xcoords']))])*20-70
+            ani = show_animated_time_varying_trace(1e3*t, Quant, SEGMENT_LIST,
+                                                   fig, ax,
+                                                   polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
 
         print('[...] loading morphology')
         morpho = ntwk.Morphology.from_swc_file(args.filename)
         print('[...] creating list of compartments')
         SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
     
-    from datavyz.main import graph_env
-    ge = graph_env()
-    
-    n = 0
-    AX = []
-    for fn in os.listdir(args.directory):
-        if fn.endswith('swc'):
-            morpho = ntwk.Morphology.from_swc_file(os.path.join(args.directory, fn))
-            SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
-            colors = [ge.green if comp_type=='axon' else ge.red for comp_type in SEGMENTS['comp_type']]
-            fig, ax = plot_nrn_shape(ge, SEGMENTS, colors=colors)
-            ax.set_title(fn.split('-')[0], weight='bold', style='italic')
-            AX.append(ax)
-            n+=1
-    
-    # fig, ax = plot_nrn_shape(ge,
-    #                          SEGMENTS,
-    #                          lw=args.linewidth,
-    #                          polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
+        fig, ax = plot_nrn_shape(ge,
+                                 SEGMENTS,
+                                 lw=args.linewidth,
+                                 polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
 
-    # if args.movie_demo:
-    #     t = np.arange(100)*0.001
-    #     Quant = np.array([.5*(1-np.cos(20*np.pi*t))*i/len(SEGMENT_LIST['xcoords']) \
-    #                       for i in np.arange(len(SEGMENT_LIST['xcoords']))])*20-70
-    #     ani = show_animated_time_varying_trace(1e3*t, Quant, SEGMENT_LIST,
-    #                                            fig, ax,
-    #                                            polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
         
     ge.show()
