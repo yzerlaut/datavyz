@@ -1,4 +1,4 @@
-import sys, pathlib
+import sys, pathlib, string
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from datavyz.dependencies import *
@@ -50,7 +50,7 @@ def annotate(graph, stuff, s, xy,
              xycoords='axes fraction',
              bold=False, italic=False,
              rotation=0,
-             fontsize=None, size=None, color=None,
+             fontsize=None, size=None, color=None, clip_on=False,
              ha='left', va='bottom', weight='normal', style='normal'):
     """
     stuff can be either a figure or a subplot
@@ -67,11 +67,13 @@ def annotate(graph, stuff, s, xy,
     if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
         plt.annotate(s, xy, xycoords='figure fraction',
                      weight=weight, fontsize=fontsize, style=style,
-                     color=color, rotation=rotation, ha=ha, va=va)
+                     color=color, rotation=rotation, ha=ha, va=va,
+                     clip_on=clip_on)
     else: # means subplot
         stuff.annotate(s, xy, xycoords=xycoords,
                        weight=weight, fontsize=fontsize, style=style,
-                       color=color, rotation=rotation, ha=ha, va=va)
+                       color=color, rotation=rotation, ha=ha, va=va,
+                       clip_on=clip_on)
 
 def arrow(graph, stuff,
           rect = [0.1, 0.1, 0.7, 0.],
@@ -131,7 +133,14 @@ def sci_str(x, rounding=0, remove_0_in_exp=True):
     if remove_0_in_exp: y = y.replace('-0', '-')
     return y
 
-def int_to_roman(input, capitals=False):
+
+def int_to_letter(integer, capitals=False):
+    if capitals:
+        return string.ascii_uppercase[integer]
+    else:
+        return string.ascii_lowercase[integer]
+
+def int_to_roman(integer, capitals=False):
    """
    #########################################################
    TAKEN FROM:
@@ -147,9 +156,9 @@ def int_to_roman(input, capitals=False):
        nums = ('m',  'cm', 'd', 'cd','c', 'xc','l','xl','x','ix','v','iv','i')
    result = ""
    for i in range(len(ints)):
-      count = int(input / ints[i])
+      count = int(integer / ints[i])
       result += nums[i] * count
-      input -= ints[i] * count
+      integer -= ints[i] * count
    return result
 
 
@@ -310,15 +319,14 @@ if __name__=='__main__':
     for i in range(20):
         print(int_to_roman(i))
 
-    from datavyz.main import graph_env
-    ge = graph_env()
+    from datavyz import ge
     
-    fig, AX= ge.figure(axes=(1,10), figsize=(.5,.5), bottom=1.5)
+    fig, AX= ge.figure(axes=(1,10), figsize=(.7,.7), bottom=1.5)
     for i, ax in enumerate(AX):
         ge.top_left_letter(ax, ge.int_to_roman(i+1))
         ge.matrix(np.random.randn(10,10), ax=ax)
 
-    sax = ge.arrow(fig, x0=0.04, y0=.2, dx=.93, dy=0.)
+    sax = ge.arrow(fig, [0.04, .2, .93, 0.])
     ge.annotate(fig, 'time', (.5, .17), ha='center')
 
     fig.savefig('docs/annotations1.svg')
