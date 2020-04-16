@@ -18,8 +18,8 @@ ENVIRONMENTS = {
         'top_size':7., # mm
         'bottom_size':15., # mm
         'background':'w',
-        'facecolor':'none',
-        'transparency':True,
+        'facecolor':'w',
+        'transparency':False,
         'dpi':150,
         'size_factor': 1.,
         'markersize':3,
@@ -52,7 +52,7 @@ ENVIRONMENTS['notebook'] = {
         'top_size':7.*1.5, # mm
         'bottom_size':19.*1.5, # mm
         'background':'w',
-        'facecolor':'none',
+        'facecolor':'w',
         'transparency':False,
         'dpi':200,
         'size_factor': 1.,
@@ -61,7 +61,10 @@ ENVIRONMENTS['notebook'] = {
 DARK NOTEBOOK ENVIRONMENT
 """
 # "screen" is just an expanded version of 
-ENVIRONMENTS['dark_notebook'] = {'facecolor':'dimgrey', 'default_color':'w'}
+ENVIRONMENTS['dark_notebook'] = {'facecolor':'none',
+                                 'default_color':'lightgray',
+                                 'fontsize':12.,
+                                 'transparency':True}
 for key, val in ENVIRONMENTS['notebook'].items():
     if key not in ENVIRONMENTS['dark_notebook']:
         ENVIRONMENTS['dark_notebook'][key] = val
