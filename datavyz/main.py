@@ -393,6 +393,16 @@ class graph_env:
         return scp.response_to_multiple_current_pulse(self, t, VMS, II, SPIKES, **args)
     
     ##################################################
+    ######  FIG TOOLS   ##############################
+    ##################################################
+    
+    def flat(self, AX):
+        """
+        to be used in 
+        "for ax in ge.flat(AX)"
+        """
+        return np.array(AX).flatten()
+    ##################################################
     ######  FIG OUTPUT  ##############################
     ##################################################
     
@@ -406,6 +416,7 @@ class graph_env:
         else:
             plt.show()
 
+        
     def savefig(self, fig, figname='temp.svg'):
 
         fig.savefig(figname,

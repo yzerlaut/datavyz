@@ -8,7 +8,7 @@
 
 Part of the software suite for data science: [analyz](https://github.com/yzerlaut/analyz), [datavyz](https://github.com/yzerlaut/datavyz), [finalyz](https://github.com/yzerlaut/finalyz)
 
-## Principle / Motivation
+## Motivation / Principle
 
 The motivation behind this extension of the *matplotlib* library is two-fold:
 
