@@ -69,6 +69,7 @@ class graph_env:
                with_legend_space=False,
                with_bar_legend=False,
                bar_inset_loc=None,
+               with_panel_label=False,
                shift_up=0., shrink=1.):
 
         if with_legend_space:
@@ -326,8 +327,11 @@ class graph_env:
         annotations.annotate(self, stuff, s, xy, **args)
 
     def top_left_letter(self, stuff, s, **args):
-        annotations.annotate(self, stuff, s, (0,1), a='right', **args)
+        annotations.annotate(self, stuff, s, (0,1), ha='right', bold=True, **args)
 
+    def panel_label(self, stuff, s, xy=(-.01,1.01), ha='right', bold=True, **args):
+        annotations.annotate(self, stuff, s, xy, ha=ha, bold=bold, **args)
+        
     def draw_bar_scales(self, ax, Xbar, Xbar_label, Ybar, Ybar_label, **args):
         return annotations.draw_bar_scales(self,
                                            ax, Xbar, Xbar_label, Ybar, Ybar_label, **args)
@@ -335,9 +339,12 @@ class graph_env:
     def arrow(self, stuff, rect, **args):
         return annotations.arrow(self, stuff, rect, **args)
 
-    def int_to_roman(self, input, capitals=False):
-        return annotations.int_to_roman(input, capitals=capitals)
+    def int_to_roman(self, integer, capitals=False):
+        return annotations.int_to_roman(integer, capitals=capitals)
 
+    def int_to_letter(self, integer, capitals=False):
+        return annotations.int_to_letter(integer, capitals=capitals)
+    
     def sci_str(self, x, **args):
         return annotations.sci_str(x, **args)
     
@@ -521,29 +528,20 @@ if __name__=='__main__':
     # mg = graphs()
     # mg.hist(np.random.randn(100), xlabel='ksjdfh')
     
-    # fig_lf, AX = mg.figure(axes_extents=[[[3,1]],[[1,2],[1,2],[1,2]]], figsize=(1.,.5), wspace=3., hspace=2.)
-    # for ax in [item for sublist in AX for item in sublist]:
-    #     mg.top_left_letter(ax, 'a')
-    # # _, ax, _ = mg.figure(with_bar_legend=True)
-    # AX[1][0].hist(np.random.randn(100))
-    # fig, ax = mg.figure()
-    # ax.hist(np.random.randn(100))
-    # mg.top_left_letter(ax, 'a')
-    # mg.annotate(ax, 'blabla', (0.7, 0.8), italic=True)
-    # mg.set_plot(ax)
-    # mg.show()
+    from datavyz import ges as ge
     
-    from sklearn.datasets import load_digits
+    fig_lf, AX = ge.figure(axes_extents=[[[3,1]],[[1,2],[1,2],[1,2]]], figsize=(1.,.5), wspace=3., hspace=2.)
+    for ax in [item for sublist in AX for item in sublist]:
+        ge.top_left_letter(ax, 'a')
+    # _, ax, _ = ge.figure(with_bar_legend=True)
+    AX[1][0].hist(np.random.randn(100))
+    fig, ax = ge.figure()
+    ax.hist(np.random.randn(100))
+    ge.panel_label(ax, 'a')
+    ge.annotate(ax, 'blabla', (0.7, 0.8), italic=True)
+    ge.set_plot(ax)
+    ge.show()
 
-    # ge = graph_env('dark_screen')
-    ge = graph_env()
-    digits = load_digits()
-    fig, ax = ge.image(digits['data'][100].reshape(8,8), alpha=0.2)
-    ge.scatter(np.random.randint(8, size=30), np.random.randint(8, size=30), ax=ax, color=ge.blue)
-    ge.title(ax, 'title', size='large')
 
-    # fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),'docs/cross-correl.png')
-    # fig.savefig(fig_location, dpi=200)
-    # print('Figure saved as: ', fig_location)
     ge.show()
 
