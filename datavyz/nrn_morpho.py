@@ -8,7 +8,7 @@ from neural_network_dynamics import main as ntwk # based on Brian2
 import matplotlib.animation as animation
 from matplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
-import matplotlib.cm as cm
+from matplotlib.cm import viridis_r
 
 
 def coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle):
@@ -38,11 +38,13 @@ def plot_nrn_shape(graph,
     """
 
     if ax is None:
-        fig, ax = graph.figure(figsize=(1.,1.2), left=0., top=2., bottom=0., right=0.)
+        fig, ax = graph.figure(figsize=(1.,1.2),
+                               left=0., top=2., bottom=0., right=0.)
     else:
         fig = None
 
-    x0, y0, z0 = center['x0'], center['y0'], center['z0'] # possibility to control the center of the rotation 
+    # possibility to control the center of the rotation         
+    x0, y0, z0 = center['x0'], center['y0'], center['z0'] 
 
     segments, seg_diameters, circles, circle_colors = [], [], [], []
     
@@ -51,6 +53,7 @@ def plot_nrn_shape(graph,
         if (SEGMENTS['start_x'][iseg]==SEGMENTS['end_x'][iseg]) and\
            (SEGMENTS['start_y'][iseg]==SEGMENTS['end_y'][iseg]) and\
            (SEGMENTS['start_z'][iseg]==SEGMENTS['end_z'][iseg]):
+            
             # circle of diameter
             sx, sy, _ = coordinate_projection(SEGMENTS['start_x'][iseg],
                                               SEGMENTS['start_y'][iseg],
@@ -127,7 +130,7 @@ def show_animated_time_varying_trace(t, Quant0, SEGMENT_LIST,
                                      quant_label='$V_m$ (mV)',
                                      time_label='time (ms)',
                                      segment_condition=None,
-                                     colormap=cm.viridis_r,
+                                     colormap=viridis_r,
                                      ms=0.5):
     """
 
@@ -142,7 +145,8 @@ def show_animated_time_varying_trace(t, Quant0, SEGMENT_LIST,
     # adding inset of time plots and bar legends
     ax2 = graph.inset(ax, rect=[0.1,-0.05,.9,.1])
     ax3 = graph.inset(ax, rect=[0.83,0.8,.03,.2])
-    graph.build_bar_legend(np.linspace(Quant0[segment_condition].min(), Quant0[segment_condition].max(), 5), ax3, colormap,
+    graph.build_bar_legend(np.linspace(Quant0[segment_condition].min(),
+                                       Quant0[segment_condition].max(), 5), ax3, colormap,
                      color_discretization=30, label=quant_label)
     
     # picking up locations
@@ -191,28 +195,35 @@ if __name__=='__main__':
 
     import argparse
     # First a nice documentation 
-    parser=argparse.ArgumentParser(description=
-                                   """ 
-                                   Plots a 2D representation of the morphological reconstruction of a single cell
-                                   """
-                                   ,formatter_class=argparse.RawTextHelpFormatter)
+    parser=argparse.ArgumentParser(description=""" 
+         Plots a 2D representation of the morphological reconstruction of a single cell
+         """,formatter_class=argparse.RawTextHelpFormatter)
+    
     parser.add_argument("-lw", "--linewidth",help="", type=float, default=0.2)
     parser.add_argument("-ac", "--axon_color",help="", default='r')
     parser.add_argument("-pa", "--polar_angle",help="", type=float, default=0.)
     parser.add_argument("-aa", "--azimuth_angle",help="", type=float, default=0.)
     parser.add_argument("-wa", "--without_axon",help="", action="store_true")
     parser.add_argument("-m", "--movie_demo",help="", action="store_true")
-    parser.add_argument("--filename", '-f', help="filename", type=str,
-        default='../../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L5pyr-j140408b.CNG.swc')
-    parser.add_argument("--directory", '-d', help="directory", type=str,
-        default='../../neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015')
-    # filename = home+'work/neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L23pyr-j150123a.CNG.swc'
+    parser.add_argument("--filename", '-f', help="filename", type=str, default='')
+    parser.add_argument("--directory", '-d', help="directory", type=str, default='')
+    
     args = parser.parse_args()
 
-    print('[...] loading morphology')
-    morpho = ntwk.Morphology.from_swc_file(args.filename)
-    print('[...] creating list of compartments')
-    SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
+    if (args.filename=='') and (args.directory==''):
+        print("""
+        please provide as arguments either a filename of a morphology or a directory containing some
+        FOR EXAMPLE:
+        python nrn_morpho.py --filename ./neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/L5pyr-j140408b.CNG.swc
+        OR:
+        python nrn_morpho.py --directory ./neural_network_dynamics/single_cell_integration/morphologies/Jiang_et_al_2015/
+        """)
+    else:
+
+        print('[...] loading morphology')
+        morpho = ntwk.Morphology.from_swc_file(args.filename)
+        print('[...] creating list of compartments')
+        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
     
     from datavyz.main import graph_env
     ge = graph_env()
