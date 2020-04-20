@@ -409,7 +409,14 @@ class graph_env:
         to be used in 
         "for ax in ge.flat(AX)"
         """
-        return np.array(AX).flatten()
+        List = []
+        for ax in AX:
+            if type(AX) is list:
+                List = List+ax
+            else:
+                List.append(ax)        
+        return np.array(List).flatten()
+    
     ##################################################
     ######  FIG OUTPUT  ##############################
     ##################################################
