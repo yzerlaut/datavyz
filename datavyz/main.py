@@ -332,9 +332,8 @@ class graph_env:
     def panel_label(self, stuff, s, xy=(-.01,1.01), ha='right', bold=True, **args):
         annotations.annotate(self, stuff, s, xy, ha=ha, bold=bold, **args)
         
-    def draw_bar_scales(self, ax, Xbar, Xbar_label, Ybar, Ybar_label, **args):
-        return annotations.draw_bar_scales(self,
-                                           ax, Xbar, Xbar_label, Ybar, Ybar_label, **args)
+    def draw_bar_scales(self, ax, **args):
+        return annotations.draw_bar_scales(self, ax, **args)
 
     def arrow(self, stuff, rect, **args):
         return annotations.arrow(self, stuff, rect, **args)
