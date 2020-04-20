@@ -164,8 +164,8 @@ def int_to_roman(integer, capitals=False):
 
 def draw_bar_scales(graph,
                     ax,
-                    Xbar=1., Xbar_label='1unit',
-                    Ybar=1., Ybar_label='1unit',
+                    Xbar=0., Xbar_label='',
+                    Ybar=0., Ybar_label='',
                     loc='left-bottom',
                     orientation=None,
                     xyLoc=None, 
