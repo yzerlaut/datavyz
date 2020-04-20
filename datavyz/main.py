@@ -329,8 +329,8 @@ class graph_env:
     def top_left_letter(self, stuff, s, **args):
         annotations.annotate(self, stuff, s, (0,1), ha='right', bold=True, **args)
 
-    def panel_label(self, stuff, s, xy=(-.01,1.01), ha='right', bold=True, **args):
-        annotations.annotate(self, stuff, s, xy, ha=ha, bold=bold, **args)
+    def panel_label(self, stuff, s, xy=(-.01,1.01), size='large', ha='right', bold=True, **args):
+        annotations.annotate(self, stuff, s, xy, size=size, ha=ha, bold=bold, **args)
         
     def draw_bar_scales(self, ax, **args):
         return annotations.draw_bar_scales(self, ax, **args)
