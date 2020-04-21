@@ -432,12 +432,17 @@ class graph_env:
             plt.show()
 
         
-    def savefig(self, fig, figname='temp.svg'):
-
+    def savefig(self, fig, figname='temp.svg',
+                dpi=None, transparent=None, facecolor=None):
+        if dpi is None:
+            dpi=self.dpi
+        if transparent is None:
+            transparent=self.transparency
+        if facecolor is None:
+            facecolor=self.facecolor
         fig.savefig(figname,
-                    dpi=self.dpi,
-                    transparent=self.transparency,
-                    facecolor=self.facecolor)
+                    dpi=dpi, transparent=transparent,
+                    facecolor=facecolor)
         
     def save_on_desktop(self, fig, figname='temp.svg'):
         self.savefig(fig, desktop+figname)
