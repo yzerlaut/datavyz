@@ -10,19 +10,19 @@ ENVIRONMENTS = {
     'manuscript': {
 	'fontsize':8,
 	'default_color':'k',
-        'single_plot_size':(28., 20.), # mm
-        'hspace_size':12., # mm
-        'wspace_size':16., # mm
-        'left_size':20., # mm
+        'single_plot_size':(22., 16.), # mm
+        'hspace_size':10., # mm
+        'wspace_size':14., # mm
+        'left_size':16., # mm
         'right_size':4., # mm
         'top_size':7., # mm
-        'bottom_size':15., # mm
+        'bottom_size':13., # mm
         'background':'w',
         'facecolor':'w',
         'transparency':False,
         'dpi':150,
         'size_factor': 1.,
-        'markersize':3,
+        'markersize':2.5,
     }
 }
 

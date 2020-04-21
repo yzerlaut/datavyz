@@ -61,6 +61,12 @@ def pie(graph, data,
                                           pctdistance=pie_labels_distance,
                                           labeldistance=ext_labels_distance,
                                           colors=COLORS, **pie_args)
+
+    if 'fontsize' not in pie_text_settings:
+        pie_text_settings['fontsize'] = graph.fontsize
+    if 'fontsize' not in ext_text_settings:
+        ext_text_settings['fontsize'] = graph.fontsize
+        
     setp(pie_texts, **pie_text_settings)
     setp(ext_texts, **ext_text_settings)
     
