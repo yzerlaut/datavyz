@@ -42,15 +42,15 @@ for key, val in ENVIRONMENTS['manuscript'].items():
 NOTEBOOK ENVIRONMENT
 """
 ENVIRONMENTS['notebook'] = {
-	'fontsize':11,
+	'fontsize':13,
 	'default_color':'k',
-        'single_plot_size':(28.*1.5, 20.*1.5), # mm
-        'hspace_size':12.*1.5, # mm
-        'wspace_size':16.*1.5, # mm
-        'left_size':20*1.5, # mm
-        'right_size':4.*1.5, # mm
-        'top_size':7.*1.5, # mm
-        'bottom_size':19.*1.5, # mm
+        'single_plot_size':(28.*2., 20.*2.), # mm
+        'hspace_size':12.*2., # mm
+        'wspace_size':16.*2., # mm
+        'left_size':20*2., # mm
+        'right_size':4.*2., # mm
+        'top_size':7.*2., # mm
+        'bottom_size':19.*2., # mm
         'background':'w',
         'facecolor':'w',
         'transparency':False,
