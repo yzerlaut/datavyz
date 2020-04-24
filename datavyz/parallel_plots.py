@@ -25,6 +25,10 @@ def parallel_plot(graph, Y,
         fig, ax = graph.figure(axes_extents=[[[2,1]]], **fig_args)
     else:
         fig = None
+    if color not in label_annotation_args:
+        label_annotation_args['color'] = graph.default_color
+    if color not in ticks_annotation_args:
+        ticks_annotation_args['color'] = graph.default_color
         
     ax.axis('off')
 
@@ -51,11 +55,11 @@ def parallel_plot(graph, Y,
     # x-abcissa
     x = np.linspace(0, 1, Y.shape[1])
     for j, xx in enumerate(x):
-        ax.plot([xx,xx], [0,1], 'k-', lw=.5)
+        ax.plot([xx,xx], [0,1], '-', lw=.5, color=ticks_annotation_args['color'])
         # ticks
         for tn in range(tick_number):
             ax.plot([xx-tick_size/2, xx+tick_size/2],
-                    tn/(tick_number-1)*np.ones(2), 'k-', lw=.5)
+                    tn/(tick_number-1)*np.ones(2), '-', lw=.5, color=ticks_annotation_args['color'])
             
             graph.annotate(ax, '%.1f' % np.linspace(SET_OF_LIMS[j][0],
                                                     SET_OF_LIMS[j][1],
@@ -102,7 +106,7 @@ def components_plot(graph,
 
 if __name__=='__main__':
     
-    from datavyz import ge as ge
+    from datavyz import gedn as ge
 
     # LOADING THE DATA
     from sklearn.datasets import load_breast_cancer
