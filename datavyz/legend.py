@@ -61,6 +61,7 @@ def set_bar_legend(graph, ax_cb, cb,
                    label='',
                    orientation='vertical',
                    label_position='right',
+                   color=None,
                    labelpad=1.,
                    size='', fontsize=None):
     """
@@ -68,19 +69,26 @@ def set_bar_legend(graph, ax_cb, cb,
     """
     if fontsize is None:
         fontsize=set_fontsize(graph, size)
+    if color is None:
+        color=graph.default_color
         
-    cb.set_label(label, labelpad=labelpad, fontsize=fontsize)
+    cb.set_label(label, labelpad=labelpad, fontsize=fontsize, color=color)
     
     if orientation=='vertical':
-        ax_cb.tick_params(axis='y', labelsize=fontsize)
+        ax_cb.tick_params(axis='y', labelsize=fontsize, color=color)
         ax_cb.yaxis.set_label_position(label_position)
     elif (orientation=='horizontal') and label_position=='right':
-        ax_cb.tick_params(axis='x', labelsize=fontsize)
+        ax_cb.tick_params(axis='x', labelsize=fontsize, color=color)
         ax_cb.xaxis.set_label_position('top') # top by default
     elif orientation=='horizontal':
-        ax_cb.tick_params(axis='x', labelsize=fontsize)
+        ax_cb.tick_params(axis='x', labelsize=fontsize, color=color)
         ax_cb.xaxis.set_label_position(label_position)
-        
+    plt.setp(ax_cb.get_xticklabels(), color=color)
+    plt.setp(ax_cb.get_yticklabels(), color=color)
+    ax_cb.tick_params(axis='x', which='both', colors=color)
+    ax_cb.tick_params(axis='y', which='both', colors=color)
+
+
 
     
 def build_bar_legend(ax_cb, X, mymap,
@@ -90,6 +98,7 @@ def build_bar_legend(ax_cb, X, mymap,
                      orientation='vertical',
                      alpha=1.,
                      scale='linear',\
+                     font_color='k',
                      color_discretization=None):
     
     """ X -> ticks """
@@ -121,9 +130,9 @@ def build_bar_legend(ax_cb, X, mymap,
     if no_ticks:
         cb.set_ticks([])
     else:
-        cb.set_ticks(X)
+        cb.set_ticks(X, color=font_color)
         if ticks_labels is not None:
-            cb.set_ticklabels(ticks_labels)
+            cb.set_ticklabels(ticks_labels, color=font_color)
         
     return cb
 
@@ -183,22 +192,26 @@ def legend(graph, ax,
            ncol=1,
            title='',
            columnspacing=1.,
+           color=None,
            loc='best'):
 
     if fontsize is None:
         fontsize=set_fontsize(graph, size)
+    if color is None:
+        color = graph.default_color
 
-    ax.legend(loc=loc,
-              frameon=frameon,
-              ncol=ncol,
-              numpoints=1,
-              scatterpoints=1,
-              columnspacing=columnspacing,
-              handletextpad=handletextpad,
-              handlelength=handlelength,
-              title=title,
-              fontsize=fontsize,
-              facecolor=graph.facecolor)
+    leg = ax.legend(loc=loc,
+                    frameon=frameon,
+                    ncol=ncol,
+                    numpoints=1,
+                    scatterpoints=1,
+                    columnspacing=columnspacing,
+                    handletextpad=handletextpad,
+                    handlelength=handlelength,
+                    title=title,
+                    fontsize=fontsize,
+                    facecolor=graph.facecolor)
+    plt.setp(leg.get_texts(), color=color)
 
 # def legend(list_of_lines,
 #            list_of_labels,
@@ -232,7 +245,7 @@ def legend(graph, ax,
 
 if __name__=='__main__':
 
-    from datavyz import ge
+    from datavyz import gedn as ge
 
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
     
@@ -260,5 +273,6 @@ if __name__=='__main__':
     
     ge.bar_legend(fig,
                   bounds = [1e-3, 10],
-                  scale='log')
+                  scale='log',
+                  label='scale')
     ge.show()
