@@ -94,7 +94,7 @@ def plot_nrn_shape(graph,
             annotation_color = graph.default_color
             ax.plot(xlim[0]*np.ones(2), ylim[1]-np.array([0,scale_bar]),
                     lw=1, color=annotation_color)
-            ge.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
+            graph.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
                         xycoords='data', color=annotation_color)
         ax.axis('off')
         
@@ -254,7 +254,8 @@ if __name__=='__main__':
         fig, ax = plot_nrn_shape(ge,
                                  SEGMENTS,
                                  lw=args.linewidth,
-                                 polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
+                                 polar_angle=args.polar_angle,
+                                 azimuth_angle=args.azimuth_angle)
 
         
     ge.show()
