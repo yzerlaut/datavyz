@@ -1,10 +1,6 @@
 import sys, pathlib, os, json
 import numpy as np
 
-# specific modules
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[2]))
-from neural_network_dynamics import main as ntwk # based on Brian2
-
 import matplotlib.animation as animation
 from matplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
@@ -38,8 +34,8 @@ def plot_nrn_shape(graph,
     """
 
     if ax is None:
-        fig, ax = graph.figure(figsize=(1.,1.2),
-                               left=0., top=2., bottom=0., right=0.)
+        fig, ax = graph.figure(figsize=(2.,4.),
+                               left=0., top=0., bottom=0., right=0.)
     else:
         fig = None
 
@@ -90,12 +86,16 @@ def plot_nrn_shape(graph,
     if scale_bar is not None and scale_bar>0:
         ax.set_aspect('equal')
         xlim, ylim = ax.get_xlim(), ax.get_ylim()
+        
         if annotation_color is None:
             annotation_color = graph.default_color
-            ax.plot(xlim[0]*np.ones(2), ylim[1]-np.array([0,scale_bar]),
-                    lw=1, color=annotation_color)
-            graph.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
+            
+        ax.plot(xlim[0]*np.ones(2), ylim[1]-np.array([0,scale_bar]),
+                lw=1, color=annotation_color)
+        
+        graph.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
                         xycoords='data', color=annotation_color)
+        
         ax.axis('off')
         
     return fig, ax
@@ -106,16 +106,32 @@ def add_dot_on_morpho(graph, ax,
                       soma_comp=None,
                       polar_angle=0, azimuth_angle=np.pi/2., 
                       color=None,
+                      edgecolor=None,
+                      facecolor='none',
+                      marker='o',
+                      alpha=1.,
                       lw=3, s=100):
     """
     """
-    if color is None:
-        color = graph.default_color
-    [x0, y0, z0] = soma_comp[0].x, soma_comp[0].y, soma_comp[0].z
-    x, y, _ = coordinate_projection(comp, x0 ,y0, z0, polar_angle, azimuth_angle)
-    ax.scatter(1e6*x[index], 1e6*y[index],
-            s=s, edgecolors=color, marker='o', facecolors='none', lw=lw)
+    
+    if edgecolor is None:
+        edgecolor = graph.default_color
+
+    if soma_comp is None:
+        print('Need to pass the somatic compartment to project coordinates')
+        print('Taking (0, 0, 0) as the default coordinates !')
+        x0, y0, z0 = 0, 0, 0
+    else:
+        [x0, y0, z0] = soma_comp[0].x, soma_comp[0].y, soma_comp[0].z
         
+    x, y, z = comp['x'][index], comp['y'][index], comp['z'][index]
+    x, y, _ = coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle)
+    
+    ax.scatter([1e6*x], [1e6*y],
+               s=s, edgecolors=edgecolor,
+               facecolors=facecolor,
+               marker=marker, lw=lw, alpha=alpha)
+    
 
 def dist_to_soma(comp, soma):
     return np.sqrt((comp.x-soma.x)**2+\
@@ -210,7 +226,12 @@ if __name__=='__main__':
     
     args = parser.parse_args()
 
-    from datavyz import ge
+    from datavyz import ges as ge
+    
+    # specific modules
+    sys.path.append(str(pathlib.Path(__file__).resolve().parents[2]))
+    from neural_network_dynamics import main as ntwk # based on Brian2
+
     
     if (args.filename=='') and (args.directory==''):
         print("""
@@ -239,7 +260,7 @@ if __name__=='__main__':
     else:
 
         if args.movie_demo:
-            t = np.arange(100)*0.001
+            t = np.arange(100)*1e-3
             Quant = np.array([.5*(1-np.cos(20*np.pi*t))*i/len(SEGMENT_LIST['xcoords']) \
                               for i in np.arange(len(SEGMENT_LIST['xcoords']))])*20-70
             ani = show_animated_time_varying_trace(1e3*t, Quant, SEGMENT_LIST,
@@ -249,13 +270,22 @@ if __name__=='__main__':
         print('[...] loading morphology')
         morpho = ntwk.Morphology.from_swc_file(args.filename)
         print('[...] creating list of compartments')
-        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
+        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho,
+                                                         inclusion_condition='comp.type!="axon"')
     
         fig, ax = plot_nrn_shape(ge,
                                  SEGMENTS,
                                  lw=args.linewidth,
                                  polar_angle=args.polar_angle,
                                  azimuth_angle=args.azimuth_angle)
-
+        
+        add_dot_on_morpho(ge, ax,
+                          SEGMENTS,
+                          index=2000,
+                          soma_comp=None,
+                          edgecolor=ge.r,
+                          # facecolor=ge.r,
+                          polar_angle=args.polar_angle,
+                          azimuth_angle=args.azimuth_angle)
         
     ge.show()
