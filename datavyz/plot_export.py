@@ -167,8 +167,8 @@ def multipanel_figure(graph_env,
                       FIGS,
                       X = None, Y = None, Labels=None,
                       LABELS = None, X_LABELS = None, Y_LABELS = None,
-                      height=100.,# mm
-                      width=85.,
+                      width=85.,# mm
+                      height=None, # mm
                       grid=False,
                       autoposition=False,
                       SCALING_FACTOR = 1.34, fontsize=None, fontweight='bold',
@@ -200,6 +200,7 @@ def multipanel_figure(graph_env,
                     y.append(80)
             X.append([0]+list(np.cumsum(x)))
             y = [dy+Y[-1][0] for dy in y]
+        Y.append([np.max(y)])
     
     if X is None:
         X = [[0 for fig in lfig] for lfig in FIGS]
@@ -210,8 +211,11 @@ def multipanel_figure(graph_env,
     if X_LABELS is None:
        X_LABELS = X 
     if Y_LABELS is None:
-       Y_LABELS = Y 
-
+       Y_LABELS = Y
+    
+    if height is None:
+        height = np.max([50, Y[-1][-1]])*0.27 # TO BE SET UP
+    
     # size
     if width=='single-column':
         width = 85.
@@ -299,7 +303,7 @@ if __name__=='__main__':
                                  ['d', 'e', 'f', 'g']],
                          width='double-column', # can also be "single-column" or "one-and-a-half-column"
                          fig_name='docs/multipanel.svg',
-                         grid=False, # switch to True to get the 
+                         grid=False, # switch to True to get the Grid position and pricesely place labels if necesary
                          autoposition=True)
 
 
