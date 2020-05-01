@@ -163,30 +163,144 @@ def concatenate_pngs(PNG_LIST, ordering='vertically', figname='fig.png'):
     new_im.save(figname)
 
 
+def multipanel_figure(graph_env,
+                      FIGS,
+                      X = None, Y = None, Labels=None,
+                      LABELS = None, X_LABELS = None, Y_LABELS = None,
+                      height=100.,# mm
+                      width=85.,
+                      grid=False,
+                      autoposition=False,
+                      SCALING_FACTOR = 1.34, fontsize=None, fontweight='bold',
+                      export_to_png=False,
+                      fig_name='fig.svg'):
+    """
+    
+    """
+    # building the figure matrix if not explicited
+    if type(FIGS) is mpl.figure.Figure:
+        FIGS = [[FIGS]]
+    elif type(FIGS) is list:
+        if type(FIGS[0]) is mpl.figure.Figure:
+            FIGS = [FIGS]
+    # else should be list of list
+
+    if autoposition:
+        X, Y = [], []
+        y = [0]
+        for i, lfig in enumerate(FIGS):
+            Y.append([np.max(y) for fig in lfig])
+            x = []
+            for fig in lfig:
+                if type(fig) is not str:
+                    x.append(72.*fig.get_size_inches()[0])
+                    y.append(72.*fig.get_size_inches()[1])
+                else:
+                    x.append(120)
+                    y.append(80)
+            X.append([0]+list(np.cumsum(x)))
+            y = [dy+Y[-1][0] for dy in y]
+    
+    if X is None:
+        X = [[0 for fig in lfig] for lfig in FIGS]
+    if Y is None:
+        Y = [[0 for fig in lfig] for lfig in FIGS]
+    if LABELS is None:
+        LABELS = [['' for fig in lfig] for lfig in FIGS]
+    if X_LABELS is None:
+       X_LABELS = X 
+    if Y_LABELS is None:
+       Y_LABELS = Y 
+
+    # size
+    if width=='single-column':
+        width = 85.
+    elif width=='one-and-a-half-column':
+        width = 114.
+    elif width=='double-column':
+        width = 174.
+
+    if fontsize is None:
+        fontsize = graph_env.fontsize+1
+        
+    LOCATIONS, PANELS = [], []
+    for i, lfig in enumerate(FIGS):
+        LOCATIONS.append([])
+        for j, fig in enumerate(lfig):
+            if type(FIGS[i][j]) is str:
+                LOCATIONS[i].append(FIGS[i][j])
+                # 1.26625 -- NEW SCALING FACTOR
+            else:
+                LOCATIONS[i].append(os.path.join(gettempdir(), '%i_%i.svg' % (i,j)))
+                FIGS[i][j].savefig(LOCATIONS[i][j], format='svg',
+                                   transparent=graph_env.transparency)
+            PANELS.append(sg.Panel(sg.SVG(LOCATIONS[i][j]).move(X[i][j], Y[i][j])))
+
+            if LABELS[i][j]!='':
+                PANELS.append(sg.Panel(sg.Text(LABELS[i][j], 3, 10, 
+                                               size=fontsize, weight=fontweight).move(\
+                                           X_LABELS[i][j],Y_LABELS[i][j])))
+
+    if grid:
+        sg.Figure("%.1fcm" % (width/10.), "%.1fcm" % (height/10.),
+                  *PANELS, sg.Grid(40,40)).scale(SCALING_FACTOR).save(fig_name)
+    else:
+        sg.Figure("%.1fcm" % (width/10.), "%.1fcm" % (height/10.),
+                  *PANELS).scale(SCALING_FACTOR).save(fig_name)
+
+    if export_to_png:
+        export_as_png(fig_name, dpi=300)
+        
+    
 if __name__=='__main__':
 
-    from datavyz.graph_env import graph_env
-    ge = graph_env()
+    from datavyz import ge
 
-    filedir=os.path.abspath(__file__).replace(os.path.basename(__file__),'')
-    
-    fig1, ax1 = ge.plot(Y=np.random.randn(10,4),\
-                        sY=np.random.randn(10,4),
-                        axes_args={'xlabel':'x-label', 'ylabel':'y-label'})
-    fig1.savefig(filedir+'../output/fig.svg')
-    
-    fig2, ax2 = ge.scatter(X=np.arange(4)+0.1*np.random.randn(10,4),\
-                           Y=np.random.randn(10,4),\
-                           sY=np.random.randn(10,4), axes_args={'xlabel':'x-label', 'ylabel':'y-label'})
+    # generate some random data
+    t = np.linspace(0, 10, 1e3)
+    y = np.cos(5*t)+np.random.randn(len(t))
 
-    # put_list_of_figs_to_multipage_pdf([fig1, fig2])
-    put_list_of_figs_to_svg_fig([filedir+'../docs/schematic.svg', fig2, fig1],
-                                fig_name=filedir+'../output/fig.svg',
-                                Props={'XCOORD':[0,100,210],
-                                       'YCOORD':[0, 0, 0],
-                                       'XCOORD_LABELS':[0,90,195],
-                                       'YCOORD_LABELS':np.zeros(3),
-                                       'LABELS':['a','b','c']})
+    # Panel 'a' - schematic
+    fig11 = 'docs/schematic.svg'
+
+    # Panel 'b' - time series plot
+    fig12, ax12 = ge.figure(axes_extents=(3,1)) # i.e. a wide plot
+    ax12.plot(t, y)
+    ge.set_plot(ax12, xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
     
-    export_as_png(filedir+'../output/fig.svg')
+    # Panel 'c' - more time series plot
+    fig21, ax21 = ge.figure(axes_extents=(4,1)) # i.e. a very wide plot
+    ax21.plot(t[t>9], y[t>9], label='raw')
+    ax21.plot(t[t>9][1:], np.diff(y[t>9]), label='deriv.')
+    ax21.plot(t[t>9][1:-1], np.diff(np.diff(y[t>9])), label='2nd deriv.')
+    ge.set_plot(ax21, xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
+    ge.legend(ax21, ncol=3, loc=(.3,1.)) # put a legend
+
+    # Panel 'd' - scatter plot
+    fig31, ax31 = ge.scatter(t[::10], t[::10]+np.random.randn(100),
+                             xlabel='ylabel (yunit)')
+    
+    # Panel 'e' - bar plot
+    fig32, ax32 = ge.bar(np.random.randn(8),
+                         COLORS=[ge.viridis(i/7) for i in range(8)],
+                         xlabel='ylabel (yunit)')
+
+    # Panel 'f' - bar plot
+    fig33, ax33 = ge.pie([0.25,0.4,0.35], ext_labels=['Set 1', 'Set 2', 'Set 3'])
+
+    # Panel 'g' - bar plot
+    fig34, ax34 = ge.hist(np.random.randn(200))
+    
+    ge.multipanel_figure([[fig11, fig12],
+                          [fig21],
+                          [fig31,fig32,fig33,fig34]],
+                         LABELS=[['a','b'],
+                                 ['c'],
+                                 ['d', 'e', 'f', 'g']],
+                         width='double-column', # can also be "single-column" or "one-and-a-half-column"
+                         fig_name='docs/multipanel.svg',
+                         grid=False, # switch to True to get the 
+                         autoposition=True)
+
+
 

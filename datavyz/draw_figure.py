@@ -96,16 +96,12 @@ def figure(cls,
                                   rowspan=g[3], facecolor=cls.facecolor)
             AX.append(ax)
     else:
-        if axes_extents is None:
-            if (len(axes)==1) and (axes[0]==1):
-                axes_extents = [1]
-            elif (axes[1]==0):
-                axes_extents = np.ones(axes[0])
-            elif (axes[0]==0):
-                axes_extents = np.ones(axes[1])
-            else:
-                axes_extents = [[[1,1] for j in range(axes[1])]\
-                                for i in range(axes[0])]
+        if axes_extents is not None:
+            if type(axes_extents) is tuple:
+                axes_extents = [[axes_extents]]
+        else:
+            axes_extents = [[[1,1] for j in range(axes[0])]\
+                            for i in range(axes[1])]
                 
         x_plots = np.sum([axes_extents[0][j][0] \
                           for j in range(len(axes_extents[0]))])

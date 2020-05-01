@@ -110,8 +110,6 @@ put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
 <p align="center">
   <img src="docs/multipanel.svg"/>
 </p>
-p
-
 
 
 ## Graphical environments
@@ -156,8 +154,8 @@ ENVIRONMENTS['dark_notebook'] = {
         'right_size':4.*2., # mm
         'top_size':7.*2., # mm
         'bottom_size':19.*2., # mm
-        'background':'dark',
-        'facecolor':'dimgrey',
+        'background':'none',
+        'facecolor':'none',
         'transparency':True,
         'dpi':200,
 }
@@ -165,13 +163,13 @@ ENVIRONMENTS['dark_notebook'] = {
 
 We illustrate the use of those two environments in the [demo notebook](skjdfh). 
 
-One first design an analysis in a convenient environment,
-**"dark_notebook"**, to explore data (here using the excellent [Emacs
+One first design an analysis in a convenient environment to explore
+data, here **"dark_notebook"** (integrated within the excellent [Emacs
 IPython Notebook
 (EIN)](http://millejoh.github.io/emacs-ipython-notebook/) interface
 that allows you to run Jupyter notebooks within Emacs). In a final
-step, one exports the figure, using the **"manuscript"**
-environment, for its inlusion in a report.
+step, one exports the figure, using the **"manuscript"** environment,
+for its inlusion in a report.
 
 <p align="center">
   <img src="docs/env-demo.png"/>

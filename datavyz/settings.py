@@ -79,8 +79,8 @@ ENVIRONMENTS['dark_notebook'] = {
         'right_size':4.*2., # mm
         'top_size':7.*2., # mm
         'bottom_size':19.*2., # mm
-        'background':'dark',
-        'facecolor':'dimgrey',
+        'background':'none',
+        'facecolor':'none',
         'transparency':True,
         'dpi':200,
 }
