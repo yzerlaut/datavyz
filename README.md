@@ -12,7 +12,7 @@ Part of the software suite for data science: [analyz](https://github.com/yzerlau
 
 The motivation behind this extension of the *matplotlib* library is two-fold:
 
-- the default settings of *matplotlib* do not really match the relatively specific constraints (on fontsize, axes size, etc...) of figure production in international scientific journals (e.g. from publishers such as Nature/Springer, Elsevier, Cell Press, ...).
+- the default settings of *matplotlib* do not really match the relatively specific constraints (on fontsize, axes size, etc...) of figure production in scientific journals from publishers such as Nature/Springer, Elsevier, Cell Press, ... See the [Cell Press figure guidelines](https://www.cell.com/figureguidelines) for an example of such instructions.
 
 - a single graphical setting to display figures is not very practical in the process of scientific analysis. Such analysis is usually made of several steps and is performed on different mediums: notebooks with embedded figures, script that produce on-display figures, multipanel figures on A4 page, ...
 
@@ -53,10 +53,12 @@ import datavyz
 ge = datavyz.graph_env('manuscript')
 
 # a more complex grid of axes:
-fig, AX = ge.figure(axes_extents=[\
-                                  [[3,1], [1,1]],
-                                  [[4,1]],
-                                  [[1,1], [2,1], [1,1] ] ],
+#  define your grid as a two-dimensional set of axes, each element is a tuple of defining the (x-span, y-span) of the figure
+GRID = [[[3,1], [1,1]],
+        [[4,1]],
+        [[1,1], [2,1], [1,1]]]
+
+fig, AX = ge.figure(axes_extents=GRID,
                      figsize=[.95,.95])
 AX[0].plot(np.random.randn(20))
 
@@ -108,102 +110,66 @@ put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
 <p align="center">
   <img src="docs/multipanel.svg"/>
 </p>
-
-
-## Multi-environment plotting demo
-
-
-
-```
-import datavyz
-
-ge = datavyz.graph_env('manuscript')
-
-# a more complex grid of axes:
-fig, AX = ge.figure(axes_extents=[\
-                                  [[3,1], [1,1]],
-                                  [[4,1]],
-                                  [[1,1], [2,1], [1,1] ] ],
-                     figsize=[.95,.95])
-AX[0].plot(np.random.randn(20))
-
-t = np.linspace(0, 10, 1e3)
-y = np.cos(5*t)+np.random.randn(len(t))
-
-# leave first axis empty for drawing
-AX[0][0].axis('off') # space for docs/schematic.svg
-
-# time series plot
-AX[0][1].plot(t, y)
-ge.set_plot(AX[0][1], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
-
-# more time series plot
-AX[1][0].plot(t[t>9], y[t>9], label='raw')
-AX[1][0].plot(t[t>9][1:], np.diff(y[t>9]), label='deriv.')
-AX[1][0].plot(t[t>9][1:-1], np.diff(np.diff(y[t>9])), label='2nd deriv.')
-ge.set_plot(AX[1][0], xlabel='xlabel (xunit)', ylabel='ylabel (yunit)')
-
-# scatter plot
-ge.scatter(t[::10], t[::10]+np.random.randn(100),
-           ax=AX[2][0], xlabel='ylabel (yunit)')
-
-
-# bar plot
-ge.bar(np.random.randn(8),
-       COLORS=[ge.viridis(i/7) for i in range(8)],
-        ax=AX[2][1], xlabel='ylabel (yunit)')
-
-# pie plot
-ge.pie([0.25,0.4,0.35], ax=AX[2][2], ext_labels=['Set 1', 'Set 2', 'Set 3'])
-
-
-# looping on all plots to add the top left letter:
-for l, ax in zip(list(string.ascii_lowercase), itertools.chain(*AX)):
-   ge.top_left_letter(ax, l+'     ')
-
-# saving the figure with all plots
-fig.savefig('fig.svg')
-
-# generating the figure with the addition of the drawing and saving it "fig.svg"
-from datavyz.plot_export import put_list_of_figs_to_svg_fig
-put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
-                            fig_name='fig.svg',
-                            Props={'XCOORD':[0,0], 'YCOORD':[0,0]})
-
-```
-
-<p align="center">
-  <img src="docs/multipanel.svg"/>
-</p>
+p
 
 
 ## Settings
 
 You can specifiy different environments corresponding to different visualization settings.
 
-For example the setting to produce the above is the when `graph_env` is called with the `"manuscript"` argument is the following:
+Below is an example `settings.py` file (see `datavyz/settings.py`), it defines two graphical environments: "manuscript" and "notebook".
+
 ```
-ENVIRONMENTS = {
-    'manuscript': {
-	'fontsize':9,
-	'default_color':'k',
-        'single_plot_size':(28., 20.), # mm
-        'hspace_size':12., # mm
-        'wspace_size':16., # mm
-        'left_size':16., # mm
-        'right_size':4., # mm
-        'top_size':4., # mm
-        'bottom_size':17., # mm
-    },
-    'screen': {
-        'size_factor': 1.5,
-    }
-    'darkbg': { # dark background
-        'size_factor': 1.5,
-        'default_color': 'lightgray',
-    }
+ENVIRONMENTS = {} # dictionary storing the different environments
+
+"""
+MANUSCRIPT ENVIRONMENT
+"""
+ENVIRONMENTS['manuscript'] = {
+    'fontsize':8,
+    'default_color':'k',
+    'single_plot_size':(22., 16.), # mm
+    'hspace_size':10., # mm
+    'wspace_size':14., # mm
+    'left_size':16., # mm
+    'right_size':4., # mm
+    'top_size':7., # mm
+    'bottom_size':13., # mm
+    'background':'w',
+    'facecolor':'w',
+    'transparency':False,
+    'dpi':150,
+    'size_factor': 1.,
+    'markersize':2.5,
 }
+
+"""
+NOTEBOOK ENVIRONMENT
+"""
+ENVIRONMENTS['notebook'] = {
+	'fontsize':13,
+	'default_color':'k',
+        'single_plot_size':(28.*2., 20.*2.), # mm
+        'hspace_size':12.*2., # mm
+        'wspace_size':16.*2., # mm
+        'left_size':20*2., # mm
+        'right_size':4.*2., # mm
+        'top_size':7.*2., # mm
+        'bottom_size':19.*2., # mm
+        'background':'w',
+        'facecolor':'w',
+        'transparency':False,
+        'dpi':200,
+        'size_factor': 1.,
+}
+
 ```
+
+<p align="center">
+  <img src="docs/env-demo.png"/>
+</p>
+
+## Calibration
 
 An additional setting `"screen"` has only a "size_factor" key, so it takes the settings of the "manuscript" and expands everything by a factor 1.5 for the display on the screen. An additional setting `"darkbg"` is a display setting for displays with dark bakgrounds.
 
