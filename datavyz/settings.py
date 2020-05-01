@@ -3,33 +3,35 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.
 
 from datavyz.dependencies import *
 
+ENVIRONMENTS = {}
+
 """
 MANUSCRIPT ENVIRONMENT
 """
-ENVIRONMENTS = {
-    'manuscript': {
-	'fontsize':8,
-	'default_color':'k',
-        'single_plot_size':(22., 16.), # mm
-        'hspace_size':10., # mm
-        'wspace_size':14., # mm
-        'left_size':16., # mm
-        'right_size':4., # mm
-        'top_size':7., # mm
-        'bottom_size':13., # mm
-        'background':'w',
-        'facecolor':'w',
-        'transparency':False,
-        'dpi':150,
-        'size_factor': 1.,
-        'markersize':2.5,
-    }
+ENVIRONMENTS['manuscript'] = {
+    'fontsize':8,
+    'default_color':'k',
+    'single_plot_size':(22., 16.), # mm
+    'hspace_size':10., # mm
+    'wspace_size':14., # mm
+    'left_size':16., # mm
+    'right_size':4., # mm
+    'top_size':7., # mm
+    'bottom_size':13., # mm
+    'background':'w',
+    'facecolor':'w',
+    'transparency':False,
+    'dpi':150,
+    'markersize':2.5,
 }
 
 
+"""
+SCREEN ENVIRONMENT
+"""
 # SCREEN ENVIRONMENT
 # "screen" is just an expanded version of 
-ENVIRONMENTS['screen'], screen_factor = {}, 1.5
+ENVIRONMENTS['screen'], screen_factor = {}, 2.
 for key, val in ENVIRONMENTS['manuscript'].items():
     if 'plot_size' in key:
         ENVIRONMENTS['screen'][key]=(screen_factor*val[0],screen_factor*val[1])
@@ -55,19 +57,33 @@ ENVIRONMENTS['notebook'] = {
         'facecolor':'w',
         'transparency':False,
         'dpi':200,
-        'size_factor': 1.,
 }
 """
 DARK NOTEBOOK ENVIRONMENT
 """
 # "screen" is just an expanded version of 
-ENVIRONMENTS['dark_notebook'] = {'facecolor':'none',
-                                 'default_color':'lightgray',
-                                 'fontsize':12.,
-                                 'transparency':True}
-for key, val in ENVIRONMENTS['notebook'].items():
-    if key not in ENVIRONMENTS['dark_notebook']:
-        ENVIRONMENTS['dark_notebook'][key] = val
+# ENVIRONMENTS['dark_notebook'] = {'facecolor':'none',
+#                                  'default_color':'lightgray',
+#                                  'fontsize':12.,
+#                                  'transparency':True}
+# for key, val in ENVIRONMENTS['notebook'].items():
+#     if key not in ENVIRONMENTS['dark_notebook']:
+#         ENVIRONMENTS['dark_notebook'][key] = val
+ENVIRONMENTS['dark_notebook'] = {
+	'fontsize':13,
+        'default_color':'lightgray',
+        'single_plot_size':(28.*2., 20.*2.), # mm
+        'hspace_size':12.*2., # mm
+        'wspace_size':16.*2., # mm
+        'left_size':20*2., # mm
+        'right_size':4.*2., # mm
+        'top_size':7.*2., # mm
+        'bottom_size':19.*2., # mm
+        'background':'dark',
+        'facecolor':'dimgrey',
+        'transparency':True,
+        'dpi':200,
+}
 
 """
 VISUAL STIMULATION ENVIRONMENT
@@ -110,6 +126,7 @@ def set_env_variables(cls, key):
 #                          'savefig.transparent':cls.transparency,
 #                          'savefig.dpi':cls.dpi,
 #                          'savefig.facecolor': cls.facecolor})
+
     
 if __name__=='__main__':
 
