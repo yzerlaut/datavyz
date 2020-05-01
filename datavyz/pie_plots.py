@@ -18,7 +18,7 @@ def pie(graph, data,
         pie_text_settings=dict(weight='normal', color='k'),
         center_circle=0.3,
         title='',
-        fig_args=dict(bottom=0.3, left=0.3, top=3.),
+        fig_args=dict(bottom=0.3, left=0.7, top=1.),
         axes_args={},
         pie_args={},
         legend=None):

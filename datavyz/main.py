@@ -19,7 +19,7 @@ from datavyz.surface_plots import twoD_plot, matrix
 from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
 from datavyz.pie_plots import pie
 import datavyz.single_cell_plots as scp
-from datavyz.plot_export import put_list_of_figs_to_svg_fig
+from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 from datavyz.dynamic_plot import movie_plot, animated_plot
 
 from datavyz.colors import *
@@ -420,6 +420,10 @@ class graph_env:
     ##################################################
     ######  FIG OUTPUT  ##############################
     ##################################################
+
+    def multipanel_figure(self, FIGS, **args):
+        return multipanel_figure(self, FIGS, **args)
+
     
     def show(self, block=False):
         if platform.system()=='Windows':
