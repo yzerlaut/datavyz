@@ -113,11 +113,11 @@ put_list_of_figs_to_svg_fig(['docs/schematic.svg', fig],
 p
 
 
-## Settings
 
+## Graphical environments
 You can specifiy different environments corresponding to different visualization settings.
 
-Below is an example `settings.py` file (see `datavyz/settings.py`), it defines two graphical environments: "manuscript" and "notebook".
+Below is an example `settings.py` file (see `datavyz/settings.py`), it defines two graphical environments: **"manuscript"** and **"notebook"**.
 
 ```
 ENVIRONMENTS = {} # dictionary storing the different environments
@@ -144,11 +144,11 @@ ENVIRONMENTS['manuscript'] = {
 }
 
 """
-NOTEBOOK ENVIRONMENT
+DARK NOTEBOOK ENVIRONMENT
 """
-ENVIRONMENTS['notebook'] = {
+ENVIRONMENTS['dark_notebook'] = {
 	'fontsize':13,
-	'default_color':'k',
+        'default_color':'lightgray',
         'single_plot_size':(28.*2., 20.*2.), # mm
         'hspace_size':12.*2., # mm
         'wspace_size':16.*2., # mm
@@ -156,22 +156,29 @@ ENVIRONMENTS['notebook'] = {
         'right_size':4.*2., # mm
         'top_size':7.*2., # mm
         'bottom_size':19.*2., # mm
-        'background':'w',
-        'facecolor':'w',
-        'transparency':False,
+        'background':'dark',
+        'facecolor':'dimgrey',
+        'transparency':True,
         'dpi':200,
-        'size_factor': 1.,
 }
-
 ```
+
+We illustrate the use of those two environments in the [demo notebook](skjdfh). 
+
+One first design an analysis in a convenient environment,
+**"dark_notebook"**, to explore data (here using the excellent [Emacs
+IPython Notebook
+(EIN)](http://millejoh.github.io/emacs-ipython-notebook/) interface
+that allows you to run Jupyter notebooks within Emacs). In a final
+step, one exports the figure, using the **"manuscript"**
+environment, for its inlusion in a report.
 
 <p align="center">
   <img src="docs/env-demo.png"/>
 </p>
 
-## Calibration
+## Size settings
 
-An additional setting `"screen"` has only a "size_factor" key, so it takes the settings of the "manuscript" and expands everything by a factor 1.5 for the display on the screen. An additional setting `"darkbg"` is a display setting for displays with dark bakgrounds.
 
 <p align="center">
   <img src="docs/calibration.svg"/>
