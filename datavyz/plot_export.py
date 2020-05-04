@@ -275,12 +275,12 @@ if __name__=='__main__':
                          LABELS=[['a'],['b','c']], X_LABELS=[[0],[0,130]], Y_LABELS=[[0],[70,70]],
                          width='single-column', height=60.,                         
                          fig_name='fig1.png', bg='gray', grid=True)
-    # ge.multipanel_figure([],
-    #                      width='double-column', # can also be "single-column" or "one-and-a-half-column"
-    #                      fig_name='fig2.png', bg='gray', grid=True)
-    # ge.multipanel_figure([],
-    #                      width='one-and-a-half-column', # can also be "single-column" or "one-and-a-half-column"
-    #                      fig_name='fig3.png', bg='gray', grid=True)
+    ge.multipanel_figure([],
+                         width='double-column', # can also be "single-column" or "one-and-a-half-column"
+                         fig_name='fig2.png', bg='gray', grid=True)
+    ge.multipanel_figure([],
+                         width='one-and-a-half-column', # can also be "single-column" or "one-and-a-half-column"
+                         fig_name='fig3.png', bg='gray', grid=True)
 
     """
     # generate some random data
