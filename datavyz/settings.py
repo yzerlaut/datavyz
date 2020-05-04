@@ -39,6 +39,7 @@ for key, val in ENVIRONMENTS['manuscript'].items():
         ENVIRONMENTS['screen'][key]=screen_factor*np.float(val)
     else:
         ENVIRONMENTS['screen'][key] = val
+ENVIRONMENTS['screen']['fontsize']=13.
         
 """
 NOTEBOOK ENVIRONMENT

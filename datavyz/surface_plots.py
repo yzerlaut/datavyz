@@ -14,8 +14,12 @@ def twoD_plot(graph,
               alpha=1.,
               vmin=None,
               vmax=None,
-              # scale='log',
-              bar_legend=None,
+              scale='',
+              # axes props
+              axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
+              xlabel=None, ylabel=None, title=None,
+              # bar legend
+              bar_legend_args=None,
               aspect='equal',
               interpolation='none'):
     """
@@ -24,8 +28,8 @@ def twoD_plot(graph,
     switch to bar_legend=None to remove the bar legend
     """
     
-    if (ax is None) and (acb is None):
-        fig, ax, acb = graph.figure(figsize=(.9,1), with_bar_legend=True)
+    if (ax is None):
+        fig, ax = graph.figure(figsize=(.9,1), with_legend_space=True)
     else:
         fig = plt.gcf()
         
@@ -67,22 +71,22 @@ def twoD_plot(graph,
                    aspect=aspect)
 
 
-    """
-    Need to polish the integration of "build_bar_legend" within this function
-    """
-    if bar_legend is not None:
-        for key, val in zip(['ticks', 'scale', 'label', 'labelpad'],
-                            [np.unique(np.round(np.linspace(vmin, vmax, 5), 1)),
-                             'linear', '', 1.]):
-            if key not in bar_legend:
-                bar_legend[key] = val
-        build_bar_legend_continuous(acb, colormap,
-                                    bounds=[vmin, vmax],
-                                    scale=bar_legend['scale'],
-                                    ticks=bar_legend['ticks'],
-                                    label=bar_legend['label'],
-                                    labelpad=bar_legend['labelpad'])
+    if bar_legend_args is not None:
+
+        if 'bounds' not in bar_legend_args:
+            bar_legend_args['bounds'] = [vmin, vmax]
+        if 'colormap' not in bar_legend_args:
+            bar_legend_args['colormap'] = colormap
+        acb = ge.bar_legend(fig, **bar_legend_args)
         
+    else:
+        
+        acb = None
+        
+    axes_args = ge.add_to_axes_args(xlabel, ylabel, title, axes_args)
+    
+    ge.set_plot(ax, **axes_args)
+    
     return fig, ax, acb
     
 
@@ -93,9 +97,14 @@ def matrix(graph,
            colormap=cm.viridis,
            alpha=1.,
            vmin=None, vmax=None,
-           bar_legend=None, # switch to None to make it disappear
            aspect='equal', # switch to 'auto' if needed
-           origin='lower',           
+           origin='lower',
+           # axes props
+           axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
+           xlabel=None, ylabel=None, title=None,
+           # bar legend
+           bar_legend_args=None,
+           # other args
            interpolation='none'):
 
     if (z is None) and (y is None):
@@ -103,7 +112,7 @@ def matrix(graph,
         x, y = np.meshgrid(np.arange(z.shape[0]), np.arange(z.shape[1]), indexing='ij')
         
     if (ax is None) and (acb is None):
-        fig, ax, acb = graph.figure(figsize=(.9,1), with_bar_legend=True)
+        fig, ax = graph.figure(figsize=(.9,1), with_legend_space=True)
     else:
         fig = plt.gcf()
         
@@ -125,37 +134,35 @@ def matrix(graph,
                    origin=origin,
                    aspect=aspect)
     
-    if bar_legend is not None:
+    if bar_legend_args is not None:
+
+        if 'bounds' not in bar_legend_args:
+            bar_legend_args['bounds'] = [vmin, vmax]
+        if 'colormap' not in bar_legend_args:
+            bar_legend_args['colormap'] = colormap
+        acb = ge.bar_legend(fig, **bar_legend_args)
         
-        for key, val in zip(['ticks', 'scale', 'label', 'labelpad'],
-                            [np.unique(np.round(np.linspace(vmin, vmax, 5), 1)),
-                             'linear', '', 1.]):
-            if key not in bar_legend:
-                bar_legend[key] = val
-                
-        build_bar_legend_continuous(acb, colormap,
-                                    bounds=[vmin, vmax],
-                                    scale=bar_legend['scale'],
-                                    ticks=bar_legend['ticks'],
-                                    label=bar_legend['label'],
-                                    labelpad=bar_legend['labelpad'])
+    else:
         
+        acb = None
+        
+    axes_args = ge.add_to_axes_args(xlabel, ylabel, title, axes_args)
+    
+    ge.set_plot(ax, **axes_args)
+    
     return fig, ax, acb
 
 
 if __name__=='__main__':
     
-    from datavyz.main import graph_env
-
-    ge = graph_env('manuscript')
+    from datavyz import ges as ge
 
     x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 20), indexing='ij')
     z = y*x*x
 
-    fig1, ax, _ = matrix(ge, z, aspect='')
-    ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
+    fig1, ax, _ = matrix(ge, z, aspect='equal',
+                         xlabel='x-label (X)', ylabel='y-label (Y)')
 
-    
     x, y, z = np.array(x).flatten(),\
               np.array(y).flatten(),\
               np.array(z).flatten()*np.random.randn(len(z.flatten()))
@@ -165,9 +172,11 @@ if __name__=='__main__':
 
     fig2, ax, acb = twoD_plot(ge, x, y, z,
                               vmin=-7, vmax=7,
-                              bar_legend={'label':'color',
-                                          'color_discretization':20})
+                              bar_legend_args={'label':'color',
+                                               'color_discretization':20})
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
     
-    fig2.savefig('docs/surface-plot.png')
+    # fig2.savefig('docs/surface-plot.png')
+
+
     ge.show()

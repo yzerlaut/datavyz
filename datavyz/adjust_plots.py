@@ -17,7 +17,7 @@ def set_plot(graph, ax,
              xlabelpad=1, ylabelpad=1,
              xticks_rotation=0, yticks_rotation=0,
              xscale='linear', yscale='linear',
-             xlim_enhancment=.5, ylim_enhancment=.5,
+             xlim_enhancement=.5, ylim_enhancement=.5,
              xlim=None, ylim=None,
              grid=False,
              xcolor=None, ycolor=None,
@@ -57,7 +57,7 @@ def set_plot(graph, ax,
                 xmin = np.concatenate([line.get_xdata() for line in ax.get_lines()[:2]]).min() # what are the additional line objects ??
             xlim = [xmin/1.1,1.1*xmax]
         else:
-            xlim = [xmin-xlim_enhancment*dx/100.,xmax+xlim_enhancment*dx/100.]
+            xlim = [xmin-xlim_enhancement*dx/100.,xmax+xlim_enhancement*dx/100.]
 
     if xscale=='log': # we calculate the tick positions
         xlim, xmajor_ticks, xminor_ticks2 = find_good_log_ticks(lim=xlim)
@@ -74,7 +74,7 @@ def set_plot(graph, ax,
                 ymin = np.concatenate([line.get_ydata() for line in ax.get_lines()[::-2]]).min() # what are the additional lines ??
             ylim = [ymin/1.2,1.2*ymax]
         else:
-            ylim = [ymin-ylim_enhancment*dy/100.,ymax+ylim_enhancment*dy/100.]
+            ylim = [ymin-ylim_enhancement*dy/100.,ymax+ylim_enhancement*dy/100.]
             
     if yscale=='log':
         ylim, ymajor_ticks, yminor_ticks = find_good_log_ticks(lim=ylim)
