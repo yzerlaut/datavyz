@@ -259,7 +259,7 @@ def multipanel_figure(graph_env,
     if fig_name.endswith('.png'):
         export_as_png(fig_name.replace('.png', '.svg'), dpi=300, background=bg)
         os.remove(fig_name.replace('.png', '.svg'))
-        print('[ok] removed %s', fig_name)
+        # print('[ok] removed %s' % fig_name.replace('.png', '.svg'))
     elif export_to_png:
         export_as_png(fig_name, dpi=300, background=bg)
         
@@ -268,16 +268,16 @@ if __name__=='__main__':
 
     from datavyz import ge
 
-    ge.multipanel_figure([],
-                         width='single-column', # can also be "single-column" or "one-and-a-half-column"
-                         fig_name='fig1.png', bg='gray', grid=True)
-    ge.multipanel_figure([],
-                         width='double-column', # can also be "single-column" or "one-and-a-half-column"
-                         fig_name='fig2.png', bg='gray', grid=True)
-    ge.multipanel_figure([],
-                         width='one-and-a-half-column', # can also be "single-column" or "one-and-a-half-column"
-                         fig_name='fig3.png', bg='gray', grid=True)
-    """
+    # ge.multipanel_figure([],
+    #                      width='single-column', # can also be "single-column" or "one-and-a-half-column"
+    #                      fig_name='fig1.png', bg='gray', grid=True)
+    # ge.multipanel_figure([],
+    #                      width='double-column', # can also be "single-column" or "one-and-a-half-column"
+    #                      fig_name='fig2.png', bg='gray', grid=True)
+    # ge.multipanel_figure([],
+    #                      width='one-and-a-half-column', # can also be "single-column" or "one-and-a-half-column"
+    #                      fig_name='fig3.png', bg='gray', grid=True)
+
     # generate some random data
     t = np.linspace(0, 10, 1e3)
     y = np.cos(5*t)+np.random.randn(len(t))
@@ -324,6 +324,5 @@ if __name__=='__main__':
                          fig_name='docs/multipanel.svg',
                          grid=True, # switch to True to get the Grid position and pricesely place labels if necesary
                          autoposition=True)
-    """
 
 
