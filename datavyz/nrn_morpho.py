@@ -23,7 +23,7 @@ def plot_nrn_shape(graph,
                    comp_type=None,
                    ax=None,
                    center = {'x0':0, 'y0':0., 'z0':0.},
-                   scale_bar=100, bar_scale_loc='top-right',
+                   bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m'),
                    xshift=0.,
                    polar_angle=0, azimuth_angle=np.pi/2., 
                    density_quantity=None,
@@ -92,10 +92,9 @@ def plot_nrn_shape(graph,
     ax.set_aspect('equal')
 
     # adding a bar for the spatial scale
-    if scale_bar is not None and scale_bar>0:
-        graph.draw_bar_scales(ax,
-                              Ybar=scale_bar, Ybar_label=str(scale_bar)+'$\mu$m',
-                              loc=bar_scale_loc)
+    if bar_scale_args is not None:
+        graph.draw_bar_scales(ax, **bar_scale_args)
+        
     ax.axis('off')
         
     return fig, ax
@@ -110,13 +109,15 @@ def add_dot_on_morpho(graph, ax,
                       facecolor='none',
                       marker='o',
                       alpha=1.,
-                      lw=3, s=100):
+                      lw=3, markersize=None):
     """
     """
     
     if edgecolor is None:
         edgecolor = graph.default_color
-
+    if markersize is None:
+        markersize = graph.markersize
+        
     if soma_comp is None:
         print('Need to pass the somatic compartment to project coordinates')
         print('Taking (0, 0, 0) as the default coordinates !')
@@ -128,7 +129,7 @@ def add_dot_on_morpho(graph, ax,
     x, y, _ = coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle)
     
     ax.scatter([1e6*x], [1e6*y],
-               s=s, edgecolors=edgecolor,
+               s=markersize, edgecolors=edgecolor,
                facecolors=facecolor,
                marker=marker, lw=lw, alpha=alpha)
     
@@ -227,7 +228,7 @@ if __name__=='__main__':
     args = parser.parse_args()
 
     from datavyz import ges as ge
-    
+
     # specific modules
     sys.path.append(str(pathlib.Path(__file__).resolve().parents[2]))
     from neural_network_dynamics import main as ntwk # based on Brian2

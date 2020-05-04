@@ -110,9 +110,8 @@ def put_list_of_figs_to_svg_fig(FIGS,
         #     from datavyz..graphs import show
         #     show()
 
-def export_as_png(fig_name, dpi=300):
-    instruction = 'inkscape '+fig_name+' --export-area-drawing --export-png='+\
-                    fig_name.replace('.svg', '.png')+' --export-dpi='+str(dpi)
+def export_as_png(fig_name, dpi=300, background='white'):
+    instruction = 'inkscape %s --export-area-page --export-background="%s" --export-png="%s" --export-dpi=%i' % (fig_name, background, fig_name.replace('.svg', '.png'), dpi)
     print('RUNNING:', instruction)
     os.system(instruction)
     if os.path.isfile(fig_name.replace('.svg', '.png')):
@@ -172,7 +171,7 @@ def multipanel_figure(graph_env,
                       grid=False,
                       autoposition=False,
                       SCALING_FACTOR = 1.34, fontsize=None, fontweight='bold',
-                      export_to_png=False,
+                      export_to_png=False, bg='white',
                       fig_name='fig.svg'):
     """
     
@@ -252,8 +251,12 @@ def multipanel_figure(graph_env,
         sg.Figure("%.1fcm" % (width/10.), "%.1fcm" % (height/10.),
                   *PANELS).scale(SCALING_FACTOR).save(fig_name)
 
-    if export_to_png:
-        export_as_png(fig_name, dpi=300)
+    if fig_name.endswith('.png'):
+        export_as_png(fig_name, dpi=300, background=bg)
+        os.remove(fig_name)
+        print('[ok] removed %s', fig_name)
+    elif export_to_png:
+        export_as_png(fig_name, dpi=300, background=bg)
         
     
 if __name__=='__main__':
@@ -302,8 +305,9 @@ if __name__=='__main__':
                                  ['c'],
                                  ['d', 'e', 'f', 'g']],
                          width='double-column', # can also be "single-column" or "one-and-a-half-column"
+                         export_to_png=True, bg='gray',
                          fig_name='docs/multipanel.svg',
-                         grid=False, # switch to True to get the Grid position and pricesely place labels if necesary
+                         grid=True, # switch to True to get the Grid position and pricesely place labels if necesary
                          autoposition=True)
 
 
