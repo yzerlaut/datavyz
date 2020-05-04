@@ -20,9 +20,11 @@ def coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle):
 
 def plot_nrn_shape(graph,
                    SEGMENTS,
+                   comp_type=None,
                    ax=None,
                    center = {'x0':0, 'y0':0., 'z0':0.},
-                   scale_bar=100, xshift=0.,
+                   scale_bar=100, bar_scale_loc='top-right',
+                   xshift=0.,
                    polar_angle=0, azimuth_angle=np.pi/2., 
                    density_quantity=None,
                    colors=None,
@@ -39,12 +41,18 @@ def plot_nrn_shape(graph,
     else:
         fig = None
 
+
+    if comp_type is None:
+        comp_type = np.unique(SEGMENTS['comp_type'])
+
+    incl_cond = np.array([True if (c in comp_type) else False for c in SEGMENTS['comp_type']])
+    
     # possibility to control the center of the rotation         
-    x0, y0, z0 = center['x0'], center['y0'], center['z0'] 
+    x0, y0, z0 = center['x0'], center['y0'], center['z0']
 
     segments, seg_diameters, circles, circle_colors = [], [], [], []
     
-    for iseg in range(len(SEGMENTS['x'])):
+    for iseg in np.arange(len(SEGMENTS['x']))[incl_cond]:
 
         if (SEGMENTS['start_x'][iseg]==SEGMENTS['end_x'][iseg]) and\
            (SEGMENTS['start_y'][iseg]==SEGMENTS['end_y'][iseg]) and\
@@ -81,22 +89,14 @@ def plot_nrn_shape(graph,
     ax.add_collection(collection)
     ax.autoscale()
 
+    ax.set_aspect('equal')
 
     # adding a bar for the spatial scale
     if scale_bar is not None and scale_bar>0:
-        ax.set_aspect('equal')
-        xlim, ylim = ax.get_xlim(), ax.get_ylim()
-        
-        if annotation_color is None:
-            annotation_color = graph.default_color
-            
-        ax.plot(xlim[0]*np.ones(2), ylim[1]-np.array([0,scale_bar]),
-                lw=1, color=annotation_color)
-        
-        graph.annotate(ax, str(scale_bar)+'$\mu$m', (xlim[0]+1, ylim[1]-1),
-                        xycoords='data', color=annotation_color)
-        
-        ax.axis('off')
+        graph.draw_bar_scales(ax,
+                              Ybar=scale_bar, Ybar_label=str(scale_bar)+'$\mu$m',
+                              loc=bar_scale_loc)
+    ax.axis('off')
         
     return fig, ax
 
@@ -270,11 +270,11 @@ if __name__=='__main__':
         print('[...] loading morphology')
         morpho = ntwk.Morphology.from_swc_file(args.filename)
         print('[...] creating list of compartments')
-        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho,
-                                                         inclusion_condition='comp.type!="axon"')
+        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
     
         fig, ax = plot_nrn_shape(ge,
                                  SEGMENTS,
+                                 # comp_type=['dend', 'soma', 'apic'],
                                  lw=args.linewidth,
                                  polar_angle=args.polar_angle,
                                  azimuth_angle=args.azimuth_angle)
