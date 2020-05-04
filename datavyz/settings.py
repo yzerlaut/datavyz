@@ -18,9 +18,9 @@ ENVIRONMENTS['manuscript'] = {
     'right_size':4., # mm
     'top_size':7., # mm
     'bottom_size':13., # mm
-    'background':'w',
+    'background':'none',
     'facecolor':'w',
-    'transparency':False,
+    'transparency':True,
     'dpi':150,
     'markersize':2.5,
 }
@@ -44,19 +44,20 @@ for key, val in ENVIRONMENTS['manuscript'].items():
 NOTEBOOK ENVIRONMENT
 """
 ENVIRONMENTS['notebook'] = {
-	'fontsize':13,
-	'default_color':'k',
-        'single_plot_size':(28.*2., 20.*2.), # mm
-        'hspace_size':12.*2., # mm
-        'wspace_size':16.*2., # mm
-        'left_size':20*2., # mm
-        'right_size':4.*2., # mm
-        'top_size':7.*2., # mm
-        'bottom_size':19.*2., # mm
-        'background':'w',
-        'facecolor':'w',
-        'transparency':False,
-        'dpi':200,
+    'fontsize':13,
+    'default_color':'k',
+    'single_plot_size':(28.*2., 20.*2.), # mm
+    'hspace_size':12.*2., # mm
+    'wspace_size':16.*2., # mm
+    'left_size':20*2., # mm
+    'right_size':4.*2., # mm
+    'top_size':7.*2., # mm
+    'bottom_size':19.*2., # mm
+    'background':'w',
+    'facecolor':'w',
+    'transparency':False,
+    'dpi':200,
+    'markersize':4.,
 }
 """
 DARK NOTEBOOK ENVIRONMENT
@@ -71,6 +72,7 @@ DARK NOTEBOOK ENVIRONMENT
 #         ENVIRONMENTS['dark_notebook'][key] = val
 ENVIRONMENTS['dark_notebook'] = {
 	'fontsize':13,
+        'markersize':4.,
         'default_color':'lightgray',
         'single_plot_size':(28.*2., 20.*2.), # mm
         'hspace_size':12.*2., # mm
@@ -90,6 +92,7 @@ VISUAL STIMULATION ENVIRONMENT
 """
 ENVIRONMENTS['visual_stim'] = {
 	'fontsize':12,
+        'markersize':4.,
 	'default_color':'w',
         'single_plot_size':(200.*16./9., 200.), # mm
         'hspace_size':1., # mm
