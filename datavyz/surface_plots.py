@@ -17,6 +17,7 @@ def twoD_plot(graph,
               scale='',
               # axes props
               axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
+              fig_args=dict(figsize=(.9,1), with_legend_space=True),
               xlabel=None, ylabel=None, title=None,
               # bar legend
               bar_legend_args=None,
@@ -29,7 +30,7 @@ def twoD_plot(graph,
     """
     
     if (ax is None):
-        fig, ax = graph.figure(figsize=(.9,1), with_legend_space=True)
+        fig, ax = graph.figure(**fig_args)
     else:
         fig = plt.gcf()
         
@@ -101,6 +102,7 @@ def matrix(graph,
            origin='lower',
            # axes props
            axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
+           fig_args=dict(figsize=(.9,1), with_legend_space=True),
            xlabel=None, ylabel=None, title=None,
            # bar legend
            bar_legend_args=None,
@@ -112,7 +114,7 @@ def matrix(graph,
         x, y = np.meshgrid(np.arange(z.shape[0]), np.arange(z.shape[1]), indexing='ij')
         
     if (ax is None) and (acb is None):
-        fig, ax = graph.figure(figsize=(.9,1), with_legend_space=True)
+        fig, ax = graph.figure(**fig_args)
     else:
         fig = plt.gcf()
         
@@ -176,7 +178,6 @@ if __name__=='__main__':
                                                'color_discretization':20})
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
     
-    # fig2.savefig('docs/surface-plot.png')
-
+    fig2.savefig('docs/surface-plot.png')
 
     ge.show()
