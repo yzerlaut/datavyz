@@ -390,7 +390,15 @@ class graph_env:
     def set_plot(self, ax, spines=['left', 'bottom'], **args):
         ap.set_plot(self, ax, spines, **args)
 
-        
+    def add_to_axes_args(self, xlabel, ylabel, title, axes_args):
+        if xlabel is not None:
+            axes_args['xlabel'] = xlabel
+        if ylabel is not None:
+            axes_args['ylabel'] = ylabel
+        if title is not None:
+            axes_args['title'] = title
+        return axes_args
+    
     ################################################
     ###### electrophy plots ########################
     ################################################
