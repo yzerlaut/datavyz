@@ -77,15 +77,15 @@ def twoD_plot(graph,
             bar_legend_args['bounds'] = [vmin, vmax]
         if 'colormap' not in bar_legend_args:
             bar_legend_args['colormap'] = colormap
-        acb = ge.bar_legend(fig, **bar_legend_args)
+        acb = graph.bar_legend(fig, **bar_legend_args)
         
     else:
         
         acb = None
         
-    axes_args = ge.add_to_axes_args(xlabel, ylabel, title, axes_args)
+    axes_args = graph.add_to_axes_args(xlabel, ylabel, title, axes_args)
     
-    ge.set_plot(ax, **axes_args)
+    graph.set_plot(ax, **axes_args)
     
     return fig, ax, acb
     
@@ -140,15 +140,15 @@ def matrix(graph,
             bar_legend_args['bounds'] = [vmin, vmax]
         if 'colormap' not in bar_legend_args:
             bar_legend_args['colormap'] = colormap
-        acb = ge.bar_legend(fig, **bar_legend_args)
+        acb = graph.bar_legend(fig, **bar_legend_args)
         
     else:
         
         acb = None
         
-    axes_args = ge.add_to_axes_args(xlabel, ylabel, title, axes_args)
+    axes_args = graph.add_to_axes_args(xlabel, ylabel, title, axes_args)
     
-    ge.set_plot(ax, **axes_args)
+    graph.set_plot(ax, **axes_args)
     
     return fig, ax, acb
 
