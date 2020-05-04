@@ -244,10 +244,12 @@ def multipanel_figure(graph_env,
                                    transparent=graph_env.transparency)
             PANELS.append(sg.Panel(sg.SVG(LOCATIONS[i][j]).move(X[i][j], Y[i][j])))
 
-            if LABELS[i][j]!='':
-                PANELS.append(sg.Panel(sg.Text(LABELS[i][j], 3, 10, 
+    for i, labels in enumerate(LABELS):
+        for j, label in enumerate(labels):
+            if label!='':
+                PANELS.append(sg.Panel(sg.Text(label, 3, 10, 
                                                size=fontsize, weight=fontweight).move(\
-                                           X_LABELS[i][j],Y_LABELS[i][j])))
+                                                        X_LABELS[i][j],Y_LABELS[i][j])))
 
     if grid:
         sg.Figure("%.1fcm" % (width/10.), "%.1fcm" % (height/10.),
@@ -268,9 +270,11 @@ if __name__=='__main__':
 
     from datavyz import ge
 
-    # ge.multipanel_figure([],
-    #                      width='single-column', # can also be "single-column" or "one-and-a-half-column"
-    #                      fig_name='fig1.png', bg='gray', grid=True)
+    fig, ax = ge.figure()
+    ge.multipanel_figure(fig,
+                         LABELS=[['a'],['b','c']], X_LABELS=[[0],[0,130]], Y_LABELS=[[0],[70,70]],
+                         width='single-column', height=60.,                         
+                         fig_name='fig1.png', bg='gray', grid=True)
     # ge.multipanel_figure([],
     #                      width='double-column', # can also be "single-column" or "one-and-a-half-column"
     #                      fig_name='fig2.png', bg='gray', grid=True)
@@ -278,6 +282,7 @@ if __name__=='__main__':
     #                      width='one-and-a-half-column', # can also be "single-column" or "one-and-a-half-column"
     #                      fig_name='fig3.png', bg='gray', grid=True)
 
+    """
     # generate some random data
     t = np.linspace(0, 10, 1e3)
     y = np.cos(5*t)+np.random.randn(len(t))
@@ -326,3 +331,4 @@ if __name__=='__main__':
                          autoposition=True)
 
 
+    """
