@@ -271,13 +271,5 @@ if __name__=='__main__':
         vis.add_dot(ax, 239, 20, 'r')
         vis.add_circle(ax, 1239, 30., 'b')
         
-        # add_dot_on_morpho(ge, ax,
-        #                   SEGMENTS,
-        #                   index=2000,
-        #                   soma_comp=None,
-        #                   edgecolor=ge.r,
-        #                   # facecolor=ge.r,
-        #                   polar_angle=args.polar_angle,
-        #                   azimuth_angle=args.azimuth_angle)
         
     ge.show()
