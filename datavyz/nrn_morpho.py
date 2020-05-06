@@ -7,132 +7,121 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import viridis_r
 
 
-def coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle):
-    """
-    /!\
-    need to do this propertly, not working yet !!
-    """
-    x = np.cos(polar_angle)*(x-x0)+np.sin(polar_angle)*(y-y0)
-    y = np.sin(polar_angle)*(x-x0)+np.cos(polar_angle)*(y-y0)
-    z = z
-    return x, y, z
+class nrnvyz:
+
+    def __init__(self,
+                 SEGMENTS,
+                 ge=None,
+                 center = {'x0':0, 'y0':0., 'z0':0.},
+                 polar_angle=0, azimuth_angle=np.pi/2.):
+
+        if ge is None:
+            from datavyz import ges as ge
+        self.SEGMENTS = SEGMENTS
+        self.ge = ge
+        self.polar_angle = polar_angle
+        self.azimuth_angle = azimuth_angle
+        self.x0 , self.y0, self.z0 = center['x0'], center['y0'], center['z0']
+        
+
+    def coordinate_projection(self,
+                              x, y, z):
+        """
+        /!\
+        need to do this propertly, not working yet !!
+        """
+        x = np.cos(self.polar_angle)*(x-self.x0)+np.sin(self.polar_angle)*(y-self.y0)
+        y = np.sin(self.polar_angle)*(x-self.x0)+np.cos(self.polar_angle)*(y-self.y0)
+        z = z
+        return x, y, z
 
 
-def plot_nrn_shape(graph,
-                   SEGMENTS,
-                   comp_type=None,
-                   ax=None,
-                   center = {'x0':0, 'y0':0., 'z0':0.},
-                   bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m'),
-                   xshift=0.,
-                   polar_angle=0, azimuth_angle=np.pi/2., 
-                   density_quantity=None,
-                   colors=None,
-                   annotation_color=None,
-                   diameter_magnification=2.,
-                   lw=1):
-    """
-    by default: soma_comp = COMP_LIST[0]
-    """
+    def plot_segments(self,
+                      cond=None,
+                      ax=None, color=None,
+                      bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m'),
+                      fig_args=dict(figsize=(2.,4.),left=0., top=0., bottom=0., right=0.),
+                      diameter_magnification=2.):
+        """
+        by default: soma_comp = COMP_LIST[0]
+        """
 
-    if ax is None:
-        fig, ax = graph.figure(figsize=(2.,4.),
-                               left=0., top=0., bottom=0., right=0.)
-    else:
-        fig = None
-
-
-    if comp_type is None:
-        comp_type = np.unique(SEGMENTS['comp_type'])
-
-    incl_cond = np.array([True if (c in comp_type) else False for c in SEGMENTS['comp_type']])
-    
-    # possibility to control the center of the rotation         
-    x0, y0, z0 = center['x0'], center['y0'], center['z0']
-
-    segments, seg_diameters, circles, circle_colors = [], [], [], []
-    
-    for iseg in np.arange(len(SEGMENTS['x']))[incl_cond]:
-
-        if (SEGMENTS['start_x'][iseg]==SEGMENTS['end_x'][iseg]) and\
-           (SEGMENTS['start_y'][iseg]==SEGMENTS['end_y'][iseg]) and\
-           (SEGMENTS['start_z'][iseg]==SEGMENTS['end_z'][iseg]):
-            
-            # circle of diameter
-            sx, sy, _ = coordinate_projection(SEGMENTS['start_x'][iseg],
-                                              SEGMENTS['start_y'][iseg],
-                                              SEGMENTS['start_z'][iseg],
-                                              x0 ,y0, z0, polar_angle, azimuth_angle)
-            if colors is None:
-                circles.append(mpatches.Circle((1e6*sx, 1e6*sy), 1e6*SEGMENTS['diameter'][iseg]/2., color=graph.default_color))
-            else:
-                circles.append(mpatches.Circle((1e6*sx, 1e6*sy), 1e6*SEGMENTS['diameter'][iseg]/2.,
-                                               color=colors[iseg]))
+        if ax is None:
+            fig, ax = self.ge.figure(**fig_args)
         else:
-            sx, sy, _ = coordinate_projection(SEGMENTS['start_x'][iseg],
-                                              SEGMENTS['start_y'][iseg],
-                                              SEGMENTS['start_z'][iseg],
-                                              x0 ,y0, z0, polar_angle, azimuth_angle)
-            ex, ey, _ = coordinate_projection(SEGMENTS['end_x'][iseg],
-                                              SEGMENTS['end_y'][iseg],
-                                              SEGMENTS['end_z'][iseg],
-                                              x0 ,y0, z0, polar_angle, azimuth_angle)
-            segments.append([(1e6*(sx+xshift), 1e6*sy),(1e6*(ex+xshift), 1e6*ey)])
-            seg_diameters.append(1e6*SEGMENTS['diameter'][iseg])
+            fig = None
 
-    if colors is None:
-        colors = [graph.default_color for i in range(len(segments))]
+        if color is None:
+            color = self.ge.default_color
+            
 
-    line_segments = LineCollection(segments, linewidths=seg_diameters, colors=colors, linestyles='solid')
-    ax.add_collection(line_segments)
-    collection = PatchCollection(circles)
-    ax.add_collection(collection)
-    ax.autoscale()
+        segments, seg_diameters, circles, circle_colors = [], [], [], []
 
-    ax.set_aspect('equal')
+        nseg = len(self.SEGMENTS['x'])
+        if cond is None:
+            cond = np.ones(nseg, dtype=bool)
+            
+        for iseg in np.arange(nseg)[cond]:
 
-    # adding a bar for the spatial scale
-    if bar_scale_args is not None:
-        graph.draw_bar_scales(ax, **bar_scale_args)
+            if (self.SEGMENTS['start_x'][iseg]==self.SEGMENTS['end_x'][iseg]) and\
+               (self.SEGMENTS['start_y'][iseg]==self.SEGMENTS['end_y'][iseg]) and\
+               (self.SEGMENTS['start_z'][iseg]==self.SEGMENTS['end_z'][iseg]):
+
+                # circle of diameter
+                sx, sy, _ = self.coordinate_projection(self.SEGMENTS['start_x'][iseg],
+                                                       self.SEGMENTS['start_y'][iseg],
+                                                       self.SEGMENTS['start_z'][iseg])
+                circles.append(mpatches.Circle((1e6*sx, 1e6*sy),
+                                               1e6*self.SEGMENTS['diameter'][iseg]/2.))
+            else:
+                sx, sy, _ = self.coordinate_projection(self.SEGMENTS['start_x'][iseg],
+                                                       self.SEGMENTS['start_y'][iseg],
+                                                       self.SEGMENTS['start_z'][iseg])
+                ex, ey, _ = self.coordinate_projection(self.SEGMENTS['end_x'][iseg],
+                                                       self.SEGMENTS['end_y'][iseg],
+                                                       self.SEGMENTS['end_z'][iseg])
+                segments.append([(1e6*sx, 1e6*sy), (1e6*ex, 1e6*ey)])
+                seg_diameters.append(1e6*self.SEGMENTS['diameter'][iseg])
+
+        line_segments = LineCollection(segments, linewidths=seg_diameters,
+                                       colors=[color for i in range(len(segments))],
+                                       linestyles='solid')
+        ax.add_collection(line_segments)
+        collection = PatchCollection(circles,
+                                     facecolors=[color for i in range(len(circles))])
+        ax.add_collection(collection)
+        ax.autoscale()
+
+        ax.set_aspect('equal')
+
+        # adding a bar for the spatial scale
+        if bar_scale_args is not None:
+            self.ge.draw_bar_scales(ax, **bar_scale_args)
+
+        ax.axis('off')
+
+        return fig, ax
+
+    def add_circle(self, ax, iseg, size,
+                   color='r', facecolor='none',
+                   marker='o', alpha=1., lw=2.):
+        # adds a round circle
+        x, y, z = self.SEGMENTS['x'][iseg], self.SEGMENTS['y'][iseg], self.SEGMENTS['z'][iseg]
+        x, y, _ = self.coordinate_projection(x, y, z)
+        ax.scatter([1e6*x], [1e6*y], s=size, edgecolors=color,
+                   linewidths=lw,
+                   facecolors=facecolor, marker=marker, alpha=alpha)
+
+    def add_dot(self, ax, iseg, size,
+                edgecolor='none', color='r', marker='o', alpha=1.):
+        # adds a filled circle
+        x, y, z = self.SEGMENTS['x'][iseg], self.SEGMENTS['y'][iseg], self.SEGMENTS['z'][iseg]
+        x, y, _ = self.coordinate_projection(x, y, z)
+        ax.scatter([1e6*x], [1e6*y],
+                   s=size, edgecolors=edgecolor,
+                   facecolors=color, marker=marker, alpha=alpha)
+
         
-    ax.axis('off')
-        
-    return fig, ax
-
-def add_dot_on_morpho(graph, ax,
-                      comp,
-                      index=0,
-                      soma_comp=None,
-                      polar_angle=0, azimuth_angle=np.pi/2., 
-                      color=None,
-                      edgecolor=None,
-                      facecolor='none',
-                      marker='o',
-                      alpha=1.,
-                      lw=3, markersize=None):
-    """
-    """
-    
-    if edgecolor is None:
-        edgecolor = graph.default_color
-    if markersize is None:
-        markersize = graph.markersize
-        
-    if soma_comp is None:
-        print('Need to pass the somatic compartment to project coordinates')
-        print('Taking (0, 0, 0) as the default coordinates !')
-        x0, y0, z0 = 0, 0, 0
-    else:
-        [x0, y0, z0] = soma_comp[0].x, soma_comp[0].y, soma_comp[0].z
-        
-    x, y, z = comp['x'][index], comp['y'][index], comp['z'][index]
-    x, y, _ = coordinate_projection(x, y, z, x0 ,y0, z0, polar_angle, azimuth_angle)
-    
-    ax.scatter([1e6*x], [1e6*y],
-               s=markersize, edgecolors=edgecolor,
-               facecolors=facecolor,
-               marker=marker, lw=lw, alpha=alpha)
-    
 
 def dist_to_soma(comp, soma):
     return np.sqrt((comp.x-soma.x)**2+\
@@ -273,20 +262,22 @@ if __name__=='__main__':
         print('[...] creating list of compartments')
         SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
     
-        fig, ax = plot_nrn_shape(ge,
-                                 SEGMENTS,
-                                 # comp_type=['dend', 'soma', 'apic'],
-                                 lw=args.linewidth,
-                                 polar_angle=args.polar_angle,
-                                 azimuth_angle=args.azimuth_angle)
+        vis = nrnvyz(SEGMENTS,
+                     polar_angle=args.polar_angle,
+                     azimuth_angle=args.azimuth_angle,
+                     ge=ge)
+        fig, ax = vis.plot_segments()
+
+        vis.add_dot(ax, 239, 20, 'r')
+        vis.add_circle(ax, 1239, 30., 'b')
         
-        add_dot_on_morpho(ge, ax,
-                          SEGMENTS,
-                          index=2000,
-                          soma_comp=None,
-                          edgecolor=ge.r,
-                          # facecolor=ge.r,
-                          polar_angle=args.polar_angle,
-                          azimuth_angle=args.azimuth_angle)
+        # add_dot_on_morpho(ge, ax,
+        #                   SEGMENTS,
+        #                   index=2000,
+        #                   soma_comp=None,
+        #                   edgecolor=ge.r,
+        #                   # facecolor=ge.r,
+        #                   polar_angle=args.polar_angle,
+        #                   azimuth_angle=args.azimuth_angle)
         
     ge.show()

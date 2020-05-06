@@ -170,9 +170,9 @@ def draw_bar_scales(graph,
                     orientation=None,
                     xyLoc=None, 
                     Xbar_label2='',Ybar_label2='',
-                    xcolor=None, ycolor=None, ycolor2='k',
+                    color=None, xcolor=None, ycolor=None, ycolor2=None,
                     fontsize=None,
-                    shift_factor=20., color='k', lw=1):
+                    shift_factor=20., lw=1):
     """
     USE:
 
@@ -184,10 +184,14 @@ def draw_bar_scales(graph,
 
     if fontsize is None:
         fontsize = graph.fontsize
+    if color is None:
+        color = graph.default_color
     if xcolor is None:
         xcolor = graph.default_color
     if ycolor is None:
         ycolor = graph.default_color
+    if ycolor2 is None:
+        ycolor2 = graph.colors[0]
 
 
     if type(loc) is tuple:
