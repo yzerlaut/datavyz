@@ -7,3 +7,4 @@ ge = graph_env_manuscript
 ges = graph_env_screen
 gen = graph_env_notebook
 gedn = graph_env_dark_notebook
+from datavyz.nrn_morpho import nrnvyz

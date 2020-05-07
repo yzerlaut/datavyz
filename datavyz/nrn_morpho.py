@@ -104,23 +104,39 @@ class nrnvyz:
 
     def add_circle(self, ax, iseg, size,
                    color='r', facecolor='none',
-                   marker='o', alpha=1., lw=2.):
+                   marker='o', alpha=1., lw=2., zorder=10):
         # adds a round circle
         x, y, z = self.SEGMENTS['x'][iseg], self.SEGMENTS['y'][iseg], self.SEGMENTS['z'][iseg]
         x, y, _ = self.coordinate_projection(x, y, z)
         ax.scatter([1e6*x], [1e6*y], s=size, edgecolors=color,
                    linewidths=lw,
-                   facecolors=facecolor, marker=marker, alpha=alpha)
+                   facecolors=facecolor, marker=marker, alpha=alpha,
+                   zorder=zorder)
 
     def add_dot(self, ax, iseg, size,
-                edgecolor='none', color='r', marker='o', alpha=1.):
+                edgecolor='none', color='r', marker='o', alpha=1., zorder=10):
         # adds a filled circle
         x, y, z = self.SEGMENTS['x'][iseg], self.SEGMENTS['y'][iseg], self.SEGMENTS['z'][iseg]
         x, y, _ = self.coordinate_projection(x, y, z)
         ax.scatter([1e6*x], [1e6*y],
                    s=size, edgecolors=edgecolor,
-                   facecolors=color, marker=marker, alpha=alpha)
+                   facecolors=color, marker=marker, alpha=alpha,
+                   zorder=zorder)
 
+    def add_circles(self, ax, isegs, sizes,
+                   color='r', facecolor='none', marker='o', alpha=1., lw=2., zorder=10):
+        x, y, z = self.SEGMENTS['x'][isegs], self.SEGMENTS['y'][isegs], self.SEGMENTS['z'][isegs]
+        x, y, _ = self.coordinate_projection(x, y, z)
+        ax.scatter(1e6*x, 1e6*y, s=size, edgecolors=color, linewidths=lw, facecolors=facecolor, marker=marker, alpha=alpha,
+                   zorder=zorder)
+
+    def add_dots(self, ax, isegs, sizes,
+                edgecolor='none', color='r', marker='o', alpha=1., zorder=10):
+        # adds a filled circle
+        x, y, z = self.SEGMENTS['x'][isegs], self.SEGMENTS['y'][isegs], self.SEGMENTS['z'][isegs]
+        x, y, _ = self.coordinate_projection(x, y, z)
+        ax.scatter(1e6*x, 1e6*y, s=sizes, edgecolors=edgecolor, facecolors=color, marker=marker, alpha=alpha,
+                   zorder=zorder)
         
 
 def dist_to_soma(comp, soma):
