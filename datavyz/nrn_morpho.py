@@ -114,7 +114,7 @@ class nrnvyz:
                    zorder=zorder)
 
     def add_dot(self, ax, iseg, size,
-                edgecolor='none', color='r', marker='o', alpha=1., zorder=10):
+                color='r', edgecolor='none', marker='o', alpha=1., zorder=10):
         # adds a filled circle
         x, y, z = self.SEGMENTS['x'][iseg], self.SEGMENTS['y'][iseg], self.SEGMENTS['z'][iseg]
         x, y, _ = self.coordinate_projection(x, y, z)
@@ -131,7 +131,7 @@ class nrnvyz:
                    zorder=zorder)
 
     def add_dots(self, ax, isegs, sizes,
-                edgecolor='none', color='r', marker='o', alpha=1., zorder=10):
+                color='r', edgecolor='none', marker='o', alpha=1., zorder=10):
         # adds a filled circle
         x, y, z = self.SEGMENTS['x'][isegs], self.SEGMENTS['y'][isegs], self.SEGMENTS['z'][isegs]
         x, y, _ = self.coordinate_projection(x, y, z)
@@ -284,7 +284,7 @@ if __name__=='__main__':
                      ge=ge)
         fig, ax = vis.plot_segments()
 
-        vis.add_dot(ax, 239, 20, 'r')
+        vis.add_dot(ax, 239, 20, 'b')
         vis.add_circle(ax, 1239, 30., 'b')
         
         
