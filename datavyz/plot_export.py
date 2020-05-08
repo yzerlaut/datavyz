@@ -111,7 +111,7 @@ def put_list_of_figs_to_svg_fig(FIGS,
         #     show()
 
 def export_as_png(fig_name, dpi=300, background='white'):
-    instruction = 'inkscape %s --export-area-page --export-background="%s" --export-png="%s" --export-dpi=%i' % (fig_name, background, fig_name.replace('.svg', '.png'), dpi)
+    instruction = 'inkscape %s --export-area-page --export-background="%s" --export-type=png --export-filename="%s" --export-dpi=%i' % (fig_name, background, fig_name.replace('.svg', '.png'), dpi)
     print('RUNNING:', instruction)
     os.system(instruction)
     if os.path.isfile(fig_name.replace('.svg', '.png')):
@@ -261,7 +261,7 @@ def multipanel_figure(graph_env,
     if fig_name.endswith('.png'):
         export_as_png(fig_name.replace('.png', '.svg'), dpi=300, background=bg)
         os.remove(fig_name.replace('.png', '.svg'))
-        # print('[ok] removed %s' % fig_name.replace('.png', '.svg'))
+        print('[ok] removed %s' % fig_name.replace('.png', '.svg'))
     elif export_to_png:
         export_as_png(fig_name, dpi=300, background=bg)
         
@@ -271,8 +271,8 @@ if __name__=='__main__':
     from datavyz import ge
 
     fig, ax = ge.figure()
-    ge.multipanel_figure(fig,
-                         LABELS=[['a'],['b','c']], X_LABELS=[[0],[0,130]], Y_LABELS=[[0],[70,70]],
+    ge.multipanel_figure([],
+                         # LABELS=[['a'],['b','c']], X_LABELS=[[0],[0,130]], Y_LABELS=[[0],[70,70]],
                          width='single-column', height=60.,                         
                          fig_name='fig1.png', bg='gray', grid=True)
     ge.multipanel_figure([],
