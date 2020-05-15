@@ -79,7 +79,7 @@ if __name__=='__main__':
 
     for ge in [geS, geM]:
         fig, ax = ge.plot(t, x,
-                          fig_args=dict(figsize=(3,1), left=.4, bottom=.5),
+                          fig_args=dict(axes_extents=(3,1), left=.4, bottom=.5),
                           bar_scale_args = dict(Xbar=.2,Xbar_label='0.2s',
                                                 Ybar=20,Ybar_label='20mV ',
                                                 loc='left-bottom'))
