@@ -156,3 +156,4 @@ if __name__=='__main__':
     
     # # ge.bar(np.random.randn(5), yerr=.3*np.random.randn(5), bottom=-3, COLORS=ge.colors[:5])
     ge.show()
+    

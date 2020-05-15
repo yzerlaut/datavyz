@@ -22,6 +22,7 @@ import datavyz.single_cell_plots as scp
 from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 from datavyz.dynamic_plot import movie_plot, animated_plot
 from datavyz.time_freq import time_freq_plot
+from datavyz.neurophysio import Ca_trace_plot
 
 from datavyz.colors import *
 
@@ -409,6 +410,10 @@ class graph_env:
     ################################################
     ###### electrophy plots ########################
     ################################################
+
+    def Ca_trace_plot(self, Data, **args):
+        return Ca_trace_plot(self, Data, **args)
+
     def response_to_current_pulse(self, t, Vm, I, spikes, **args):
         return scp.response_to_current_pulse(self, t, Vm, I, spikes, **args)
 
