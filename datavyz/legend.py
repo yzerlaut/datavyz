@@ -123,16 +123,15 @@ def build_bar_legend(ax_cb, X, mymap,
         bounds = np.logspace(bounds[0], bounds[1], color_discretization)
     elif scale is 'custom':
         bounds = np.linspace(X[0]+(X[1]-X[0])/2., X[-1]+(X[1]-X[0])/2., color_discretization)
-        
     norm = mpl.colors.BoundaryNorm(bounds, mymap.N)
     cb = mpl.colorbar.ColorbarBase(ax_cb, cmap=mymap, norm=norm,\
                                    orientation=orientation, alpha=alpha)
     if no_ticks:
         cb.set_ticks([])
     else:
-        cb.set_ticks(X, color=font_color)
+        cb.set_ticks(X)
         if ticks_labels is not None:
-            cb.set_ticklabels(ticks_labels, color=font_color)
+            cb.set_ticklabels(ticks_labels)
         
     return cb
 

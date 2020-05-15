@@ -10,6 +10,7 @@ from datavyz.hist_plots import hist
 
 def cross_correl_plot_func(graph, data, features=None,
                            figsize=(.8,.7),
+                           inset=dict(rect=[.87,.3,.02,.3]),
                            fig_args={'right':15.},
                            ms=3, many_data=False):
     """
@@ -82,11 +83,12 @@ def cross_correl_plot_func(graph, data, features=None,
                                xlim=LIMS[i], ylim=LIMS[j],
                                num_xticks=3, num_yticks=3, yticks_labels=[], xticks_labels=[])
 
-    ax = plt.axes([.85,.3,.02,.3])
-    graph.build_bar_legend(np.arange(len(significance)+1),\
-                           ax, mymap,\
-                           ticks_labels=['n.s.', '$<$0.1', '$<$0.02', '$<$0.001'],
-                           label='Significance \n \n (p, Pearson correl.)')
+    graph.bar_legend(fig,
+                     inset=inset,
+                     X=np.arange(len(significance)+1),
+                     colormap=mymap,\
+                     ticks_labels=['n.s.', '$<$0.1', '$<$0.02', '$<$0.001'],
+                     label='Significance \n \n (p, Pearson correl.)')
                  
 
     return fig

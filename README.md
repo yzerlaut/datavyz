@@ -384,6 +384,36 @@ fig, AX = ge.components_plot(pca.components_)
 </p>
 
 
+### Time-frequency plots
+
+Plotting the quantities following a time-frequency analysis (e.g. a wavelet transform below):
+
+```
+# import continuous wavelet transform
+from analyz.freq_analysis.wavelet_transform import my_cwt 
+
+dt, tstop = 1e-4, 1.
+t = np.arange(int(tstop/dt))*dt
+
+freq1, width1, freq2, width2, freq3, width3 = 10., 100e-3, 40., 40e-3, 70., 20e-3
+data = 3.2+np.cos(2*np.pi*freq1*t)*np.exp(-(t-.5)**2/2./width1**2)+\
+    np.cos(2*np.pi*freq2*t)*np.exp(-(t-.2)**2/2./width2**2)+\
+    np.cos(2*np.pi*freq3*t)*np.exp(-(t-.8)**2/2./width3**2)
+
+# Continuous Wavelet Transform analysis
+freqs = np.linspace(1, 90, 40)
+coefs = my_cwt(data, freqs, dt)
+
+fig, AX = ge.time_freq_plot(t, freqs, data, coefs)    
+
+ge.savefig(fig, 'docs/time-freq.png')
+```
+
+<p align="center">
+  <img src="docs/time-freq-plot.png"/>
+</p>
+
+
 ### Insets
 
 ```
