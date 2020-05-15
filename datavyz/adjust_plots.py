@@ -283,8 +283,7 @@ def scale_figure(height_to_width, A0_ratio, x_plots, y_plots,
 
 if __name__=='__main__':
 
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
+    from datavyz import ge
 
     fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
     ax2 = ax.twinx()
@@ -292,11 +291,11 @@ if __name__=='__main__':
     ax2.plot(np.log10(np.logspace(-2,3,100)), np.exp(np.random.randn(100)), 'o', ms=1, color=ge.red)
     ge.set_plot(ax2, ['right'],
                 yscale='log',
-                ylabel='blabal',
+                ylabel='blabla',
                 # yticks_rotation=20, size='x-small',
                 tck_outward=2, ycolor=ge.red)
     ge.set_plot(ax, ycolor=ge.blue, xcolor='k',
                 yscale='log', xscale='already-log10', ylabel='blabal', 
                 tck_outward=2, xlabel='trying', ylabelpad=-5)
-    fig.savefig('docs/twin-log-scale.svg')
+    ge.savefig(fig, 'docs/twin-log-scale.png')
     ge.show()

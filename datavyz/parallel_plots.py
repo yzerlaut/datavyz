@@ -12,7 +12,7 @@ def parallel_plot(graph, Y,
                   tick_number = 5, tick_size=0.01,
                   expansion_factor=0.01,
                   color='k', lw=0.5,
-                  fig_args=dict(bottom=.5, left=.5, right=2.),
+                  fig_args=dict(bottom=1., left=.7, right=3.),
                   label_annotation_args=dict(va='top', ha='center',rotation=0.),                  
                   ticks_annotation_args=dict(size='small', color='k', va='center'),
                   ax=None):
@@ -86,9 +86,9 @@ def components_plot(graph,
                     features_label='features',
                     components_label='components',
                     axes_args={'size':'small', 'ha':'right', 'va':'center'},
-                    fig_args=dict(figsize=(2.,.4), left=.5, top=5)):
+                    fig_args=dict(figsize=(2.,.4), top=2., left=.5)):
 
-    fig, AX = graph.figure(axes=(components.shape[0],1), **fig_args)
+    fig, AX = graph.figure(axes=(1,components.shape[0]), **fig_args)
 
     SET_OF_LIMS = [(y1,y2) for (y1,y2) in zip(components.min(axis=0), components.max(axis=0))]
     for i, ax in enumerate(AX):
@@ -106,7 +106,7 @@ def components_plot(graph,
 
 if __name__=='__main__':
     
-    from datavyz import gedn as ge
+    from datavyz import ge
 
     # LOADING THE DATA
     from sklearn.datasets import load_breast_cancer
@@ -114,14 +114,13 @@ if __name__=='__main__':
 
     # PERFORMING PCA
     from sklearn.decomposition import PCA as sklPCA
-    pca = sklPCA(n_components=10)
+    pca = sklPCA(n_components=4)
     pca.fit_transform(data['data'])
 
     # PLOT
     fig, AX = ge.components_plot(pca.components_)
     ge.savefig(fig, 'docs/components-plot.png')
     ge.show()
-
 
     from sklearn.datasets import load_iris
     dataset = load_iris()

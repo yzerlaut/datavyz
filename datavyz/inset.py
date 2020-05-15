@@ -63,5 +63,5 @@ if __name__=='__main__':
     sax2 = ge.inset(fig, [0.1, 0.1, .3, .2])
     ge.hist(y, bins=10, ax=sax, axes_args={'spines':[]}, xlabel='y-value')
     ge.hist(y, bins=10, ax=sax2, axes_args={'spines':[]}, xlabel='y-value')
-    # fig.savefig('docs/inset.svg')
+    ge.savefig(fig, 'docs/inset.png')
     ge.show()

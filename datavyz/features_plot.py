@@ -36,8 +36,7 @@ def features_plot(graph, data,
 if __name__=='__main__':
 
     
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
+    from datavyz import ge
     
     # breast cancer dataset from datavyz.klearn
     from sklearn.datasets import load_breast_cancer
@@ -48,10 +47,8 @@ if __name__=='__main__':
         data[feature+'\n(log)'] = np.log(values)
         
     fig, AX = ge.features_plot(data, ms=3)
-    fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                os.path.pardir, 'docs', 'features-plot.png')
-    fig.savefig(fig_location)
-    print('Figure saved as: ', fig_location)
+
+    ge.savefig(fig, 'docs/features-plot.png')
     ge.show()
 
 
