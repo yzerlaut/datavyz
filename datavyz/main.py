@@ -21,6 +21,7 @@ from datavyz.pie_plots import pie
 import datavyz.single_cell_plots as scp
 from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 from datavyz.dynamic_plot import movie_plot, animated_plot
+from datavyz.time_freq import time_freq_plot
 
 from datavyz.colors import *
 
@@ -399,6 +400,12 @@ class graph_env:
             axes_args['title'] = title
         return axes_args
     
+    ################################################
+    ###### signal plots ########################
+    ################################################
+    def time_freq_plot(self, t, freqs, data, coefs, **args):
+        return time_freq_plot(self, t, freqs, data, coefs, **args)
+
     ################################################
     ###### electrophy plots ########################
     ################################################
