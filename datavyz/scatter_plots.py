@@ -91,16 +91,14 @@ def multiple_curves(ax, X, Y, sX, sY, COLORS, LABELS,
 
 if __name__=='__main__':
     
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
+    from datavyz import ge
     
     fig, ax = ge.scatter(Y=np.random.randn(4, 10),
                          sY=np.random.randn(4, 10),
                          xlabel='xlabel (xunit)',
                          ylabel='ylabel (yunit)',
                          title='datavyz demo plot')
-    fig.savefig('docs/scatter.svg')
-    ge.show()
+    ge.savefig(fig, 'docs/scatter.png')
 
     # two_variable_analysis(np.random.randn(10), np.random.randn(10),
     #                       colormap=viridis)
