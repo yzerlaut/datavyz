@@ -330,7 +330,7 @@ if __name__=='__main__':
 
     from datavyz import ge
     
-    fig, AX= ge.figure(axes=(1,10), figsize=(.7,.7), bottom=1.5)
+    fig, AX= ge.figure(axes=(10,1), figsize=(.7,.7), bottom=1.5)
     for i, ax in enumerate(AX):
         ge.top_left_letter(ax, ge.int_to_roman(i+1))
         ge.matrix(np.random.randn(10,10), ax=ax)
@@ -338,7 +338,7 @@ if __name__=='__main__':
     sax = ge.arrow(fig, [0.04, .2, .93, 0.])
     ge.annotate(fig, 'time', (.5, .17), ha='center')
 
-    fig.savefig('docs/annotations1.svg')
+    ge.savefig(fig, 'docs/annotations1.png')
     ge.show()
     
     # from datavyz..graphs import *

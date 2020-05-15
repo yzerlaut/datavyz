@@ -87,9 +87,7 @@ def pie(graph, data,
 
 if __name__=='__main__':
     
-    from datavyz.main import graph_env
-
-    ge = graph_env('manuscript')
+    from datavyz import ge
 
     data = .5+np.abs(np.random.randn(3))*.4
 
@@ -103,5 +101,4 @@ if __name__=='__main__':
                      COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
                      # pie_args=dict(rotate=90), # e.g. for rotation
                      legend=None)  # set legend={} to have it appearing
-    fig.savefig('docs/pie-plot.png')
-    ge.show()
+    ge.savefig(fig, 'docs/pie-plot.png')

@@ -84,7 +84,9 @@ if __name__=='__main__':
                                                 Ybar=20,Ybar_label='20mV ',
                                                 loc='left-bottom'))
 
-    line = ge.multicolored_line(t, np.ones(len(t)), np.linspace(0, 1, len(t)), ax=ax)
+    line = ge.multicolored_line(t,
+                                np.ones(len(t)),
+                                np.linspace(0, 1, len(t)), ax=ax)
     
-    # fig.savefig('docs/trace-plot.svg')
+    ge.savefig(fig, 'docs/trace-plot.png')
     geS.show()

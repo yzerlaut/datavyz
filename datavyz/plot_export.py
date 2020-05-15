@@ -270,6 +270,7 @@ if __name__=='__main__':
 
     from datavyz import ge
 
+    """
     fig, ax = ge.figure()
     ge.multipanel_figure([],
                          # LABELS=[['a'],['b','c']], X_LABELS=[[0],[0,130]], Y_LABELS=[[0],[70,70]],
@@ -326,9 +327,9 @@ if __name__=='__main__':
                                  ['d', 'e', 'f', 'g']],
                          width='double-column', # can also be "single-column" or "one-and-a-half-column"
                          export_to_png=True, bg='gray',
-                         fig_name='docs/multipanel.svg',
-                         grid=True, # switch to True to get the Grid position and pricesely place labels if necesary
+                         fig_name='docs/multipanel.png',
+                         grid=False, # switch to True to get the Grid position and pricesely place labels if necesary
                          autoposition=True)
 
 
-    """
+
