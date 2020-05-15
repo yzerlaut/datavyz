@@ -326,7 +326,7 @@ if __name__=='__main__':
                                  ['c'],
                                  ['d', 'e', 'f', 'g']],
                          width='double-column', # can also be "single-column" or "one-and-a-half-column"
-                         export_to_png=True, bg='gray',
+                         # bg='gray',
                          fig_name='docs/multipanel.png',
                          grid=False, # switch to True to get the Grid position and pricesely place labels if necesary
                          autoposition=True)
