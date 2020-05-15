@@ -13,7 +13,6 @@ def bar(graph, y,
         lw=0, alpha=1., bottom=0.,
         color='silver', COLORS=None,
         xlabel='', ylabel='', title='', label='',
-        figsize=(1.,1.),
         fig_args={},
         axes_args={},
         legend_args=None,
@@ -24,7 +23,7 @@ def bar(graph, y,
     """
     # getting or creating the axis
     if ax is None:
-        fig, ax = graph.figure(figsize=figsize, **fig_args)
+        fig, ax = graph.figure(**fig_args)
     else:
         fig = graph.gcf()
         
@@ -72,9 +71,8 @@ def related_samples_two_conditions_comparison(graph,
                                               color1='#1f77b4', color2='#ff7f0e',
                                               ylabel='value',
                                               xticks=[0, 1],
-                                              figsize=(.7,1.),
                                               xticks_labels=['cond1', 'cond2'],
-                                              fig_args=dict(right=6., left=1.2),
+                                              fig_args=dict(right=4., figsize=(.7,1.), left=1.2, top=1.5),
                                               colormap=None):
 
     if len(first_observations)!=len(second_observations):
@@ -85,7 +83,7 @@ def related_samples_two_conditions_comparison(graph,
     if colormap is None:
         def colormap(x):return 'k'
         
-    fig, ax = graph.figure(figsize=figsize, **fig_args)
+    fig, ax = graph.figure(**fig_args)
     
     for i in range(len(first_observations)):
         ax.plot([0, 1], [first_observations[i], second_observations[i]], '-', lw=lw, color=colormap(i/(len(first_observations)-1)))
@@ -94,7 +92,7 @@ def related_samples_two_conditions_comparison(graph,
     ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw)
     
     if with_annotation:
-        ax.annotate('paired t-test:\n p=%.2f' % pval, (.99,.4), xycoords='axes fraction')
+        graph.title(ax, 'paired t-test:\np=%.2f' % pval)
         
     graph.set_plot(ax, ylabel=ylabel,
              xticks=xticks,
@@ -112,13 +110,12 @@ def unrelated_samples_two_conditions_comparison(graph,
                                                 color1='#1f77b4', color2='#ff7f0e',
                                                 ylabel='value',
                                                 xticks=[0, 1],
-                                                figsize=(.7, 1.),
-                                                fig_args=dict(right=6., left=1.2),
+                                                fig_args=dict(right=4., figsize=(.7,1.), left=1.2, top=1.5),
                                                 xticks_labels=['cond1', 'cond2']):
 
     pval = ttest_ind(first_observations, second_observations)[1]
 
-    fig, ax = graph.figure(figsize=figsize, **fig_args)
+    fig, ax = graph.figure(**fig_args)
     
     for i in range(len(first_observations)):
         ax.plot([0+np.random.randn()*.1], [first_observations[i]], 'o', ms=2, color=color1)
@@ -128,7 +125,7 @@ def unrelated_samples_two_conditions_comparison(graph,
     ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw, alpha=.7)
     
     if with_annotation:
-        ax.annotate('unpaired\n  t-test:\n p=%.2f' % pval, (.99,.4), xycoords='axes fraction')
+        graph.title(ax, 'unpaired t-test:\np=%.2f' % pval)
         
     graph.set_plot(ax, ylabel=ylabel,
              xticks=xticks,
@@ -147,18 +144,15 @@ if __name__=='__main__':
     #     xticks_rotation=75)
     
     fig, ax, pval = ge.related_samples_two_conditions_comparison(np.random.randn(10)+2., np.random.randn(10)+2.,
-                                                                 xticks_labels=['$\||$cc($V_m$,$V_{ext}$)$\||$', '$cc(V_m,pLFP)$'],
-                                                                 xticks_rotation=45, fig_args={'bottom':1.5, 'right':8.})
-    fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir,'docs/related-samples.png')
-    fig.savefig(fig_location)
-    print('Figure saved as: ', fig_location)
+                                                                 xticks_labels=['Ctrl', 'Test'],
+                                                                 xticks_rotation=45)
 
+    ge.savefig(fig, 'docs/related-samples.png')
+    
     fig, ax, pval = ge.unrelated_samples_two_conditions_comparison(np.random.randn(10)+2., np.random.randn(10)+2.,
-                                                                   xticks_labels=['$\||$cc($V_m$,$V_{ext}$)$\||$', '$cc(V_m,pLFP)$'],
-                                                                   xticks_rotation=45, fig_args={'bottom':1.5, 'right':8.})
-    fig_location = os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir,'docs/unrelated-samples.png')
-    fig.savefig(fig_location)
-    print('Figure saved as: ', fig_location)
+                                                                   xticks_labels=['Ctrl', 'Test'],
+                                                                   xticks_rotation=45)
+    ge.savefig(fig, 'docs/unrelated-samples.png')
     
     # # ge.bar(np.random.randn(5), yerr=.3*np.random.randn(5), bottom=-3, COLORS=ge.colors[:5])
     ge.show()
