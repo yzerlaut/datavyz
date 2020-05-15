@@ -3,6 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.
 import matplotlib.pylab as plt
 import numpy as np
 
+    
 def raster_plot(graph, SPK_LIST, ID_LIST,
                 tlim=None,
                 ID_ZOOM_LIST=None,
@@ -90,6 +91,8 @@ def POP_ACT_PLOT(t, POP_ACT_LIST, tlim=None, pop_act_zoom=None,
     set_plot(ax, xlabel='time (ms)', ylabel='pop. act. (Hz)',\
                       ylim=pop_act_zoom)
     return fig, ax
+
+
 
 if __name__=='__main__':
 
