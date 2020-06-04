@@ -23,6 +23,7 @@ ENVIRONMENTS['manuscript'] = {
     'transparency':True,
     'dpi':150,
     'markersize':2.5,
+    'linewidth':1,
 }
 
 

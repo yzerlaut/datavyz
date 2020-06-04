@@ -24,7 +24,7 @@ from datavyz.dynamic_plot import movie_plot, animated_plot
 from datavyz.time_freq import time_freq_plot
 from datavyz.neurophysio import Ca_trace_plot
 
-from datavyz.colors import *
+from datavyz.colors import give_color_attributes, viridis, binary_r
 
 from datavyz.settings import set_env_variables #, update_rcParams
     

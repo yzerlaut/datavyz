@@ -4,44 +4,47 @@ from matplotlib.cm import viridis, viridis_r, copper, copper_r, cool, jet,\
 
 import matplotlib.colors as mpl_colors
 
-# CUSTOM colors
-Blue, Orange, Green, Red, Purple, Brown, Pink, Grey,\
-    Kaki, Cyan = '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',\
-    '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'
-
-Color_List = [Blue, Orange, Green, Red, Purple, Brown, Pink, Grey, Kaki, Cyan]
-
 def get_linear_colormap(color1='blue', color2='red'):
     return mpl_colors.LinearSegmentedColormap.from_list('mycolors',[color1, color2])
 
-
 def give_color_attributes(cls):
 
-    # an array with the default colors
-    cls.colors = [Blue, Orange, Green, Red, Purple, Brown, Pink, Grey, Kaki, Cyan]
+    # colors
+    cls.colors = []
+    for name in list(mpl_colors.TABLEAU_COLORS):
+        setattr(cls, name.replace('tab:',''), mpl_colors.TABLEAU_COLORS[name])
+        cls.colors.append(mpl_colors.TABLEAU_COLORS[name])
+    for name in list(mpl_colors.CSS4_COLORS):
+        if not hasattr(cls, name): # not set by "tab" (e.g. not "blue")
+            setattr(cls, name, mpl_colors.CSS4_COLORS[name])
+            cls.colors.append(mpl_colors.CSS4_COLORS[name])
 
-    # color attributes with their names
-    cls.blue, cls.orange, cls.green, cls.red, cls.purple, cls.brown,\
-        cls.pink, cls.grey, cls.kaki, cls.cyan = Blue,\
-            Orange, Green, Red, Purple, Brown, Pink, Grey, Kaki, Cyan
-    
-    cls.viridis, cls.viridis_r, cls.copper, cls.copper_r, cls.cool, cls.jet,\
-     cls.PiYG, cls.binary, cls.binary_r, cls.bone = viridis, viridis_r, copper, copper_r,\
-                                         cool, jet, PiYG, binary, binary_r, bone
-    
-    cls.Pastel1, cls.Pastel2, cls.Paired, cls.Accent, cls.Dark2,\
-        cls.Set1, cls.Set2, cls.Set3, cls.tab10, cls.tab20,\
-        cls.tab20b, cls.tab20c = Pastel1, Pastel2, Paired,\
-        Accent, Dark2, Set1, Set2, Set3, tab10, tab20, tab20b, tab20c
+    # color maps
+    cls.cmaps = []
+    for color in [viridis, viridis_r, copper, copper_r, cool, jet, PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2, Set3, tab10, tab20, tab20b, tab20c]:
+        setattr(cls, color.name, color)
+        cls.cmaps.append(color)
 
-    cls.cmaps = [viridis, viridis_r, copper, copper_r, cool, jet, PiYG]
-    cls.blue_to_red = get_linear_colormap(Blue, Red)
-    cls.red_to_blue = get_linear_colormap(Red, Blue)
-    cls.blue_to_orange = get_linear_colormap(Blue, Orange)
-    cls.green_to_red = get_linear_colormap(Green, Red)
-    cls.red_to_green = get_linear_colormap(Red, Green)
-    cls.green_to_orange = get_linear_colormap(Green, Orange)
-    cls.orange_to_green = get_linear_colormap,(Orange, Green)
-    cls.b, cls.o, cls.g, cls.r = cls.blue, cls.orange, cls.green, cls.red
+    # then some linear colormaps
+    for (c1, c2) in zip(['blue', 'red', 'blue', 'green', 'red', 'green', 'orange'],
+                        ['red', 'blue', 'orange', 'red', 'green', 'orange', 'green']):
+        setattr(cls, '%s_to_%s' % (c1, c2),
+                get_linear_colormap(getattr(cls, c1), getattr(cls, c2)))
 
     cls.get_linear_colormap = get_linear_colormap
+
+    
+if __name__=='__main__':
+
+    import numpy as np
+    from datavyz import ges as ge
+
+    colors = ['tab:blue', 'tab:red']
+    fig, ax = ge.figure()
+    for i, c in enumerate(ge.colors[:3]):
+        ge.scatter([i], [i], color=c, ax=ax, no_set=True)
+    fig, ax = ge.figure()
+    for i, x in enumerate(np.linspace(0, 1, 50)):
+        ax.scatter([i], [x], color=ge.get_linear_colormap(ge.blue, ge.red)(x))
+    ge.show()
+    

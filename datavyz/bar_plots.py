@@ -7,7 +7,7 @@ from scipy.stats import ttest_rel, ttest_ind
 
 
 def bar(graph, y,
-        yerr=None,
+        sy=None,
         bins=None, width=None,
         ax=None,
         lw=0, alpha=1., bottom=0.,
@@ -38,10 +38,10 @@ def bar(graph, y,
     if axes_args=={}:
         axes_args = {'xticks':bins, 'xticks_labels':[]}
 
-    if yerr is None:
-        yerr = 0.*y
+    if sy is None:
+        sy = 0.*y
         
-    ax.bar(bins, y, yerr=yerr, width=width,
+    ax.bar(bins, y, yerr=sy, width=width,
            color=COLORS,
            lw=lw, alpha=alpha,
            bottom=bottom)
