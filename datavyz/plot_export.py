@@ -225,6 +225,8 @@ def multipanel_figure(graph_env,
         width = 85.
     elif width=='one-and-a-half-column':
         width = 114.
+    elif width=='one-column-and-a-half':
+        width = 114.
     elif width=='double-column':
         width = 174.
 
