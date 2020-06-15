@@ -61,28 +61,23 @@ ENVIRONMENTS['notebook'] = {
     'dpi':200,
     'markersize':4.,
 }
+
 """
 DARK NOTEBOOK ENVIRONMENT
 """
-# "screen" is just an expanded version of 
-# ENVIRONMENTS['dark_notebook'] = {'facecolor':'none',
-#                                  'default_color':'lightgray',
-#                                  'fontsize':12.,
-#                                  'transparency':True}
-# for key, val in ENVIRONMENTS['notebook'].items():
-#     if key not in ENVIRONMENTS['dark_notebook']:
-#         ENVIRONMENTS['dark_notebook'][key] = val
+FACTOR = 3.5
 ENVIRONMENTS['dark_notebook'] = {
-	'fontsize':13,
-        'markersize':4.,
+	'fontsize':15,
+        'markersize':5.,
+        'linewidth':2.,
         'default_color':'lightgray',
-        'single_plot_size':(28.*2., 20.*2.), # mm
-        'hspace_size':12.*2., # mm
-        'wspace_size':16.*2., # mm
-        'left_size':20*2., # mm
-        'right_size':4.*2., # mm
-        'top_size':7.*2., # mm
-        'bottom_size':19.*2., # mm
+        'single_plot_size':(28.*FACTOR, 20.*FACTOR), # mm
+        'hspace_size':12.*FACTOR, # mm
+        'wspace_size':16.*FACTOR, # mm
+        'left_size':20*FACTOR, # mm
+        'right_size':4.*FACTOR, # mm
+        'top_size':7.*FACTOR, # mm
+        'bottom_size':19.*FACTOR, # mm
         'background':'none',
         'facecolor':'none',
         'transparency':True,
