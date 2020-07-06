@@ -328,8 +328,8 @@ class graph_env:
     def annotate(self, stuff, s, xy, **args):
         annotations.annotate(self, stuff, s, xy, **args)
 
-    def top_left_letter(self, stuff, s, **args):
-        annotations.annotate(self, stuff, s, (0,1), ha='right', bold=True, **args)
+    def top_left_letter(self, stuff, s, loc=(0,1), **args):
+        annotations.annotate(self, stuff, s, loc, ha='right', bold=True, **args)
 
     def panel_label(self, stuff, s, xy=(-.01,1.01), size='large', ha='right', bold=True, **args):
         annotations.annotate(self, stuff, s, xy, size=size, ha=ha, bold=bold, **args)
