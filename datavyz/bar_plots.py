@@ -35,7 +35,7 @@ def bar(graph, y,
         bins = np.arange(len(y))
     if width is None and (len(bins)>1):
         width = .9*(bins[1]-bins[0])
-    else:
+    elif width is None:
         width = .5
         
         
