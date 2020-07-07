@@ -11,8 +11,9 @@ def bar(graph, y,
         bins=None, width=None,
         ax=None,
         lw=0, alpha=1., bottom=0.,
-        color='silver', COLORS=None,
+        color='silver',
         xlabel='', ylabel='', title='', label='',
+        COLORS=None,
         fig_args={},
         axes_args={},
         legend_args=None,
@@ -32,19 +33,22 @@ def bar(graph, y,
         
     if bins is None:
         bins = np.arange(len(y))
-    if width is None:
+    if width is None and (len(bins)>1):
         width = .9*(bins[1]-bins[0])
+    else:
+        width = .5
+        
         
     if axes_args=={}:
         axes_args = {'xticks':bins, 'xticks_labels':[]}
 
     if sy is None:
-        sy = 0.*y
+        sy = 0.*np.array(y)
         
     ax.bar(bins, y, yerr=sy, width=width,
            color=COLORS,
            lw=lw, alpha=alpha,
-           bottom=bottom)
+           bottom=bottom, label=label)
 
     if legend_args is not None:
         ax.legend(**legend_args)
