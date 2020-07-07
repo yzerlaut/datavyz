@@ -11,7 +11,6 @@ def inset(graph, stuff,
         facecolor = graph.facecolor
         
     if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
-        
         subax = stuff.add_axes(rect,facecolor=facecolor)
     else:
         fig = graph.gcf()
