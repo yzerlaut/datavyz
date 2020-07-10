@@ -21,7 +21,7 @@ def twoD_plot(graph,
               xlabel=None, ylabel=None, title=None,
               # bar legend
               bar_legend_args=None,
-              aspect='equal',
+              aspect='auto',
               interpolation='none'):
     """
     surface plots for x, y and z 1 dimensional data
