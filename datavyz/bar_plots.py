@@ -36,7 +36,7 @@ def bar(graph, y,
     if width is None and (len(bins)>1):
         width = .9*(bins[1]-bins[0])
     elif width is None:
-        width = .5
+        width = .75
         
         
     if axes_args=={}:
