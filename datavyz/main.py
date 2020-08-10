@@ -267,6 +267,14 @@ class graph_env:
     def hist(self, x, **args):
         return hist(self, x, **args)
 
+    def boxplot(self, data,
+                fig_args=dict(figsize=(.6,1.)),
+                axes_args={}, **args):
+        fig, ax = self.figure(**fig_args)
+        ax.boxplot(data, **args)
+        self.set_plot(ax, **axes_args)
+        return fig, ax
+    
     # bar plot
     def bar(self, x, **args):
         return bar(self, x, **args)
@@ -566,6 +574,10 @@ if __name__=='__main__':
     # mg.hist(np.random.randn(100), xlabel='ksjdfh')
     
     from datavyz import ges as ge
+
+    # ge.boxplot(np.exp(np.random.randn(100)),
+    #            axes_args=dict(xticks=[1],
+    #                           xticks_labels=['data']))
     
     fig_lf, AX = ge.figure(axes_extents=[[[3,1]],[[1,2],[1,2],[1,2]]], figsize=(1.,.5), wspace=3., hspace=2.)
     for ax in [item for sublist in AX for item in sublist]:
