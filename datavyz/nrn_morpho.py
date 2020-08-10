@@ -282,7 +282,11 @@ if __name__=='__main__':
                      polar_angle=args.polar_angle,
                      azimuth_angle=args.azimuth_angle,
                      ge=ge)
-        fig, ax = vis.plot_segments()
+        if args.without_axon:
+            fig, ax = vis.plot_segments(cond=(SEGMENTS['comp_type']!='axon'))
+            fig.suptitle(args.filename.split(os.path.sep)[-1].split('.')[0])
+        else:
+            fig, ax = vis.plot_segments()
 
         vis.add_dot(ax, 239, 20, 'b')
         vis.add_circle(ax, 1239, 30., 'b')
