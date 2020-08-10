@@ -6,6 +6,7 @@ from matplotlib.cm import viridis
 from matplotlib.collections import LineCollection
 
 def single_curve(ax, x, y, sy,
+                 sy1=None, sy2=None,
                  color='k',
                  lw=1, ms=0, ls='-', m='',
                  label=None, alpha=1.,
@@ -13,7 +14,10 @@ def single_curve(ax, x, y, sy,
     # we print a single curve
     ax.plot(x, y, color=color, lw=lw, label=label, linestyle=ls, marker=m, ms=ms, alpha=alpha)
     # then errorbars if needed:
-    if (sy is not None):
+    if (sy1 is not None) and (sy2 is not None) :
+        ax.fill_between(x, y-sy1, y+sy2,
+                        color=color, lw=0, alpha=alpha_std)
+    elif (sy is not None):
         ax.fill_between(x, y-sy, y+sy,
                         color=color, lw=0, alpha=alpha_std)
 
@@ -40,6 +44,7 @@ def multicolored_line(graph, x, y, norm_color_value,
     return fig, ax, line
 
 def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
+                    sY1=None, sY2=None,
                     lw=1, ms=0, ls='-', m='', alpha=1.,
                     alpha_std=0.3, colormap=viridis):
     
@@ -54,7 +59,11 @@ def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
                 lw=lw, marker=m, ms=ms, label=l, alpha=alpha)
 
     # then errorbars if needed:
-    if (sY is not None):
+    if (sY1 is not None) and (sY2 is not None) :
+        for x, y, sy1, sy2, c in zip(X, Y, sY1, sY2, COLORS):
+            ax.fill_between(x, y-sy1, y+sy2,
+                            color=c, lw=0, alpha=alpha_std)
+    elif (sY is not None):
         for x, y, sy, c in zip(X, Y, sY, COLORS):
             ax.fill_between(x, y-sy, y+sy,
                             color=c, lw=0, alpha=alpha_std)
