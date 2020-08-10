@@ -108,8 +108,8 @@ class graph_env:
 
 
     def plot(self,
-             x=None, y=None, sy=None, color=None,
-             X=None, Y=None, sY=None,
+             x=None, y=None, sy=None, sy1=None, sy2=None, color=None,
+             X=None, Y=None, sY=None, sY1=None, sY2=None,
              COLORS=None, colormap=viridis,
              fig = None, ax=None,
              lw=1, alpha_std=0.3, ms=0, m='', ls='-',alpha=1.,
@@ -142,12 +142,14 @@ class graph_env:
                 X = [np.arange(len(y)) for y in Y]
 
             line_plots.multiple_curves(ax, X, Y, sY, COLORS, LABELS,
+                                       sY1=sY1, sY2=sY2,
                                        alpha_std=alpha_std,
                                        colormap=colormap,
                                        lw=lw, ls=ls, m=m, ms=ms,
                                        alpha=alpha)
         else:
             line_plots.single_curve(ax, x, y, sy,
+                                    sy1=sy1, sy2=sy2,
                                     color=color,
                                     alpha_std=alpha_std,
                                     lw=lw, label=label, ls=ls, m=m, ms=ms,
