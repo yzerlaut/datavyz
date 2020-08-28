@@ -34,14 +34,15 @@ def bar_legend(graph, stuff,
         cb = build_bar_legend_continuous(ax_cb, colormap,
                                          bounds=bounds,
                                          ticks=ticks,
-                                         ticks_labels=ticks,
+                                         ticks_labels=ticks_labels,
                                          orientation=orientation,
                                          alpha=alpha,
                                          scale=scale)
     else:
         cb = build_bar_legend(ax_cb, X,
                               colormap,
-                              scale=scale, bounds=bounds,
+                              scale=scale,
+                              bounds=bounds,
                               orientation=orientation,
                               color_discretization=color_discretization,
                               no_ticks=no_ticks,
@@ -246,7 +247,7 @@ def legend(graph, ax,
 
 if __name__=='__main__':
 
-    from datavyz import ge
+    from datavyz import ges as ge
 
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
     

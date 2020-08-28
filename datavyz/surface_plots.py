@@ -175,6 +175,8 @@ if __name__=='__main__':
     fig2, ax, acb = twoD_plot(ge, x, y, z,
                               vmin=-7, vmax=7,
                               bar_legend_args={'label':'color',
+                                               'ticks':[-7, 0, 7],
+                                               'ticks_labels':['-7', '0', '>7'],
                                                'color_discretization':20})
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
     
