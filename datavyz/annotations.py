@@ -205,7 +205,7 @@ def draw_bar_scales(graph,
         print('Y-bar label automatically set to: ', Ybar_label, ' Using the format', Ybar_label_format, ' --> adjust it and add units through the format !')
 
     if type(loc) is tuple:
-        xyLoc = loc
+        xyLoc = xlim[0]+loc[0]*(xlim[1]-xlim[0]), ylim[0]+loc[1]*(ylim[1]-ylim[0])
         
     if (loc in ['top-right', 'right-top']) or (orientation in ['left-bottom','bottom-left']):
 
