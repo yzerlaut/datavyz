@@ -164,14 +164,14 @@ def int_to_roman(integer, capitals=False):
 
 def draw_bar_scales(graph,
                     ax,
-                    Xbar=0., Xbar_label='',
-                    Ybar=0., Ybar_label='',
-                    loc='left-bottom',
+                    Xbar=0., Xbar_label='', Xbar_fraction=0.1, Xbar_label_format='%.1f',
+                    Ybar=0., Ybar_label='', Ybar_fraction=0.1, Ybar_label_format='%.1f',
+                    loc='top-left',
                     orientation=None,
                     xyLoc=None, 
                     Xbar_label2='',Ybar_label2='',
                     color=None, xcolor=None, ycolor=None, ycolor2=None,
-                    fontsize=None,
+                    fontsize=None, size='normal',
                     shift_factor=20., lw=1):
     """
     USE:
@@ -183,7 +183,7 @@ def draw_bar_scales(graph,
     """
 
     if fontsize is None:
-        fontsize = graph.fontsize
+        fontsize = set_fontsize(graph, size)
     if color is None:
         color = graph.default_color
     if xcolor is None:
@@ -193,6 +193,16 @@ def draw_bar_scales(graph,
     if ycolor2 is None:
         ycolor2 = graph.colors[0]
 
+    xlim, ylim = ax.get_xlim(), ax.get_ylim()
+
+    if Xbar==0:
+        Xbar = (xlim[1]-xlim[0])*Xbar_fraction
+        Xbar_label = Xbar_label_format % Xbar
+        print('X-bar label automatically set to: ', Xbar_label, ' Using the format', Xbar_label_format, ' --> adjust it and add units through the format !')
+    if Ybar==0:
+        Ybar = (ylim[1]-ylim[0])*Ybar_fraction
+        Ybar_label = Ybar_label_format % Ybar
+        print('Y-bar label automatically set to: ', Ybar_label, ' Using the format', Ybar_label_format, ' --> adjust it and add units through the format !')
 
     if type(loc) is tuple:
         xyLoc = loc
@@ -200,7 +210,7 @@ def draw_bar_scales(graph,
     if (loc in ['top-right', 'right-top']) or (orientation in ['left-bottom','bottom-left']):
 
         if xyLoc is None:
-            xyLoc = (ax.get_xlim()[1]-0.05*(ax.get_xlim()[1]-ax.get_xlim()[0]), ax.get_ylim()[1]-0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
+            xyLoc = (xlim[1]-0.05*(xlim[1]-xlim[0]), ax.get_ylim()[1]-0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
             
         ax.plot(xyLoc[0]-np.arange(2)*Xbar,xyLoc[1]+np.zeros(2), lw=lw, color=color)
         ax.plot(xyLoc[0]+np.zeros(2),xyLoc[1]-np.arange(2)*Ybar, lw=lw, color=color)
@@ -213,7 +223,7 @@ def draw_bar_scales(graph,
     elif (loc in ['top-left', 'left-top']) or (orientation in ['right-bottom','bottom-right']):
         
         if xyLoc is None:
-            xyLoc = (ax.get_xlim()[0]+0.05*(ax.get_xlim()[1]-ax.get_xlim()[0]), ax.get_ylim()[1]-0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
+            xyLoc = (xlim[0]+0.05*(xlim[1]-xlim[0]), ax.get_ylim()[1]-0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
             
         ax.plot(xyLoc[0]+np.arange(2)*Xbar,xyLoc[1]+np.zeros(2), lw=lw, color=color)
         ax.plot(xyLoc[0]+np.zeros(2),xyLoc[1]-np.arange(2)*Ybar, lw=lw, color=color)
@@ -226,7 +236,7 @@ def draw_bar_scales(graph,
     elif (loc in ['bottom-right', 'right-bottom']) or (orientation in ['left-top','top-left']):
         
         if xyLoc is None:
-            xyLoc = (ax.get_xlim()[1]-0.05*(ax.get_xlim()[1]-ax.get_xlim()[0]), ax.get_ylim()[0]+0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
+            xyLoc = (xlim[1]-0.05*(xlim[1]-xlim[0]), ax.get_ylim()[0]+0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
             
         ax.plot(xyLoc[0]-np.arange(2)*Xbar,xyLoc[1]+np.zeros(2), lw=lw, color=color)
         ax.plot(xyLoc[0]+np.zeros(2),xyLoc[1]+np.arange(2)*Ybar, lw=lw, color=color)
@@ -240,7 +250,7 @@ def draw_bar_scales(graph,
     elif (loc in ['bottom-left', 'left-bottom']) or (orientation in ['right-top','top-right']):
         
         if xyLoc is None:
-            xyLoc = (ax.get_xlim()[0]+0.05*(ax.get_xlim()[1]-ax.get_xlim()[0]), ax.get_ylim()[0]+0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
+            xyLoc = (xlim[0]+0.05*(xlim[1]-xlim[0]), ax.get_ylim()[0]+0.05*(ax.get_ylim()[1]-ax.get_ylim()[0]))
             
         ax.plot(xyLoc[0]+np.arange(2)*Xbar,xyLoc[1]+np.zeros(2), lw=lw, color=color)
         ax.plot(xyLoc[0]+np.zeros(2),xyLoc[1]+np.arange(2)*Ybar, lw=lw, color=color)
