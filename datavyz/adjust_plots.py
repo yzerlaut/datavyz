@@ -161,7 +161,7 @@ def adjust_spines(graph, ax, spines, tck_outward=3, tck_length=4.,
     for loc, spine in ax.spines.items():
         if loc in spines:
             spine.set_position(('outward', tck_outward)) # outward by 10 points by default
-            spine.set_smart_bounds(True)
+            # spine.set_smart_bounds(True)
             ax.xaxis.set_tick_params(length=tck_length)
             ax.yaxis.set_tick_params(length=tck_length)
         else:
