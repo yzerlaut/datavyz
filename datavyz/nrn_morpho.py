@@ -39,7 +39,7 @@ class nrnvyz:
     def plot_segments(self,
                       cond=None,
                       ax=None, color=None,
-                      bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m'),
+                      bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m', Xbar=1e-10, Xbar_label=''),
                       fig_args=dict(figsize=(2.,4.),left=0., top=0., bottom=0., right=0.),
                       diameter_magnification=2.):
         """
