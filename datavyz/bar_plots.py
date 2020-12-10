@@ -71,7 +71,7 @@ def related_samples_two_conditions_comparison(graph,
                                               second_observations,
                                               with_annotation=True,
                                               xticks_rotation=0,
-                                              lw=.5,
+                                              lw=.5, bottom=0.,
                                               color1='#1f77b4', color2='#ff7f0e',
                                               ylabel='value',
                                               xticks=[0, 1],
@@ -92,11 +92,11 @@ def related_samples_two_conditions_comparison(graph,
     for i in range(len(first_observations)):
         ax.plot([0, 1], [first_observations[i], second_observations[i]], '-', lw=lw, color=colormap(i/(len(first_observations)-1)))
         
-    ax.bar([0], [np.mean(first_observations)], yerr=np.std(first_observations), color=color1, lw=lw)
-    ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw)
+    ax.bar([0], [np.mean(first_observations)], yerr=np.std(first_observations), color=color1, lw=lw, bottom=bottom)
+    ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw, bottom=bottom)
     
     if with_annotation:
-        graph.title(ax, 'paired t-test:\np=%.2f' % pval)
+        graph.title(ax, 'paired t-test:\np=%.1e' % pval)
         
     graph.set_plot(ax, ylabel=ylabel,
              xticks=xticks,
@@ -110,7 +110,7 @@ def unrelated_samples_two_conditions_comparison(graph,
                                                 second_observations,
                                                 with_annotation=True,
                                                 xticks_rotation=0,
-                                                lw=.5,
+                                                lw=.5, bottom=0.,
                                                 color1='#1f77b4', color2='#ff7f0e',
                                                 ylabel='value',
                                                 xticks=[0, 1],
@@ -125,11 +125,11 @@ def unrelated_samples_two_conditions_comparison(graph,
         ax.plot([0+np.random.randn()*.1], [first_observations[i]], 'o', ms=2, color=color1)
         ax.plot([1+np.random.randn()*.1], [second_observations[i]], 'o', ms=2, color=color2)
         
-    ax.bar([0], [np.mean(first_observations)], yerr=np.std(first_observations), color=color1, lw=lw, alpha=.7)
-    ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw, alpha=.7)
+    ax.bar([0], [np.mean(first_observations)], yerr=np.std(first_observations), color=color1, lw=lw, alpha=.7, bottom=bottom)
+    ax.bar([1], [np.mean(second_observations)], yerr=np.std(second_observations), color=color2, lw=lw, alpha=.7, bottom=bottom)
     
     if with_annotation:
-        graph.title(ax, 'unpaired t-test:\np=%.2f' % pval)
+        graph.title(ax, 'unpaired t-test:\np=%.1e' % pval)
         
     graph.set_plot(ax, ylabel=ylabel,
              xticks=xticks,
