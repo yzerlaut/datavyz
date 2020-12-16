@@ -202,6 +202,8 @@ def multipanel_figure(graph_env,
             X.append([0]+list(np.cumsum(x)))
             y = [dy+Y[-1][0] for dy in y]
         Y.append([np.max(y)])
+        print('X = ', X)
+        print('Y = ', Y)
     
     if X is None:
         X = [[0 for fig in lfig] for lfig in FIGS]
