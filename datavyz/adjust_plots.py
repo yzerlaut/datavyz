@@ -248,7 +248,7 @@ def set_ticks_to_log10_axis(axis, bounds, normed_to_unit=False, fontsize=8):
         axis.set_ticks(np.log10(minor_ticks), minor=True)
     
 
-def scale_graphs_boudaries(x_plots, y_plots,
+def scale_graphs_boundaries(x_plots, y_plots,
                            wspace=0.2, hspace=0.2,
                            left=0.3, right=0.9,
                            bottom=0.3, top=0.9):

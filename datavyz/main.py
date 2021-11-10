@@ -459,7 +459,23 @@ class graph_env:
             else:
                 List.append(ax)        
         return np.array(List).flatten()
-    
+
+    def set_common_xlims(self, AX, lims=None):
+        if lims is None:
+            lims = [np.inf, -np.inf]
+            for ax in self.flat(AX):
+                lims = [np.min([ax.get_xlim()[0], lims[0]]), np.max([ax.get_xlim()[1], lims[1]])]
+        for ax in self.flat(AX):
+            ax.set_xlim(lims)
+            
+    def set_common_ylims(self, AX, lims=None):
+        if lims is None:
+            lims = [np.inf, -np.inf]
+            for ax in self.flat(AX):
+                lims = [np.min([ax.get_ylim()[0], lims[0]]), np.max([ax.get_ylim()[1], lims[1]])]
+        for ax in self.flat(AX):
+            ax.set_ylim(lims)
+        
     ##################################################
     ######  FIG OUTPUT  ##############################
     ##################################################
@@ -604,6 +620,7 @@ if __name__=='__main__':
     ge.panel_label(ax, 'a')
     ge.annotate(ax, 'blabla', (0.7, 0.8), italic=True)
     ge.set_plot(ax)
+    ge.set_common_xlims(AX)
     ge.show()
 
 
