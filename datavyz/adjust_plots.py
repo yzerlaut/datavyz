@@ -265,7 +265,7 @@ def scale_figure(height_to_width, A0_ratio, x_plots, y_plots,
                  left=0.3, right=0.9,
                  bottom=0.3, top=0.9):
 
-    SCALE = scale_graphs_boudaries(x_plots, y_plots,
+    SCALE = scale_graphs_boundaries(x_plots, y_plots,
                                    wspace=wspace, hspace=hspace,
                                    left=left, right=right,
                                    bottom=bottom, top=top)
