@@ -24,9 +24,10 @@ def response_to_current_pulse(graph, t, Vm, I, spikes,
         for tt in spikes:
             ax.plot([tt,tt], [Vm.max(), Vpeak], 'k:', lw=1)
         
-    graph.draw_bar_scales(ax, loc,
-                          Tbar, "%ims" % Tbar,
-                          Vm_scale, "%imV" % Vm_scale,
+    graph.draw_bar_scales(ax, 
+                          Xbar=Tbar, Xbar_label="%ims"%Tbar,
+                          Ybar=Vm_scale, Ybar_label="%imV" % Vm_scale,
+                          loc=loc,
                           orientation='right-top',
                           Ybar_label2="%ipA" % DI, ycolor2='grey')
     graph.set_plot(ax, [])
