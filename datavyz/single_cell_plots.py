@@ -10,8 +10,7 @@ def response_to_current_pulse(graph, t, Vm, I, spikes,
                               Vpeak=-10,
                               with_artificial_spikes=True):
 
-    fig, ax = graph.figure(figsize=(1.2,.8),
-                           bottom=0.01, left=0.01, right=0.01, top=0.01)
+    fig, ax = graph.figure(figsize=(1.2,.8))
     
     ax.plot(t, Vm, 'k-', lw=1)
     try:
@@ -27,8 +26,8 @@ def response_to_current_pulse(graph, t, Vm, I, spikes,
     graph.draw_bar_scales(ax, 
                           Xbar=Tbar, Xbar_label="%ims"%Tbar,
                           Ybar=Vm_scale, Ybar_label="%imV" % Vm_scale,
-                          loc=loc,
-                          orientation='right-top',
+                          # loc=loc,
+                          # orientation='right-top',
                           Ybar_label2="%ipA" % DI, ycolor2='grey')
     graph.set_plot(ax, [])
     return fig, ax
