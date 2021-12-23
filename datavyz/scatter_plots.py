@@ -41,13 +41,14 @@ def two_variable_analysis(first_observations,
 
 
 def single_curve(ax, x, y, sx, sy,
-                 color='k-', marker='o',
+                 color='k', edgecolor='None', marker='o', alpha=1,
                  label='',
                  lw=0, ms=3, elw=1):
     if (sy is None) and (sx is None):
-        ax.errorbar(x, y, fmt='o-',
-                  color=color,
-                  lw=lw, ms=ms, label=label)
+        ax.scatter(x, y, marker=marker,
+                   color=color, edgecolor=edgecolor,
+                   alpha=alpha, lw=lw, s=ms,
+                   label=label)
     elif (sy is None):
         ax.errorbar(x, y, xerr=sx,
                     marker=marker, color=color,
@@ -97,11 +98,16 @@ if __name__=='__main__':
     
     from datavyz import ge
     
-    fig, ax = ge.scatter(Y=np.random.randn(4, 10),
-                         sY=np.random.randn(4, 10),
+    fig, ax = ge.scatter(np.random.randn(20),
+                         np.random.randn(20),
+                         color='none', edgecolor=ge.brown, lw=5, alpha=.3, ms=20,
                          xlabel='xlabel (xunit)',
-                         ylabel='ylabel (yunit)',
-                         title='datavyz demo plot')
+                         ylabel='ylabel (yunit)')
+    # fig, ax = ge.scatter(Y=np.random.randn(4, 10),
+    #                      sY=np.random.randn(4, 10),
+    #                      xlabel='xlabel (xunit)',
+    #                      ylabel='ylabel (yunit)',
+    #                      title='datavyz demo plot')
     # ge.savefig(fig, 'docs/scatter.png')
 
     ge.two_variable_analysis(np.random.randn(10), np.random.randn(10),

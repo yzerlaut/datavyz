@@ -184,8 +184,9 @@ class graph_env:
         return fig, ax
 
     def scatter(self,
-                x=None, y=None, sx=None, sy=None, color=None,
+                x=None, y=None, sx=None, sy=None, 
                 X=None, Y=None, sX=None, sY=None,
+                color=None, edgecolor=None, alpha=1.,
                 COLORS=None, colormap=viridis,
                 ax=None, fig=None,
                 lw=0, alpha_std=0.3,
@@ -227,9 +228,8 @@ class graph_env:
                                           lw=lw, ms=ms)
         else:
             scatter_plots.single_curve(ax, x, y, sx, sy,
-                                       color=color, label=label,
-                                       lw=lw,
-                                       ms=ms)
+                                       color=color, edgecolor=edgecolor, alpha=alpha,
+                                       label=label, lw=lw, ms=ms)
 
         if bar_legend_args is not None:
             cb = add_inset(ax, **bar_legend_args)
