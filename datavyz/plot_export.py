@@ -6,7 +6,10 @@ from tempfile import gettempdir
 from matplotlib.backends.backend_pdf import PdfPages
 
 # SPECIAL PYTHON PACKAGES FOR:
-import svgutils.compose as sg # SVG
+try:
+    import svgutils.compose as sg # SVG
+except ModuleNotFoundError:
+    print(' /!\  "svgutils" not installed ! get it with: "pip install svgutils" ')
 # import fpdf # PDF
 from PIL import Image # BITMAP (png, jpg, ...)
 ### /!\ need to have the inkscape 

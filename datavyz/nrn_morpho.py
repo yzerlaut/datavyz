@@ -236,7 +236,7 @@ if __name__=='__main__':
 
     # specific modules
     sys.path.append(str(pathlib.Path(__file__).resolve().parents[2]))
-    from neural_network_dynamics import main as ntwk # based on Brian2
+    from neural_network_dynamics import ntwk, cell # based on Brian2
 
     
     if (args.filename=='') and (args.directory==''):
@@ -255,7 +255,7 @@ if __name__=='__main__':
         n = 0
         for fn, ax in zip(file_list, ge.flat(AX)):
             morpho = ntwk.Morphology.from_swc_file(os.path.join(args.directory, fn))
-            SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
+            SEGMENTS = cell.morpho_analysis.compute_segments(morpho)
             colors = [ge.green if comp_type=='axon' else ge.red for comp_type in SEGMENTS['comp_type']]
             plot_nrn_shape(ge, SEGMENTS, colors=colors, ax=ax)
             ge.title(ax, fn.split('-')[0], bold=True, style='italic', size='')
@@ -265,19 +265,19 @@ if __name__=='__main__':
             n+=1
     else:
 
-        if args.movie_demo:
-            t = np.arange(100)*1e-3
-            Quant = np.array([.5*(1-np.cos(20*np.pi*t))*i/len(SEGMENT_LIST['xcoords']) \
-                              for i in np.arange(len(SEGMENT_LIST['xcoords']))])*20-70
-            ani = show_animated_time_varying_trace(1e3*t, Quant, SEGMENT_LIST,
-                                                   fig, ax,
-                                                   polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
-
         print('[...] loading morphology')
         morpho = ntwk.Morphology.from_swc_file(args.filename)
         print('[...] creating list of compartments')
-        SEGMENTS = ntwk.morpho_analysis.compute_segments(morpho)
+        SEGMENTS = cell.morpho_analysis.compute_segments(morpho)
     
+        # if args.movie_demo:
+        #     t = np.arange(100)*1e-3
+        #     Quant = np.array([.5*(1-np.cos(20*np.pi*t))*i/len(SEGMENTS['xcoords']) \
+        #                       for i in np.arange(len(SEGMENTS['xcoords']))])*20-70
+        #     ani = show_animated_time_varying_trace(1e3*t, Quant, SEGMENTS,
+        #                                            fig, ax,
+        #                                            polar_angle=args.polar_angle, azimuth_angle=args.azimuth_angle)
+
         vis = nrnvyz(SEGMENTS,
                      polar_angle=args.polar_angle,
                      azimuth_angle=args.azimuth_angle,
@@ -290,6 +290,5 @@ if __name__=='__main__':
 
         vis.add_dot(ax, 239, 20, 'b')
         vis.add_circle(ax, 1239, 30., 'b')
-        
-        
+                
     ge.show()
