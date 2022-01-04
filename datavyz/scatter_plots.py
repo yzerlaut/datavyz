@@ -10,6 +10,7 @@ def two_variable_analysis(first_observations,
                           cls=None,
                           with_correl_annotation=True,
                           ylabel='y-value', xlabel='x-value',
+                          fig_args={'right':4}, axes_args={},
                           colormap=None, ms=4):
 
     if len(first_observations)!=len(second_observations):
@@ -19,9 +20,10 @@ def two_variable_analysis(first_observations,
         from datavyz import ge as cls
     
     if colormap is None:
-        def colormap(x):return 'k'
+        def colormap(x):
+            return 'k'
         
-    fig, ax = cls.figure(right=4.)
+    fig, ax = cls.figure(**fig_args)
     
     for i in range(len(first_observations)):
         ax.plot([first_observations[i]], [second_observations[i]], 'o', color=colormap(i/(len(first_observations)-1)), ms=ms)
@@ -34,8 +36,13 @@ def two_variable_analysis(first_observations,
         cls.annotate(ax, '  Pearson\ncorrelation:\n c=%.2f,\n p=%.2f' % (c, pval), (.99,1.), va='top')
     else:
         c, pval = 0., 1.
+
+    if 'xlabel' not in axes_args:
+        axes_args['xlabel'] = xlabel
+    if 'ylabel' not in axes_args:
+        axes_args['ylabel'] = ylabel
         
-    cls.set_plot(ax, ylabel=ylabel, xlabel=xlabel)
+    cls.set_plot(ax, **axes_args)
     
     return fig, ax, c, pval
 
@@ -111,6 +118,6 @@ if __name__=='__main__':
     # ge.savefig(fig, 'docs/scatter.png')
 
     ge.two_variable_analysis(np.random.randn(10), np.random.randn(10),
-                             colormap=viridis)
+                             colormap=viridis, fig_args=dict(right=5))
     ge.show()
     
