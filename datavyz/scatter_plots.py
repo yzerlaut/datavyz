@@ -10,7 +10,7 @@ def two_variable_analysis(first_observations,
                           second_observations,
                           cls=None,
                           with_correl_annotation=True,
-                          ylabel='y-value', xlabel='x-value',
+                          ylabel='y-value', xlabel='x-value', title='',
                           fig_args={'right':4}, axes_args={},
                           colormap=None, ms=4):
 
@@ -38,7 +38,7 @@ def two_variable_analysis(first_observations,
     else:
         c, pval = 0., 1.
 
-    cls.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel))
+    cls.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
     
     return fig, ax, c, pval
 
