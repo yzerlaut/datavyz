@@ -172,15 +172,9 @@ class graph_env:
             self.draw_bar_scales(ax, **bar_scale_args)
             self.set_plot(ax, [], **axes_args)
         else:
-            if 'title' not in axes_args:
-                axes_args['title'] = title
-            if 'xlabel' not in axes_args:
-                axes_args['xlabel'] = xlabel
-            if 'ylabel' not in axes_args:
-                axes_args['ylabel'] = ylabel
             if not no_set:
-                self.set_plot(ax, **axes_args)
-
+                self.set_plot(ax, **ap.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
+                
         return fig, ax
 
     def scatter(self,
@@ -242,15 +236,8 @@ class graph_env:
         if legend_args is not None:
             ax.legend(**legend_args)
 
-        if 'xlabel' not in axes_args:
-            axes_args['xlabel'] = xlabel
-        if 'ylabel' not in axes_args:
-            axes_args['ylabel'] = ylabel
-
         if not no_set:
-            self.set_plot(ax, **axes_args)
-        if title!='':
-            self.title(ax, title)
+            self.set_plot(ax, **ap.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
 
         return fig, ax
 

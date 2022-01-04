@@ -53,15 +53,8 @@ def bar(graph, y,
     if legend_args is not None:
         ax.legend(**legend_args)
 
-    if 'xlabel' not in axes_args:
-        axes_args['xlabel'] = xlabel
-    if 'ylabel' not in axes_args:
-        axes_args['ylabel'] = ylabel
-
     if not no_set:
-        graph.set_plot(ax, **axes_args)
-    if title!='':
-        graph.title(ax, title)
+        graph.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
 
     return fig, ax
 
