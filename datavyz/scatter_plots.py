@@ -1,9 +1,10 @@
 from matplotlib.cm import viridis
 from scipy.stats import pearsonr
+import numpy as np
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
 from datavyz.draw_figure import figure
-from datavyz.adjust_plots import *
+from datavyz.adjust_plots import set_plot, compute_axes_args
 
 def two_variable_analysis(first_observations,
                           second_observations,
@@ -33,16 +34,11 @@ def two_variable_analysis(first_observations,
         lin = np.polyfit(first_observations, second_observations, 1)
         x = np.linspace(np.min(first_observations), np.max(first_observations), 3)
         ax.plot(x, np.polyval(lin, x), 'k:', lw=1)
-        cls.annotate(ax, '  Pearson\ncorrelation:\n c=%.2f,\n p=%.2f' % (c, pval), (.99,1.), va='top')
+        cls.annotate(ax, '  Pearson\ncorrelation:\n c=%.2f,\n p=%.2f' % (c, pval), (1.03,1.), va='top')
     else:
         c, pval = 0., 1.
 
-    if 'xlabel' not in axes_args:
-        axes_args['xlabel'] = xlabel
-    if 'ylabel' not in axes_args:
-        axes_args['ylabel'] = ylabel
-        
-    cls.set_plot(ax, **axes_args)
+    cls.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel))
     
     return fig, ax, c, pval
 

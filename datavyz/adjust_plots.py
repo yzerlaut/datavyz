@@ -6,6 +6,16 @@ from datavyz.annotations import set_fontsize
 
 from matplotlib.ticker import MaxNLocator, NullFormatter
 
+def compute_axes_args(axes_args, xlabel='', ylabel='', title=''):
+    """ to have the alternative between just "xlabel, ylabel, title" arguments and full "axes_args" argument in functions """
+    _axes_args = {}
+    for key, val in axes_args.items():
+        _axes_args[key] = val
+    for key, val in zip(['xlabel', 'ylabel', 'title'], [xlabel, ylabel, title]):
+        if val!='':
+            _axes_args[key] = val
+    return _axes_args
+
 def set_plot(graph, ax,
              spines=['left', 'bottom'],
              num_xticks=3, num_yticks=3,
@@ -288,7 +298,8 @@ def scale_figure(height_to_width, A0_ratio, x_plots, y_plots,
 if __name__=='__main__':
 
     from datavyz import ge
-
+    import numpy as np
+    
     fig, ax = ge.figure(figsize=(1.2,1), left=1., right=4.)
     ax2 = ax.twinx()
     ax.plot(np.log10(np.logspace(-2.2,3,100)), np.exp(np.random.randn(100)), 'o', ms=2, color=ge.blue)
