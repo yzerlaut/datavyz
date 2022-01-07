@@ -351,8 +351,8 @@ if __name__=='__main__':
     sax = ge.arrow(fig, [0.04, .2, .93, 0.])
     ge.annotate(fig, 'time', (.5, .17), ha='center')
 
-    ge.savefig(fig, 'docs/annotations1.png')
-    ge.show()
+    # ge.savefig(fig, 'docs/annotations1.png')
+    # ge.show()
     
     # from datavyz..graphs import *
     # fig, ax = figure()
