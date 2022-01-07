@@ -172,7 +172,8 @@ def draw_bar_scales(graph,
                     Xbar_label2='',Ybar_label2='',
                     color=None, xcolor=None, ycolor=None, ycolor2=None,
                     fontsize=None, size='normal',
-                    shift_factor=20., lw=1):
+                    shift_factor=20., lw=1,
+                    remove_axis=False):
     """
     USE:
 
@@ -268,6 +269,8 @@ def draw_bar_scales(graph,
         - left-bottom, bottom-left
         """)
         
+    if remove_axis:
+        ax.axis('off')
 
 def bar_scales(ax,
                xlim=None, ylim=None,
