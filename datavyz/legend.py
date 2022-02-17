@@ -10,7 +10,8 @@ from datavyz.annotations import set_fontsize
 
 def bar_legend(graph, stuff,
                X = None, continuous=False,
-               ax_colorbar=None, colorbar_inset=dict(rect=[.72,.3,.03,.5], facecolor=None),
+               ax_colorbar=None,
+               colorbar_inset=dict(rect=[.72,.3,.03,.5], facecolor=None),
                colormap=mpl.cm.copper,
                bar_legend_args={},
                label='',
