@@ -293,8 +293,7 @@ def scale_figure(height_to_width, A0_ratio, x_plots, y_plots,
             A0_format['width']*A0_ratio*x_plots,
                    A0_format['height']*A0_ratio*y_plots*height_to_width)}
 
-
-
+    
 if __name__=='__main__':
 
     from datavyz import ge
@@ -314,3 +313,5 @@ if __name__=='__main__':
                 tck_outward=2, xlabel='trying', ylabelpad=-5)
     ge.savefig(fig, 'docs/twin-log-scale.png')
     ge.show()
+
+

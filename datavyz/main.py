@@ -403,7 +403,7 @@ class graph_env:
         if title is not None:
             axes_args['title'] = title
         return axes_args
-    
+
     ################################################
     ###### signal plots ########################
     ################################################
