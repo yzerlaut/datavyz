@@ -20,10 +20,10 @@ def give_color_attributes(cls):
             cls.colors.append(mpl_colors.CSS4_COLORS[name])
 
     # color maps
-    cls.cmaps = []
-    for color in [viridis, viridis_r, copper, copper_r, cool, jet, PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2, Set3, tab10, tab20, tab20b, tab20c]:
-        setattr(cls, color.name, color)
-        cls.cmaps.append(color)
+    # cls.cmaps = []
+    # for color in [viridis, viridis_r, copper, copper_r, cool, jet, PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2, Set3, tab10, tab20, tab20b, tab20c]:
+        # setattr(cls, color.name, color)
+        # cls.cmaps.append(color)
 
     # then some linear colormaps
     for (c1, c2) in zip(['blue', 'red', 'blue', 'green', 'red', 'green', 'orange'],

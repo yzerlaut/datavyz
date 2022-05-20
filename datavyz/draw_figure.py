@@ -1,8 +1,5 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
-from datavyz.scaling import mm2inch
+from .dependencies import *
+from .scaling import mm2inch
 
 def dimension_calculus(cls,
                        figsize,

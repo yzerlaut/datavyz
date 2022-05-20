@@ -1,7 +1,7 @@
 import sys, os, platform, copy
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
 
-from datavyz.dependencies import *
+from .dependencies import *
 
 ENVIRONMENTS = {}
 

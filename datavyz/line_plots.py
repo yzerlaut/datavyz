@@ -21,12 +21,12 @@ def single_curve(ax, x, y, sy,
         ax.fill_between(x, y-sy, y+sy,
                         color=color, lw=0, alpha=alpha_std)
 
-def multicolored_line(graph, x, y, norm_color_value,
+def multicolored_line(self, x, y, norm_color_value,
                       ax=None, alpha=1.,
                       cmap='cool', lw=2):
 
     if ax is None:
-        fig, ax = graph.figure()
+        fig, ax = self.figure()
     else:
         fig = None
     
@@ -68,11 +68,78 @@ def multiple_curves(ax, X, Y, sY, COLORS, LABELS,
             ax.fill_between(x, y-sy, y+sy,
                             color=c, lw=0, alpha=alpha_std)
 
+def plot(self,
+         x=None, y=None, sy=None, sy1=None, sy2=None, color=None,
+         X=None, Y=None, sY=None, sY1=None, sY2=None,
+         COLORS=None, colormap=viridis,
+         fig = None, ax=None,
+         lw=1, alpha_std=0.3, ms=0, m='', ls='-',alpha=1.,
+         xlabel='', ylabel='', bar_label='', title='',
+         label=None, LABELS=None,
+         fig_args={},
+         axes_args={},
+         bar_scale_args=None,
+         bar_legend_args=None,
+         legend_args=None, no_set=False):
+    
+    """    
+    return fig, ax
+    """
+    # getting or creating the axis
+    if ax is None:
+        fig, ax = self.figure(**fig_args)
+        
+    if color is None:
+        color = self.default_color
+        
+    if (y is None) and (Y is None):
+        y = x
+        x = np.arange(len(y))
+
+    if (Y is not None):
+        if (X is None) and (x is not None):
+            X = [x for i in range(len(Y))]
+        elif (X is None):
+            X = [np.arange(len(y)) for y in Y]
+
+        multiple_curves(ax, X, Y, sY, COLORS, LABELS,
+                        sY1=sY1, sY2=sY2,
+                        alpha_std=alpha_std,
+                        colormap=colormap,
+                        lw=lw, ls=ls, m=m, ms=ms,
+                        alpha=alpha)
+    else:
+        single_curve(ax, x, y, sy,
+                     sy1=sy1, sy2=sy2,
+                     color=color,
+                     alpha_std=alpha_std,
+                     lw=lw, label=label, ls=ls, m=m, ms=ms,
+                     alpha=alpha)
+
+    if bar_legend_args is not None:
+        self.bar_legend(ax, **bar_legend_args)
+
+    if (label is not None) or (LABELS is not None):
+        if legend_args is not None:
+            self.legend(ax, **legend_args)
+        else:
+            self.legend(ax, frameon=False, size='small', loc='best')
+
+    if bar_scale_args is not None:
+        self.draw_bar_scales(ax, **bar_scale_args)
+        self.set_plot(ax, [], **axes_args)
+    else:
+        if not no_set:
+            self.set_plot(ax, **self.compute_axes_args(axes_args,
+                                                       xlabel=xlabel,
+                                                       ylabel=ylabel,
+                                                       title=title))
+            
+    return fig, ax
+
 if __name__=='__main__':
     
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
-
+    from datavyz import graph_env
         
     geS, geM = graph_env('screen'), graph_env('manuscript')
     # ge.plot(Y=3*np.random.randn(4,10),

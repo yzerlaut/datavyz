@@ -58,7 +58,7 @@ def bar_legend(graph, stuff,
         
     set_bar_legend(graph, ax_colorbar, cb, **bar_legend_args)
     
-    return cb, ax_colorbar
+    return cb
 
 
 
