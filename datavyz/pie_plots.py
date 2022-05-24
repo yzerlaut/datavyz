@@ -1,8 +1,4 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-from datavyz.dependencies import *
-
+import numpy as np
 from matplotlib.pylab import Circle, setp
 
 def pie(graph, data,
@@ -87,6 +83,9 @@ def pie(graph, data,
 
 if __name__=='__main__':
     
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
+
     from datavyz import ge
 
     data = .5+np.abs(np.random.randn(3))*.4
@@ -99,6 +98,7 @@ if __name__=='__main__':
                      explodes=0.05*np.ones(len(data)),
                      center_circle=0.2,
                      COLORS = [ge.tab20(x) for x in np.linspace(0,1,len(data))],
-                     # pie_args=dict(rotate=90), # e.g. for rotation
+                     #pie_args=dict(rotate=90), # e.g. for rotation
                      legend=None)  # set legend={} to have it appearing
-    ge.savefig(fig, 'docs/pie-plot.png')
+    ge.show()
+    # ge.savefig(fig, 'docs/pie-plot.png')

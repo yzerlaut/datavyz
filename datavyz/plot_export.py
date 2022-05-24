@@ -1,9 +1,9 @@
-import sys, pathlib, os
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-import string, datetime
+import string, datetime, os
 from tempfile import gettempdir
+import matplotlib.pylab as plt
+import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
+from matplotlib.figure import Figure
 
 # SPECIAL PYTHON PACKAGES FOR:
 try:
@@ -14,10 +14,26 @@ except ModuleNotFoundError:
 from PIL import Image # BITMAP (png, jpg, ...)
 ### /!\ need to have the inkscape 
 
-from datavyz.scaling import inch2cm, cm2inch
-from datavyz.dependencies import *
+def mm2inch(x):
+    return x/25.4
+    
+def cm2inch(*tupl):
+    inch = 2.54
+    if isinstance(tupl[0], tuple):
+        return tuple(i/inch for i in tupl[0])
+    else:
+        return tuple(i/inch for i in tupl)    
 
-def put_list_of_figs_to_svg_fig(FIGS,
+def inch2cm(*tupl):
+    inch = 2.54
+    if isinstance(tupl[0], tuple):
+        return tuple(i*inch for i in tupl[0])
+    else:
+        return tuple(i*inch for i in tupl)    
+
+
+def put_list_of_figs_to_svg_fig(cls,
+                                FIGS,
                                 fig_name="fig.svg",
                                 initial_guess=True,
                                 visualize=False,
@@ -113,7 +129,8 @@ def put_list_of_figs_to_svg_fig(FIGS,
         #     from datavyz..graphs import show
         #     show()
 
-def export_as_png(fig_name, dpi=300, background='white'):
+def export_as_png(cls, fig_name,
+                  dpi=300, background='white'):
     instruction = 'inkscape %s --export-area-page --export-background="%s" --export-type=png --export-filename="%s" --export-dpi=%i' % (fig_name, background, fig_name.replace('.svg', '.png'), dpi)
     print('RUNNING:', instruction)
     os.system(instruction)
@@ -122,7 +139,7 @@ def export_as_png(fig_name, dpi=300, background='white'):
     else:
         print('[!!] %s not exported as png' % fig_name)
         
-def put_list_of_figs_to_multipage_pdf(FIGS,
+def put_list_of_figs_to_multipage_pdf(cls, FIGS,
                                       pdf_name='figures.pdf',
                                       pdf_title=''):
     """
@@ -147,7 +164,7 @@ def put_list_of_figs_to_multipage_pdf(FIGS,
         d['ModDate'] = datetime.datetime.today()
 
 
-def concatenate_pngs(PNG_LIST, ordering='vertically', figname='fig.png'):
+def concatenate_pngs(cls, PNG_LIST, ordering='vertically', figname='fig.png'):
     
     images = map(Image.open, PNG_LIST)
     widths, heights = zip(*(i.size for i in images))
@@ -180,10 +197,10 @@ def multipanel_figure(graph_env,
     
     """
     # building the figure matrix if not explicited
-    if type(FIGS) is mpl.figure.Figure:
+    if type(FIGS) is Figure:
         FIGS = [[FIGS]]
     elif type(FIGS) is list:
-        if (len(FIGS)>0) and (type(FIGS[0]) is mpl.figure.Figure):
+        if (len(FIGS)>0) and (type(FIGS[0]) is Figure):
             FIGS = [FIGS]
         elif (len(FIGS)>0) and (type(FIGS[0]) is str):
             FIGS = [FIGS]
@@ -266,15 +283,17 @@ def multipanel_figure(graph_env,
                   *PANELS).scale(SCALING_FACTOR).save(fig_name.replace('.png', '.svg'))
 
     if fig_name.endswith('.png'):
-        export_as_png(fig_name.replace('.png', '.svg'), dpi=300, background=bg)
+        graph_env.export_as_png(fig_name.replace('.png', '.svg'), dpi=300, background=bg)
         os.remove(fig_name.replace('.png', '.svg'))
         print('[ok] removed %s' % fig_name.replace('.png', '.svg'))
     elif export_to_png:
-        export_as_png(fig_name, dpi=300, background=bg)
+        graph_env.export_as_png(fig_name, dpi=300, background=bg)
         
     
 if __name__=='__main__':
 
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
     from datavyz import ge
 
     """
@@ -292,7 +311,7 @@ if __name__=='__main__':
 
     """
     # generate some random data
-    t = np.linspace(0, 10, 1e3)
+    t = np.linspace(0, 10, 1000)
     y = np.cos(5*t)+np.random.randn(len(t))
 
     # Panel 'a' - schematic

@@ -5,25 +5,22 @@ home = os.path.expanduser('~')+os.path.sep
 
 from .dependencies import *
 
-# module that construct the plot settings
-# import datavyz.draw_figure as df
-# import datavyz.adjust_plots as ap
-
 # from datavyz import annotations, line_plots, scatter_plots, legend, features_plot, cross_correl_plot
 # from datavyz.cross_correl_plot import cross_correl_plot_func
-# from datavyz.parallel_plots import parallel_plot, components_plot
-# from datavyz.hist_plots import hist, hist2d
-# from datavyz.inset import inset
 # from datavyz.surface_plots import twoD_plot, matrix
 # from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
-# from datavyz.pie_plots import pie
 # import datavyz.single_cell_plots as scp
+# from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
+# from datavyz.dynamic_plot import movie_plot, animated_plot
+# from datavyz.time_freq import time_freq_plot
+# from datavyz.neurophysio import Ca_trace_plot
 # from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 # from datavyz.dynamic_plot import movie_plot, animated_plot
 # from datavyz.time_freq import time_freq_plot
 # from datavyz.neurophysio import Ca_trace_plot
 
 from .settings import set_env_variables #, update_rcParams
+
 
 class graph_env:
     
@@ -38,8 +35,7 @@ class graph_env:
         self.override_style=True
         set_env_variables(self, env)
 
-        give_color_attributes(self)
-
+        self.give_color_attributes()
 
         # if ('dark' in env) or (self.background is 'dark'):
         #     self.set_style('dark_background')
@@ -50,14 +46,30 @@ class graph_env:
         # elif 'seaborn' in env:
         #     self.set_style('seaborn')
         #     self.override_style = False
-
         # update_rcParams(self)
 
     
-    from .colors import give_color_attributes, viridis, binary_r 
+    # ################################################
+    # ###### Figure and Axes construction ############
+    # ################################################
+
+
     from .draw_figure import figure
-    from .line_plots import plot 
     from .adjust_plots import set_plot, compute_axes_args
+    from .inset import inset 
+    
+    # ################################################
+    # ###### Annotate function #######################
+    # ################################################
+    
+    from .colors import give_color_attributes, viridis, binary_r 
+
+    from .annotations import title, annotate, draw_bar_scales,\
+            arrow, int_to_roman, int_to_letter,\
+            sci_str, from_pval_to_star
+
+    from .legend import legend, bar_legend, build_bar_legend,\
+            set_bar_legend, build_bar_legend_continuous
 
     # def set_style(self, style='default'):
         # plt.style.use(style)
@@ -65,142 +77,23 @@ class graph_env:
             # self.default_color = 'w'
 
 
-    # def plot(self,
-             # x=None, y=None, sy=None, sy1=None, sy2=None, color=None,
-             # X=None, Y=None, sY=None, sY1=None, sY2=None,
-             # COLORS=None, colormap=viridis,
-             # fig = None, ax=None,
-             # lw=1, alpha_std=0.3, ms=0, m='', ls='-',alpha=1.,
-             # xlabel='', ylabel='', bar_label='', title='',
-             # label=None, LABELS=None,
-             # fig_args={},
-             # axes_args={},
-             # bar_scale_args=None,
-             # bar_legend_args=None,
-             # legend_args=None, no_set=False):
-        
-        # """    
-        # return fig, ax
-        # """
-        # # getting or creating the axis
-        # if ax is None:
-            # fig, ax = self.figure(**fig_args)
-            
-        # if color is None:
-            # color = self.default_color
-            
-        # if (y is None) and (Y is None):
-            # y = x
-            # x = np.arange(len(y))
-
-        # if (Y is not None):
-            # if (X is None) and (x is not None):
-                # X = [x for i in range(len(Y))]
-            # elif (X is None):
-                # X = [np.arange(len(y)) for y in Y]
-
-            # line_plots.multiple_curves(ax, X, Y, sY, COLORS, LABELS,
-                                       # sY1=sY1, sY2=sY2,
-                                       # alpha_std=alpha_std,
-                                       # colormap=colormap,
-                                       # lw=lw, ls=ls, m=m, ms=ms,
-                                       # alpha=alpha)
-        # else:
-            # line_plots.single_curve(ax, x, y, sy,
-                                    # sy1=sy1, sy2=sy2,
-                                    # color=color,
-                                    # alpha_std=alpha_std,
-                                    # lw=lw, label=label, ls=ls, m=m, ms=ms,
-                                    # alpha=alpha)
-
-        # if bar_legend_args is not None:
-            # self.bar_legend(ax, **bar_legend_args)
-
-        # if (label is not None) or (LABELS is not None):
-            # if legend_args is not None:
-                # self.legend(ax, **legend_args)
-            # else:
-                # self.legend(ax, frameon=False, size='small', loc='best')
-
-        # if bar_scale_args is not None:
-            # self.draw_bar_scales(ax, **bar_scale_args)
-            # self.set_plot(ax, [], **axes_args)
-        # else:
-            # if not no_set:
-                # self.set_plot(ax, **ap.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
-                
-        # return fig, ax
-
-    # def scatter(self,
-                # x=None, y=None, sx=None, sy=None, 
-                # X=None, Y=None, sX=None, sY=None,
-                # color=None, edgecolor=None, alpha=1.,
-                # COLORS=None, colormap=viridis,
-                # ax=None, fig=None,
-                # lw=0, alpha_std=0.3,
-                # ms=None,
-                # m='', ls='-',
-                # xlabel='', ylabel='', bar_label='', title='',
-                # label=None,
-                # LABELS=None,
-                # fig_args={},
-                # axes_args={},
-                # bar_legend_args=None,
-                # legend_args=None,
-                # no_set=False):
-        
-        # """    
-        # return fig, ax
-        # """
-        # # getting or creating the axis
-        # if ax is None:
-            # fig, ax = self.figure(**fig_args)
-            
-        # if color is None:
-            # color = self.default_color
-        # if ms is None:
-            # ms = self.markersize
-            
-        # if (y is None) and (Y is None):
-            # y = x
-            # x = np.arange(len(y))
-
-        # if (Y is not None):
-            # if (X is None) and (x is not None):
-                # X = [x for i in range(len(Y))]
-            # elif (X is None):
-                # X = [np.arange(len(y)) for y in Y]
-
-            # scatter_plots.multiple_curves(ax, X, Y, sX, sY, COLORS, LABELS,
-                                          # colormap=colormap,
-                                          # lw=lw, ms=ms)
-        # else:
-            # scatter_plots.single_curve(ax, x, y, sx, sy,
-                                       # color=color, edgecolor=edgecolor, alpha=alpha,
-                                       # label=label, lw=lw, ms=ms)
-
-        # if bar_legend_args is not None:
-            # cb = add_inset(ax, **bar_legend_args)
-            # build_bar_legend(np.arange(len(LABELS)+1),
-                             # cb,
-                             # colormap,
-                             # label=bar_label,
-                             # ticks_labels=LABELS)
-
-        # if legend_args is not None:
-            # ax.legend(**legend_args)
-
-        # if not no_set:
-            # self.set_plot(ax, **ap.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
-
-        # return fig, ax
-
     # ################################################
     # ###### Classical plot functions ################
     # ################################################
 
-    # def multicolored_line(self, x, y, norm_color_value, **args):
-        # return line_plots.multicolored_line(self, x, y, norm_color_value, **args)
+    from .line_plots import plot, multicolored_line
+
+    from .bar_plots import bar
+
+    from .scatter_plots import scatter
+
+    from .hist_plots import hist, hist2d
+
+    from .parallel_plots import parallel_plot, components_plot
+
+    from .pie_plots import pie
+
+    
 
     # def parallel_plot(self, Y, **args):
         # return parallel_plot(self, Y, **args)
@@ -208,11 +101,6 @@ class graph_env:
     # def components_plot(self, Y, **args):
         # return components_plot(self, Y, **args)
     
-    # # histogram 
-    # def hist(self, x, **args):
-        # return hist(self, x, **args)
-    # def hist2d(self, x, y, **args):
-        # return hist2d(self, x, y, **args)
 
     # def boxplot(self, data,
                 # fig_args=dict(figsize=(.6,1.)),
@@ -276,39 +164,6 @@ class graph_env:
         
     
         
-    # ################################################
-    # ###### Annotate function #######################
-    # ################################################
-    # def title(self, ax, title, **args):
-        # annotations.title(self, ax, title, **args)
-        
-    # def annotate(self, stuff, s, xy, **args):
-        # annotations.annotate(self, stuff, s, xy, **args)
-
-    # def top_left_letter(self, stuff, s, loc=(0,1), **args):
-        # annotations.annotate(self, stuff, s, loc, ha='right', bold=True, **args)
-
-    # def panel_label(self, stuff, s, xy=(-.01,1.01), size='large', ha='right', bold=True, **args):
-        # annotations.annotate(self, stuff, s, xy, size=size, ha=ha, bold=bold, **args)
-        
-    # def draw_bar_scales(self, ax, **args):
-        # return annotations.draw_bar_scales(self, ax, **args)
-
-    # def arrow(self, stuff, rect, **args):
-        # return annotations.arrow(self, stuff, rect, **args)
-
-    # def int_to_roman(self, integer, capitals=False):
-        # return annotations.int_to_roman(integer, capitals=capitals)
-
-    # def int_to_letter(self, integer, capitals=False):
-        # return annotations.int_to_letter(integer, capitals=capitals)
-    
-    # def sci_str(self, x, **args):
-        # return annotations.sci_str(x, **args)
-    
-    # def from_pval_to_star(self, x, **args):
-        # return annotations.from_pval_to_star(x, **args)
-    
     # ################################################
     # ###### legend function #######################
     # ################################################
@@ -388,43 +243,43 @@ class graph_env:
     # ######  FIG TOOLS   ##############################
     # ##################################################
     
-    # def flat(self, AX):
-        # """
-        # to be used in 
-        # "for ax in ge.flat(AX)"
-        # """
-        # List = []
-        # for ax in AX:
-            # if type(ax) is list:
-                # List = List+ax
-            # else:
-                # List.append(ax)        
-        # return np.array(List).flatten()
+    def flat(self, AX):
+        """
+        to be used in 
+        "for ax in ge.flat(AX)"
+        """
+        List = []
+        for ax in AX:
+            if type(ax) is list:
+                List = List+ax
+            else:
+                List.append(ax)        
+        return np.array(List).flatten()
 
-    # def set_common_xlims(self, AX, lims=None):
-        # if lims is None:
-            # lims = [np.inf, -np.inf]
-            # for ax in self.flat(AX):
-                # lims = [np.min([ax.get_xlim()[0], lims[0]]), np.max([ax.get_xlim()[1], lims[1]])]
-        # for ax in self.flat(AX):
-            # ax.set_xlim(lims)
+    def set_common_xlims(self, AX, lims=None):
+        if lims is None:
+            lims = [np.inf, -np.inf]
+            for ax in self.flat(AX):
+                lims = [np.min([ax.get_xlim()[0], lims[0]]), np.max([ax.get_xlim()[1], lims[1]])]
+        for ax in self.flat(AX):
+            ax.set_xlim(lims)
             
-    # def set_common_ylims(self, AX, lims=None):
-        # if lims is None:
-            # lims = [np.inf, -np.inf]
-            # for ax in self.flat(AX):
-                # lims = [np.min([ax.get_ylim()[0], lims[0]]), np.max([ax.get_ylim()[1], lims[1]])]
-        # for ax in self.flat(AX):
-            # ax.set_ylim(lims)
+    def set_common_ylims(self, AX, lims=None):
+        if lims is None:
+            lims = [np.inf, -np.inf]
+            for ax in self.flat(AX):
+                lims = [np.min([ax.get_ylim()[0], lims[0]]), np.max([ax.get_ylim()[1], lims[1]])]
+        for ax in self.flat(AX):
+            ax.set_ylim(lims)
         
     # ##################################################
     # ######  FIG OUTPUT  ##############################
     # ##################################################
 
-    # def multipanel_figure(self, FIGS, **args):
-        # return multipanel_figure(self, FIGS, **args)
+    from .plot_export import multipanel_figure,\
+                    put_list_of_figs_to_svg_fig,\
+                    export_as_png
 
-    
     def show(self, block=False):
         if platform.system()=='Windows':
             plt.show()
@@ -436,76 +291,78 @@ class graph_env:
             plt.show()
 
         
-    # def savefig(self, fig, figname='temp.svg',
-                # dpi=None, transparent=None, facecolor=None):
-        # if dpi is None:
-            # dpi=self.dpi
-        # if transparent is None:
-            # transparent=self.transparency
-        # if facecolor is None:
-            # facecolor=self.facecolor
-        # fig.savefig(figname,
-                    # dpi=dpi, transparent=transparent,
-                    # facecolor=facecolor)
+    def savefig(self, fig, figname='temp.svg',
+                dpi=None, transparent=None, facecolor=None):
+        if dpi is None:
+            dpi=self.dpi
+        if transparent is None:
+            transparent=self.transparency
+        if facecolor is None:
+            facecolor=self.facecolor
+        fig.savefig(figname,
+                    dpi=dpi, transparent=transparent,
+                    facecolor=facecolor)
         
-    # def save_on_desktop(self, fig, figname='temp.svg', dpi=None):
-        # if figname.endswith('.png'):
-            # self.savefig(fig, desktop+figname, dpi=dpi)
-        # else:
-            # self.savefig(fig, desktop+figname)
+    def save_on_desktop(self, fig, figname='temp.svg', dpi=None):
+        if figname.endswith('.png'):
+            self.savefig(fig, desktop+figname, dpi=dpi)
+        else:
+            self.savefig(fig, desktop+figname)
 
-    # def gcf(self):
-        # return plt.gcf()
+    def gcf(self):
+        return plt.gcf()
 
 
+graph_env_manuscript = graph_env('manuscript')
+ge = graph_env()
 
 if __name__=='__main__':
 
-    # fig, AX = figure(axes_extents=[\
-    #                               [[3,2], [1,2] ],
-    #                                [[1,1], [1,1], [2,1] ] ],
-    #                  left=.3, bottom=.4, hspace=1.4, wspace=1.2,
-    #                  figsize=[.8, .35])
+    fig, AX = figure(axes_extents=[\
+                                  [[3,2], [1,2] ],
+                                   [[1,1], [1,1], [2,1] ] ],
+                     left=.3, bottom=.4, hspace=1.4, wspace=1.2,
+                     figsize=[.8, .35])
     
-    # plot(Y=[
-    #     np.random.randn(20),
-    #     np.random.randn(20),
-    #     np.random.randn(20),
-    #     np.random.randn(20)],
-    #      sY=[
-    #          np.ones(20),
-    #          np.ones(20),
-    #          np.random.randn(20),
-    #          np.random.randn(20)],
-    #      ax=AX[0][0],
-    #      COLORS=[Red, Purple, Blue, Green],
-    #      legend_args={'frameon':False},
-    #      axes_args={'spines':['left']})
+    plot(Y=[
+        np.random.randn(20),
+        np.random.randn(20),
+        np.random.randn(20),
+        np.random.randn(20)],
+         sY=[
+             np.ones(20),
+             np.ones(20),
+             np.random.randn(20),
+             np.random.randn(20)],
+         ax=AX[0][0],
+         COLORS=[Red, Purple, Blue, Green],
+         legend_args={'frameon':False},
+         axes_args={'spines':['left']})
     
-    # scatter(X=np.random.randn(4,5), Y=np.random.randn(4,5),
-    #         sX=np.random.randn(4,5),sY=np.random.randn(4,5),
-    #         ax=AX[1][0],
-    #         bar_legend_args={},
-    #         bar_label='condition')
+    scatter(X=np.random.randn(4,5), Y=np.random.randn(4,5),
+            sX=np.random.randn(4,5),sY=np.random.randn(4,5),
+            ax=AX[1][0],
+            bar_legend_args={},
+            bar_label='condition')
     
-    # plot(np.random.randn(20), sy=np.random.randn(20),
-    #      ax=AX[1][2])
-    # scatter(np.random.randn(20), sy=np.random.randn(20),
-    #         ax=AX[1][2])
-    # plot(np.random.randn(20), sy=np.random.randn(20),
-    #         ax=AX[1][2], color=Red)
-    # scatter(np.random.randn(20), sy=np.random.randn(20),
-    #         ax=AX[1][2], color=Red)
-    # plot(np.sin(np.linspace(0,1,30)*3*np.pi)*2,
-    #      ax=AX[1][2], color=Purple)
-    # plot(np.cos(np.linspace(0,1,30)*3*np.pi)*2,
-    #      ax=AX[1][2], color=Green)
+    plot(np.random.randn(20), sy=np.random.randn(20),
+         ax=AX[1][2])
+    scatter(np.random.randn(20), sy=np.random.randn(20),
+            ax=AX[1][2])
+    plot(np.random.randn(20), sy=np.random.randn(20),
+            ax=AX[1][2], color=Red)
+    scatter(np.random.randn(20), sy=np.random.randn(20),
+            ax=AX[1][2], color=Red)
+    plot(np.sin(np.linspace(0,1,30)*3*np.pi)*2,
+         ax=AX[1][2], color=Purple)
+    plot(np.cos(np.linspace(0,1,30)*3*np.pi)*2,
+         ax=AX[1][2], color=Green)
     
-    # hist(np.random.randn(200), ax=AX[0][1],\
-    #      orientation='vertical',
-    #      axes_args={'ylim':AX[0][0].get_ylim(), 'spines':['left']})
+    hist(np.random.randn(200), ax=AX[0][1],\
+         orientation='vertical',
+         axes_args={'ylim':AX[0][0].get_ylim(), 'spines':['left']})
     
-    # AX[1][1].axis('off')
+    AX[1][1].axis('off')
     # fig.savefig('fig.png', dpi=200)
     # save_on_desktop(fig, figname='fig.png')
 

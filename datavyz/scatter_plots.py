@@ -43,6 +43,71 @@ def two_variable_analysis(first_observations,
     return fig, ax, c, pval
 
 
+def scatter(self,
+            x=None, y=None, sx=None, sy=None, 
+            X=None, Y=None, sX=None, sY=None,
+            color=None, edgecolor=None, alpha=1.,
+            COLORS=None, colormap=viridis,
+            ax=None, fig=None,
+            lw=0, alpha_std=0.3,
+            ms=None,
+            m='', ls='-',
+            xlabel='', ylabel='', bar_label='', title='',
+            label=None,
+            LABELS=None,
+            fig_args={},
+            axes_args={},
+            bar_legend_args=None,
+            legend_args=None,
+            no_set=False):
+    
+    """    
+    return fig, ax
+    """
+    # getting or creating the axis
+    if ax is None:
+        fig, ax = self.figure(**fig_args)
+        
+    if color is None:
+        color = self.default_color
+    if ms is None:
+        ms = self.markersize
+        
+    if (y is None) and (Y is None):
+        y = x
+        x = np.arange(len(y))
+
+    if (Y is not None):
+        if (X is None) and (x is not None):
+            X = [x for i in range(len(Y))]
+        elif (X is None):
+            X = [np.arange(len(y)) for y in Y]
+
+        multiple_curves(ax, X, Y, sX, sY, COLORS, LABELS,
+                        colormap=colormap,
+                        lw=lw, ms=ms)
+    else:
+        single_curve(ax, x, y, sx, sy,
+                     color=color, edgecolor=edgecolor, alpha=alpha,
+                     label=label, lw=lw, ms=ms)
+
+    if bar_legend_args is not None:
+        cb = self.bar_legend(ax, **bar_legend_args)
+        # self.build_bar_legend(np.arange(len(LABELS)+1),
+                              # cb,
+                              # colormap,
+                              # label=bar_label,
+                              # ticks_labels=LABELS)
+
+    if legend_args is not None:
+        ax.legend(**legend_args)
+
+    if not no_set:
+        self.set_plot(ax, **self.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
+
+    return fig, ax
+
+
 def single_curve(ax, x, y, sx, sy,
                  color='k', edgecolor='None', marker='o', alpha=1,
                  label='',
@@ -99,6 +164,8 @@ def multiple_curves(ax, X, Y, sX, sY, COLORS, LABELS,
 
 if __name__=='__main__':
     
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
     from datavyz import ge
     
     fig, ax = ge.scatter(np.random.randn(20),

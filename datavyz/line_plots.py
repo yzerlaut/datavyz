@@ -1,7 +1,5 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-from datavyz.dependencies import *
+import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.cm import viridis
 from matplotlib.collections import LineCollection
 
@@ -128,24 +126,27 @@ def plot(self,
     if bar_scale_args is not None:
         self.draw_bar_scales(ax, **bar_scale_args)
         self.set_plot(ax, [], **axes_args)
-    else:
-        if not no_set:
-            self.set_plot(ax, **self.compute_axes_args(axes_args,
-                                                       xlabel=xlabel,
-                                                       ylabel=ylabel,
-                                                       title=title))
+    elif not no_set:
+        self.set_plot(ax, **self.compute_axes_args(axes_args,
+                                                   xlabel=xlabel,
+                                                   ylabel=ylabel,
+                                                   title=title))
             
     return fig, ax
 
 if __name__=='__main__':
     
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
+
     from datavyz import graph_env
         
     geS, geM = graph_env('screen'), graph_env('manuscript')
-    # ge.plot(Y=3*np.random.randn(4,10),
-    #         sY=np.random.randn(4,10),
-    #         ls=':', m='o', ms=0.1, lw=0.4,
-    #         xlabel='x-label (X)', ylabel='y-label (Y)')
+
+    geS.plot(Y=3*np.random.randn(4,10),
+            sY=np.random.randn(4,10),
+            ls=':', m='o', ms=0.1, lw=0.4,
+            xlabel='x-label (X)', ylabel='y-label (Y)')
 
     tstop, dt = 10, 1e-2
     t = np.arange(int(tstop/dt))*dt

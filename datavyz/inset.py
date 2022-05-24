@@ -13,7 +13,7 @@ def inset(graph, stuff,
     if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
         subax = stuff.add_axes(rect,facecolor=facecolor)
     else:
-        fig = graph.gcf()
+        fig = plt.gcf()
         box = stuff.get_position()
         width = box.width
         height = box.height

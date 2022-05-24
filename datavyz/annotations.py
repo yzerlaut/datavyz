@@ -272,66 +272,6 @@ def draw_bar_scales(graph,
     if remove_axis:
         ax.axis('off')
 
-def bar_scales(ax,
-               xlim=None, ylim=None,
-               xbar=0, ybar=0,
-               xbar_label='', ybar_label='',
-               location = 'top right',
-               remove_axis=True,
-               factor=0.98):
-    """
-    deprecated !
-    TO BE REPLACED BY the above function
-    """
-
-    print("""
-    deprecated !
-    TO BE REPLACED BY the function "draw_bar_scale"
-    """)
-
-    # if remove_axis:
-    #     ax.axis('off')
-    
-    # if xlim is None:
-    #     xlim = ax.get_xlim()
-    # if ylim is None:
-    #     ylim = ax.get_ylim()
-        
-    # if location=='top right':
-    #     x0 = xlim[1]-(1.-factor)*(xlim[1]-xlim[0])
-    #     y0 = ylim[1]-(1.-factor)*(ylim[1]-ylim[0])
-    #     ax.plot([x0, x0-xbar], [y0, y0], 'k-', lw=1)
-    #     ax.plot([x0, x0], [y0, y0-ybar], 'k-', lw=1)
-    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=fontsize, rotation=90)
-    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=fontsize)
-    # elif location=='top left':
-    #     x0 = xlim[0]+(1.-factor)*(xlim[1]-xlim[0])
-    #     y0 = ylim[1]-(1.-factor)*(ylim[1]-ylim[0])
-    #     ax.plot([x0, x0+xbar], [y0, y0], 'k-', lw=1)
-    #     ax.plot([x0, x0], [y0, y0-ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0, y0), fontsize=fontsize)
-    #     ax.annotate(ybar_label, (x0, y0-ybar/2.), fontsize=fontsize, rotation=90)
-    # elif location=='bottom right':
-    #     x0 = xlim[1]-(1.-factor)*(xlim[1]-xlim[0])
-    #     y0 = ylim[0]+(1.-factor)*(ylim[1]-ylim[0])
-    #     ax.plot([x0, x0-xbar], [y0, y0], 'k-', lw=1)
-    #     ax.plot([x0, x0], [y0, y0+ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0-xbar, y0), fontsize=fontsize)
-    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=fontsize, rotation=90)
-    # elif location=='bottom left':
-    #     x0 = xlim[0]+(1.-factor)*(xlim[1]-xlim[0])
-    #     y0 = ylim[0]+(1.-factor)*(ylim[1]-ylim[0])
-    #     ax.plot([x0, x0+xbar], [y0, y0], 'k-', lw=1)
-    #     ax.plot([x0, x0], [y0, y0+ybar], 'k-', lw=1)
-    #     ax.annotate(xbar_label, (x0, y0), fontsize=fontsize)
-    #     ax.annotate(ybar_label, (x0, y0+ybar/2.), fontsize=fontsize, rotation=90)
-    # else:
-    #     x0, y0 = location
-        
-    # # we reintroduce the data limits
-    # ax.set_ylim(ylim)
-    # ax.set_xlim(xlim)
-    
 
 if __name__=='__main__':
 

@@ -8,7 +8,7 @@ from datavyz.colors import get_linear_colormap
 from datavyz.annotations import set_fontsize
 
 
-def bar_legend(graph, stuff,
+def bar_legend(cls, stuff,
                X = None, continuous=False,
                ax_colorbar=None,
                colorbar_inset=dict(rect=[.72,.3,.03,.5], facecolor=None),
@@ -30,10 +30,10 @@ def bar_legend(graph, stuff,
         continuous = True
 
     if ax_colorbar is None:
-        ax_colorbar = graph.inset(stuff, **colorbar_inset)
+        ax_colorbar = cls.inset(stuff, **colorbar_inset)
 
     if continuous:
-        cb = build_bar_legend_continuous(ax_colorbar, colormap,
+        cb = cls.build_bar_legend_continuous(ax_colorbar, colormap,
                                          bounds=bounds,
                                          ticks=ticks,
                                          ticks_labels=ticks_labels,
@@ -41,7 +41,7 @@ def bar_legend(graph, stuff,
                                          alpha=alpha,
                                          scale=scale)
     else:
-        cb = build_bar_legend(ax_colorbar, X,
+        cb = cls.build_bar_legend(ax_colorbar, X,
                               colormap,
                               scale=scale,
                               bounds=bounds,
@@ -56,13 +56,13 @@ def bar_legend(graph, stuff,
     bar_legend_args['labelpad'] = labelpad
     bar_legend_args['size'] = size
         
-    set_bar_legend(graph, ax_colorbar, cb, **bar_legend_args)
+    cls.set_bar_legend(ax_colorbar, cb, **bar_legend_args)
     
     return cb
 
 
 
-def set_bar_legend(graph, ax_cb, cb,
+def set_bar_legend(cls, ax_cb, cb,
                    label='',
                    orientation='vertical',
                    label_position='right',
@@ -73,9 +73,9 @@ def set_bar_legend(graph, ax_cb, cb,
     Just for labels and fontsize
     """
     if fontsize is None:
-        fontsize=set_fontsize(graph, size)
+        fontsize=set_fontsize(cls, size)
     if color is None:
-        color=graph.default_color
+        color=cls.default_color
         
     cb.set_label(label, labelpad=labelpad, fontsize=fontsize, color=color)
     
@@ -94,9 +94,8 @@ def set_bar_legend(graph, ax_cb, cb,
     ax_cb.tick_params(axis='y', which='both', colors=color)
 
 
-
     
-def build_bar_legend(ax_cb, X, mymap,
+def build_bar_legend(cls, ax_cb, X, mymap,
                      bounds=None,
                      ticks_labels=None,
                      no_ticks=False,
@@ -140,7 +139,7 @@ def build_bar_legend(ax_cb, X, mymap,
         
     return cb
 
-def build_bar_legend_continuous(ax_cb, mymap,
+def build_bar_legend_continuous(cls, ax_cb, mymap,
                                 bounds=[0,1],
                                 ticks=None,
                                 ticks_labels=None,
@@ -188,7 +187,7 @@ def build_bar_legend_continuous(ax_cb, mymap,
     return cb
 
 
-def legend(graph, ax,
+def legend(cls, ax,
            size='', fontsize=None,
            frameon=False,
            handletextpad=0.3,
@@ -199,11 +198,12 @@ def legend(graph, ax,
            columnspacing=1.,
            color=None,
            loc='best'):
-
+    """
+    """
     if fontsize is None:
-        fontsize=set_fontsize(graph, size)
+        fontsize=set_fontsize(cls, size)
     if color is None:
-        color = graph.default_color
+        color = cls.default_color
 
     leg = ax.legend(loc=loc,
                     frameon=frameon,
@@ -216,42 +216,16 @@ def legend(graph, ax,
                     labelspacing=labelspacing,
                     title=title,
                     fontsize=fontsize,
-                    facecolor=graph.facecolor)
+                    facecolor=cls.facecolor)
     plt.setp(leg.get_texts(), color=color)
 
-# def legend(list_of_lines,
-#            list_of_labels,
-#            fig=None,
-#            frameon=False,
-#            handletextpad=0.3,
-#            handlelength=1.,
-#            ncol=1,
-#            title='',
-#            fontsize=8,
-#            columnspacing=1.,
-#            loc='upper center'):
-
-#     if fig is None:
-#         fig = plt.gcf()
-
-#     fig.legend(list_of_lines,
-#                list_of_labels,
-#                loc=loc,
-#                frameon=frameon,
-#                ncol=ncol,
-#                # numpoints=1,
-#                # scatterpoints=1,
-#                columnspacing=columnspacing,
-#                handletextpad=handletextpad,
-#                handlelength=handlelength,
-#                title=title,
-#                fontsize=fontsize)
-    
     
 
 if __name__=='__main__':
 
-    from datavyz import ges as ge
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
+    from datavyz import graph_env_manuscript as ge
 
     Y = [np.exp(np.random.randn(100)) for i in range(4)]
     
@@ -272,7 +246,7 @@ if __name__=='__main__':
     
     ge.bar_legend(fig,
                   X = np.arange(5),
-                  inset={'rect':[.3,.8,.3,.05]},
+                  # inset={'rect':[.3,.8,.3,.05]},
                   colormap=ge.copper,
                   orientation='horizontal',
                   label='Trial ID', no_ticks=True)

@@ -6,7 +6,7 @@ from datavyz.annotations import set_fontsize
 
 from matplotlib.ticker import MaxNLocator, NullFormatter
 
-def compute_axes_args(axes_args, xlabel='', ylabel='', title=''):
+def compute_axes_args(cls, axes_args, xlabel='', ylabel='', title=''):
     """ to have the alternative between just "xlabel, ylabel, title" arguments and full "axes_args" argument in functions """
     _axes_args = {}
     for key, val in axes_args.items():
@@ -16,7 +16,7 @@ def compute_axes_args(axes_args, xlabel='', ylabel='', title=''):
             _axes_args[key] = val
     return _axes_args
 
-def set_plot(graph, ax,
+def set_plot(cls, ax,
              spines=['left', 'bottom'],
              num_xticks=3, num_yticks=3,
              xlabel='', ylabel='', title='',
@@ -36,11 +36,11 @@ def set_plot(graph, ax,
 
     
     if fontsize is None:
-        fontsize=set_fontsize(graph, size)
+        fontsize=set_fontsize(cls, size)
     if xcolor is None:
-        xcolor = graph.default_color
+        xcolor = cls.default_color
     if ycolor is None:
-        ycolor = graph.default_color
+        ycolor = cls.default_color
 
     if ax_refs is not None:
         xlim = ax_refs.get_xlim()
@@ -53,7 +53,7 @@ def set_plot(graph, ax,
         yticks=[]
         
     # drawing spines
-    adjust_spines(graph, ax, spines,
+    adjust_spines(cls, ax, spines,
                   tck_outward=tck_outward, tck_length=tck_length,
                   ycolor=ycolor, xcolor=xcolor)
     
@@ -164,13 +164,13 @@ def ticks_number(ax, xticks=3, yticks=3):
         ax.yaxis.set_major_locator( MaxNLocator(nbins = yticks) )
 
         
-def adjust_spines(graph, ax, spines, tck_outward=3, tck_length=4.,
+def adjust_spines(cls, ax, spines, tck_outward=3, tck_length=4.,
                   xcolor=None, ycolor=None):
 
     if xcolor is None:
-        xcolor = graph.default_color
+        xcolor = cls.default_color
     if ycolor is None:
-        ycolor = graph.default_color
+        ycolor = cls.default_color
     
     for loc, spine in ax.spines.items():
         if loc in spines:

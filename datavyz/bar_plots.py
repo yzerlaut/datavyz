@@ -54,7 +54,7 @@ def bar(graph, y,
         ax.legend(**legend_args)
 
     if not no_set:
-        graph.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
+        graph.set_plot(ax, **graph.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
 
     return fig, ax
 
