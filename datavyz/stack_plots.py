@@ -42,7 +42,9 @@ def add_plot_to_svg(fig, svg_fig,
     
 if __name__=='__main__':
 
-    from datavyz import ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
     fig_name = os.path.join(os.path.expanduser('~'), 'Desktop', 'fig.svg')
 

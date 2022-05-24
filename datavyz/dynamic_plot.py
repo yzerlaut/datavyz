@@ -122,6 +122,9 @@ if __name__=='__main__':
     """
     A simple example of an animated plot
     """
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     from datavyz.main import graph_env
     ge = graph_env('manuscript')
     

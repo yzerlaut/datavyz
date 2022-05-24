@@ -232,6 +232,9 @@ if __name__=='__main__':
     
     args = parser.parse_args()
 
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     from datavyz import ges as ge
 
     # specific modules

@@ -24,7 +24,10 @@ def getMarker(i):
 
 if __name__=='__main__':
 
-    from datavyz import ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
+
     fig, ax= ge.figure()
 
     for i, mi in enumerate(markers):

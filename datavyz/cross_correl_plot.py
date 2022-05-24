@@ -96,6 +96,9 @@ def cross_correl_plot(graph, data, features=None,
 if __name__=='__main__':
 
 
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     from datavyz import ge
 
     # building random data

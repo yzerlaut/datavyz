@@ -36,6 +36,9 @@ def give_color_attributes(cls):
     
 if __name__=='__main__':
 
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     import numpy as np
     from datavyz import ges as ge
 

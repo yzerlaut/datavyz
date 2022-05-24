@@ -106,7 +106,9 @@ def components_plot(graph,
 
 if __name__=='__main__':
     
-    from datavyz import ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
     # LOADING THE DATA
     from sklearn.datasets import load_breast_cancer

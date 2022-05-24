@@ -67,7 +67,11 @@ def response_to_multiple_current_pulse(graph,
 
     
 if __name__=='__main__':
+
     import numpy as np
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
 
     

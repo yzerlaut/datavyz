@@ -158,7 +158,9 @@ def matrix(graph, z,
 
 if __name__=='__main__':
     
-    from datavyz import ge as ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
     x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 20), indexing='ij')
     z = y*x*x

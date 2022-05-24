@@ -1,9 +1,5 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
-from datavyz.annotations import set_fontsize
-
+import numpy as np
+import matplotlib.pylab as plt
 from matplotlib.ticker import MaxNLocator, NullFormatter
 
 def compute_axes_args(cls, axes_args, xlabel='', ylabel='', title=''):
@@ -36,7 +32,7 @@ def set_plot(cls, ax,
 
     
     if fontsize is None:
-        fontsize=set_fontsize(cls, size)
+        fontsize=cls.set_fontsize(size)
     if xcolor is None:
         xcolor = cls.default_color
     if ycolor is None:

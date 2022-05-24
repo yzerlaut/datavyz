@@ -37,7 +37,10 @@ def time_freq_plot(graph, t, freqs, data, coefs,
 
 if __name__=='__main__':
 
-    from datavyz import ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
+
     from analyz.freq_analysis.wavelet_transform import my_cwt # continuous wavelet transform
     
     dt, tstop = 1e-4, 1.

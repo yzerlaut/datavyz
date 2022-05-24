@@ -54,6 +54,9 @@ def inset(graph, stuff,
 
 if __name__=='__main__':
 
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     from datavyz import ge
 
     y = np.exp(np.random.randn(100))

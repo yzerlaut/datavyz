@@ -1,7 +1,6 @@
-import sys, pathlib, string
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib.figure import Figure
 
 def set_fontsize(graph, size):
     """ set the fontsize given a size and the props of the graph class"""
@@ -64,7 +63,7 @@ def annotate(graph, stuff, s, xy,
     if fontsize is None:
         fontsize=set_fontsize(graph, size)
 
-    if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
+    if type(stuff)==Figure: # if figure, no choice, if figure relative coordinates
         plt.annotate(s, xy, xycoords='figure fraction',
                      weight=weight, fontsize=fontsize, style=style,
                      color=color, rotation=rotation, ha=ha, va=va,
@@ -88,7 +87,7 @@ def arrow(graph, stuff,
     if (dx==0) and width_margin==0:
         width_margin, height_margin = height_margin, 0
         
-    if type(stuff)==mpl.figure.Figure: # if figure, we create an axis
+    if type(stuff)==Figure: # if figure, we create an axis
         if (dy<0) and (dx<0):
             sax = graph.inset(stuff,
                               [x0+dx-width_margin, y0+dy-height_margin,
@@ -275,24 +274,27 @@ def draw_bar_scales(graph,
 
 if __name__=='__main__':
 
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
+
     x = 32.23545345e-5
     print(sci_str(x, rounding=2))
     print(from_pval_to_star(x))
     for i in range(20):
         print(int_to_roman(i))
 
-    from datavyz import ge
     
     fig, AX= ge.figure(axes=(10,1), figsize=(.7,.7), bottom=1.5)
     for i, ax in enumerate(AX):
-        ge.top_left_letter(ax, ge.int_to_roman(i+1))
+        # ge.top_left_letter(ax, ge.int_to_roman(i+1))
         ge.matrix(np.random.randn(10,10), ax=ax)
 
     sax = ge.arrow(fig, [0.04, .2, .93, 0.])
     ge.annotate(fig, 'time', (.5, .17), ha='center')
 
     # ge.savefig(fig, 'docs/annotations1.png')
-    # ge.show()
+    ge.show()
     
     # from datavyz..graphs import *
     # fig, ax = figure()

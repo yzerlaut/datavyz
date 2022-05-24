@@ -83,10 +83,9 @@ def pie(graph, data,
 
 if __name__=='__main__':
     
-    import sys, os
-    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-    from datavyz import ge
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
     data = .5+np.abs(np.random.randn(3))*.4
 

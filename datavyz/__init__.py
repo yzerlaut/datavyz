@@ -3,8 +3,9 @@ import sys, os, platform
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')+os.path.sep
 home = os.path.expanduser('~')+os.path.sep
 
-from .dependencies import *
-
+import matplotlib.pylab as plt
+import numpy as np
+    
 # import datavyz.single_cell_plots as scp
 # from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 # from datavyz.dynamic_plot import movie_plot, animated_plot
@@ -64,7 +65,7 @@ class graph_env:
 
     from .annotations import title, annotate, draw_bar_scales,\
             arrow, int_to_roman, int_to_letter,\
-            sci_str, from_pval_to_star
+            sci_str, from_pval_to_star, set_fontsize
 
     from .legend import legend, bar_legend, build_bar_legend,\
             set_bar_legend, build_bar_legend_continuous
@@ -97,6 +98,7 @@ class graph_env:
     
     from .surface_plots import twoD_plot, matrix
     
+    from .images import image
     # def boxplot(self, data,
                 # fig_args=dict(figsize=(.6,1.)),
                 # axes_args={}, **args):
@@ -116,20 +118,6 @@ class graph_env:
     # def matrix(self, z, **args):
         # return matrix(self, z, **args)
 
-    # # image plot
-    # def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
-        # if ax is None:
-            # fig, ax = self.figure()
-        # else:
-            # fig = plt.gcf()
-        # ax.imshow(X.T, cmap=cmap, alpha=alpha,
-                  # interpolation=None,
-                  # origin='lower',
-                  # aspect='equal')
-        # ax.axis('off')
-        # if title!='':
-            # self.title(ax, title)
-        # return fig, ax
 
     # # movie plot
     # def movie(self, array, **args):

@@ -159,6 +159,9 @@ def figure(cls,
     
 if __name__=='__main__':
     
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
     import itertools, string
     
     from datavyz.main import graph_env

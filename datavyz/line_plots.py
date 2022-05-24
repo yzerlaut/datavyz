@@ -136,10 +136,10 @@ def plot(self,
 
 if __name__=='__main__':
     
-    import sys, os
-    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
+    import sys
+    sys.path.append('./')
     from datavyz import graph_env
+    from datavyz import graph_env_manuscript as ge
         
     geS, geM = graph_env('screen'), graph_env('manuscript')
 

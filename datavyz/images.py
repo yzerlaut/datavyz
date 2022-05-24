@@ -1,9 +1,21 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
-
+import numpy as np
 from skimage import color, io
+from matplotlib.cm import binary_r
+
+# # image plot
+def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
+    if ax is None:
+        fig, ax = self.figure()
+    else:
+        fig = plt.gcf()
+    ax.imshow(X.T, cmap=cmap, alpha=alpha,
+              interpolation=None,
+              origin='lower',
+              aspect='equal')
+    ax.axis('off')
+    if title!='':
+        self.title(ax, title)
+    return fig, ax
 
 def load(image_path):
 
@@ -15,7 +27,10 @@ def load(image_path):
 if __name__=='__main__':
 
 
-    from datavyz.main import graph_env
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env
+
     ge = graph_env('visual_stim')
     ge.image(load(sys.argv[-1]))
     ge.matrix(load(sys.argv[-1]))

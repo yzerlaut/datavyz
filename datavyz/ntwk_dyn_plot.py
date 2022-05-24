@@ -96,11 +96,12 @@ def POP_ACT_PLOT(t, POP_ACT_LIST, tlim=None, pop_act_zoom=None,
 
 if __name__=='__main__':
 
-    from datavyz..graphs import graphs
-    mg = graphs()
+    import sys
+    sys.path.append('./')
+    from datavyz import graph_env_manuscript as ge
 
-    raster_plot(mg,
+    ge.raster_plot(\
         [np.random.randn(3000),np.random.randn(1000)],
         [np.random.randint(3000, size=3000),np.random.randint(1000, size=1000)])
     
-    mg.show()
+    ge.show()
