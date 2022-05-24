@@ -8,11 +8,11 @@ from datavyz.dependencies import *
 from datavyz.legend import get_linear_colormap, build_bar_legend
 from datavyz.hist_plots import hist
 
-def cross_correl_plot_func(graph, data, features=None,
-                           figsize=(.8,.7),
-                           inset=dict(rect=[.87,.3,.02,.3]),
-                           fig_args=dict(right=10., bottom=1.2),
-                           ms=3, many_data=False):
+def cross_correl_plot(graph, data, features=None,
+                      figsize=(.8,.7),
+                      inset=dict(rect=[.87,.3,.02,.3]),
+                      fig_args=dict(right=10., bottom=1.2),
+                      ms=3, many_data=False):
     """
     'data' should be an array of dictionaries with keys 'vec' and labels 'label'
     """
@@ -84,7 +84,7 @@ def cross_correl_plot_func(graph, data, features=None,
                                num_xticks=3, num_yticks=3, yticks_labels=[], xticks_labels=[])
 
     graph.bar_legend(fig,
-                     inset=inset,
+                     colorbar_inset=inset,
                      X=np.arange(len(significance)+1),
                      colormap=mymap,\
                      ticks_labels=['n.s.', '$<$0.1', '$<$0.02', '$<$0.001'],

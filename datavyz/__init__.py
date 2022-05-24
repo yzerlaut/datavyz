@@ -5,10 +5,6 @@ home = os.path.expanduser('~')+os.path.sep
 
 from .dependencies import *
 
-# from datavyz import annotations, line_plots, scatter_plots, legend, features_plot, cross_correl_plot
-# from datavyz.cross_correl_plot import cross_correl_plot_func
-# from datavyz.surface_plots import twoD_plot, matrix
-# from datavyz.bar_plots import bar, related_samples_two_conditions_comparison, unrelated_samples_two_conditions_comparison
 # import datavyz.single_cell_plots as scp
 # from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
 # from datavyz.dynamic_plot import movie_plot, animated_plot
@@ -55,11 +51,13 @@ class graph_env:
 
 
     from .draw_figure import figure
+
     from .adjust_plots import set_plot, compute_axes_args
+
     from .inset import inset 
     
     # ################################################
-    # ###### Annotate function #######################
+    # ###### Annotations and Legend functions ########
     # ################################################
     
     from .colors import give_color_attributes, viridis, binary_r 
@@ -83,7 +81,9 @@ class graph_env:
 
     from .line_plots import plot, multicolored_line
 
-    from .bar_plots import bar
+    from .bar_plots import bar,\
+            related_samples_two_conditions_comparison,\
+            unrelated_samples_two_conditions_comparison
 
     from .scatter_plots import scatter
 
@@ -93,15 +93,10 @@ class graph_env:
 
     from .pie_plots import pie
 
+    from .cross_correl_plot import cross_correl_plot
     
-
-    # def parallel_plot(self, Y, **args):
-        # return parallel_plot(self, Y, **args)
+    from .surface_plots import twoD_plot, matrix
     
-    # def components_plot(self, Y, **args):
-        # return components_plot(self, Y, **args)
-    
-
     # def boxplot(self, data,
                 # fig_args=dict(figsize=(.6,1.)),
                 # axes_args={}, **args):
@@ -110,22 +105,6 @@ class graph_env:
         # self.set_plot(ax, **axes_args)
         # return fig, ax
     
-    # # bar plot
-    # def bar(self, x, **args):
-        # return bar(self, x, **args)
-
-    # # pie plot
-    # def pie(self, x, **args):
-        # return pie(self, x, **args)
-    
-    # # features plot
-    # def features_plot(self, data, **args):
-        # return features_plot.features_plot(self, data, **args)
-
-    # # cross_correl_plot
-    # def cross_correl_plot(self, data, **args):
-        # return cross_correl_plot_func(self, data, **args)
-
     # # animated plot
     # def animated_plot(self, x, time_dep_y, **args):
         # return animated_plot(self, x, time_dep_y, **args)
@@ -155,13 +134,6 @@ class graph_env:
     # # movie plot
     # def movie(self, array, **args):
         # return movie_plot(self, array, **args)
-    
-    # def related_samples_two_conditions_comparison(self, data1, data2,**args):
-        # return related_samples_two_conditions_comparison(self, data1, data2,**args)
-    
-    # def unrelated_samples_two_conditions_comparison(self, data1, data2,**args):
-        # return unrelated_samples_two_conditions_comparison(self, data1, data2,**args)
-        
     
         
     # ################################################

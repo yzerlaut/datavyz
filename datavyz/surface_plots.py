@@ -17,7 +17,7 @@ def twoD_plot(graph,
               scale='',
               # axes props
               axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
-              fig_args=dict(figsize=(.9,1), with_legend_space=True),
+              fig_args=dict(figsize=(.9,1), right=6.),
               xlabel=None, ylabel=None, title=None,
               # bar legend
               bar_legend_args=None,
@@ -84,9 +84,10 @@ def twoD_plot(graph,
         
         acb = None
         
-    axes_args = graph.add_to_axes_args(xlabel, ylabel, title, axes_args)
-    
-    graph.set_plot(ax, **axes_args)
+    graph.set_plot(ax, **graph.compute_axes_args(axes_args,
+                                                 xlabel=xlabel,
+                                                 ylabel=ylabel,
+                                                 title=title))
     
     return fig, ax, acb
     
@@ -102,7 +103,7 @@ def matrix(graph, z,
            origin='lower',
            # axes props
            axes_args=dict(xlim_enhancement=0., ylim_enhancement=0., tck_outward=0),
-           fig_args=dict(figsize=(.9,1), with_legend_space=True),
+           fig_args=dict(figsize=(.9,1), right=6),
            xlabel=None, ylabel=None, title=None,
            # bar legend
            bar_legend_args=None,
@@ -147,16 +148,17 @@ def matrix(graph, z,
         
         acb = None
         
-    axes_args = graph.add_to_axes_args(xlabel, ylabel, title, axes_args)
-    
-    graph.set_plot(ax, **axes_args)
+    graph.set_plot(ax, **graph.compute_axes_args(axes_args,
+                                                 xlabel=xlabel,
+                                                 ylabel=ylabel,
+                                                 title=title))
     
     return fig, ax, acb
 
 
 if __name__=='__main__':
     
-    from datavyz import ges as ge
+    from datavyz import ge as ge
 
     x, y = np.meshgrid(np.arange(1, 11), np.arange(1, 20), indexing='ij')
     z = y*x*x
