@@ -1,8 +1,5 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
-
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 def animated_plot(x,
@@ -49,7 +46,6 @@ def animated_plot(x,
                                   init_func=init,
                                   interval=interval,
                                   blit=True)
-    a
 
     return fig, ax, ani
 
@@ -124,25 +120,26 @@ if __name__=='__main__':
     """
     import sys
     sys.path.append('./')
-    from datavyz import graph_env_manuscript as ge
-    from datavyz.main import graph_env
-    ge = graph_env('manuscript')
+    from datavyz import graph_env
+    ge = graph_env('screen')
     
-    fig, ax, ani = animated_plot(np.arange(20),
-                                 np.random.randn(100, 20),
-                                 ge,
-                                 time = np.linspace(0, 1, 100),
-                                 axes_args={'xlabel':'xlabel (xunit)',
-                                            'ylabel':'ylabel (yunit)'})
+    # fig, ax, ani = animated_plot(np.arange(20),
+                                 # np.random.randn(100, 20),
+                                 # ge,
+                                 # time = np.linspace(0, 1, 100),
+                                 # axes_args={'xlabel':'xlabel (xunit)',
+                                            # 'ylabel':'ylabel (yunit)'})
 
-    fig, ax, ani = movie_plot(ge, np.random.randn(100, 16, 9),
-                              time = np.linspace(0, 1, 100),
+    fig, ax, ani = movie_plot(ge, np.random.randn(10, 16, 9),
+                              time = np.linspace(0, 1, 10),
                               annotation_text='t=%.1fs',
                               annotation_args={'color':ge.red, 'weight':'bold'},
                               axes_args={'xlabel':'xlabel (xunit)',
                                          'ylabel':'ylabel (yunit)'})
 
-    # fig, ax = ge.twoD_plot(np.arange(50), np.arange(30), np.random.randn(50, 30))
+    writer = animation.writers['ffmpeg'](fps=3)
+    ani.save('demo.mp4',writer=writer,dpi=100)# fig, ax = ge.twoD_plot(np.arange(50), np.arange(30), np.random.randn(50, 30))
+
     # fig, ax = ge.image(np.random.randn(50, 30))
     
     
