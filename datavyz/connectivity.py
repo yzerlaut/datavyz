@@ -1,8 +1,6 @@
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
 
-from datavyz.dependencies import *
-
 from matplotlib.pylab import Circle, setp
 import matplotlib.patches as patches
 
@@ -27,7 +25,7 @@ def connectivity_plot(graph,
         Centre_Circle = Circle((x0,y0), radius,
                                fc=POPS[pop]['color'], alpha=.5)
         ax.add_artist(Centre_Circle)
-        ge.annotate(ax, pop, (x0, y0),
+        graph.annotate(ax, pop, (x0, y0),
                     ha='center', va='center', xycoords='data', color='k', bold=True)
 
 
@@ -95,7 +93,7 @@ def connectivity_plot(graph,
 
 if __name__=='__main__':
     
-    from datavyz.main import graph_env
+    from datavyz import graph_env
 
     ge = graph_env('screen')
 
@@ -109,7 +107,7 @@ if __name__=='__main__':
               'Pyr_Pyr':0.05,
               'Pyr_PV':0.05}
     
-    connectivity_plot(ge, POPS, CONNEC)
+    ge.connectivity_plot(POPS, CONNEC)
     
     ge.show()
 

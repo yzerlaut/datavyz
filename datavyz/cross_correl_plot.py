@@ -1,12 +1,6 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
+import numpy as np
+import matplotlib.pylab as plt
 from scipy.stats.stats import pearsonr
-
-from datavyz.dependencies import *
-
-from datavyz.legend import get_linear_colormap, build_bar_legend
-from datavyz.hist_plots import hist
 
 def cross_correl_plot(graph, data, features=None,
                       figsize=(.8,.7),
@@ -110,6 +104,7 @@ if __name__=='__main__':
     fig = ge.cross_correl_plot(data,
                                features=list(data.keys())[:7])
     
-    ge.savefig(fig, 'docs/cross-correl.png')
+    # ge.savefig(fig, 'docs/cross-correl.png')
+    ge.show()
 
 

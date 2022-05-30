@@ -7,8 +7,6 @@ import matplotlib.pylab as plt
 import numpy as np
     
 # import datavyz.single_cell_plots as scp
-# from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
-# from datavyz.dynamic_plot import movie_plot, animated_plot
 # from datavyz.time_freq import time_freq_plot
 # from datavyz.neurophysio import Ca_trace_plot
 # from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
@@ -49,7 +47,6 @@ class graph_env:
     # ################################################
     # ###### Figure and Axes construction ############
     # ################################################
-
 
     from .draw_figure import figure
 
@@ -99,6 +96,7 @@ class graph_env:
     from .surface_plots import twoD_plot, matrix
     
     from .images import image
+
     # def boxplot(self, data,
                 # fig_args=dict(figsize=(.6,1.)),
                 # axes_args={}, **args):
@@ -107,77 +105,12 @@ class graph_env:
         # self.set_plot(ax, **axes_args)
         # return fig, ax
     
-    # # animated plot
-    # def animated_plot(self, x, time_dep_y, **args):
-        # return animated_plot(self, x, time_dep_y, **args)
-    
-    # # twoD-plot with x-y axis from bottom left
-    # def twoD_plot(self, x, y, z, **args):
-        # return twoD_plot(self, x, y, z, **args)
+    # ###############################
+    # ###### special plots ##########
+    # ###############################
 
-    # def matrix(self, z, **args):
-        # return matrix(self, z, **args)
-
-
-    # # movie plot
-    # def movie(self, array, **args):
-        # return movie_plot(self, array, **args)
-    
-        
-    # ################################################
-    # ###### legend function #######################
-    # ################################################
-
-    # # def legend(self, list_of_lines, list_of_labels, **args):
-    # #     return legend.legend(list_of_lines, list_of_labels, **args)
-    # def legend(self, ax, **args):
-        # return legend.legend(self, ax, **args)
-
-    # def bar_legend(self, stuff, **args): # stuff can be either ax or fig
-        # return legend.bar_legend(self, stuff, **args)
-
-    # def build_bar_legend(self, X, ax, mymap, **args):
-        # return legend.build_bar_legend(X, ax, mymap, **args)
-
-    # def build_bar_legend_continuous(self, ax, mymap, **args):
-        # return legend.build_bar_legend_continuous(ax, mymap, **args)
-    
-    # def get_linear_colormap(self, **args):
-        # return legend.get_linear_colormap(**args)
-    
-    # ################################################
-    # ###### Axes function #######################
-    # ################################################
-    
-    # def inset(self, stuff, rect=[.5,.5,.5,.4], facecolor=None):
-        # return inset(self, stuff, rect=rect, facecolor=facecolor)
-
-    # def adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
-                      # xcolor='w', ycolor='w'):
-        # if xcolor is None:
-            # xcolor = self.default_color
-        # if ycolor is None:
-            # ycolor = self.default_color
-        # ap.adjust_spines(ax, spines, tck_outward=3, tck_length=4.,
-                             # xcolor=xcolor, ycolor=ycolor)
-
-    # def set_plot(self, ax, spines=['left', 'bottom'], **args):
-        # ap.set_plot(self, ax, spines, **args)
-
-    # def add_to_axes_args(self, xlabel, ylabel, title, axes_args):
-        # if xlabel is not None:
-            # axes_args['xlabel'] = xlabel
-        # if ylabel is not None:
-            # axes_args['ylabel'] = ylabel
-        # if title is not None:
-            # axes_args['title'] = title
-        # return axes_args
-    
-    # ################################################
-    # ###### signal plots ########################
-    # ################################################
-    # def time_freq_plot(self, t, freqs, data, coefs, **args):
-        # return time_freq_plot(self, t, freqs, data, coefs, **args)
+    from .connectivity import connectivity_plot
+    from .time_freq import time_freq_plot
 
     # ################################################
     # ###### stat plots ########################
