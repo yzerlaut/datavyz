@@ -1,7 +1,4 @@
-import sys, os, platform, copy
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-from .dependencies import *
+import numpy as np
 
 ENVIRONMENTS = {}
 

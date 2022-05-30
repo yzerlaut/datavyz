@@ -4,8 +4,6 @@ Set of functions and quantities for the scaling of figuers and text
 import sys, pathlib
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
-from datavyz.dependencies import *
-
 def mm2inch(x):
     return x/25.4
     

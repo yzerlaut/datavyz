@@ -44,7 +44,8 @@ class graph_env:
 
     from .draw_figure import figure
 
-    from .adjust_plots import set_plot, compute_axes_args
+    from .adjust_plots import set_plot, compute_axes_args,\
+            set_ticks_to_log10_axis
 
     from .inset import inset 
     
@@ -52,7 +53,8 @@ class graph_env:
     # ###### Annotations and Legend functions ########
     # ################################################
     
-    from .colors import give_color_attributes, viridis, binary_r 
+    from .colors import give_color_attributes, viridis, binary_r,\
+            get_linear_colormap
 
     from .annotations import title, annotate, draw_bar_scales,\
             arrow, int_to_roman, int_to_letter,\
@@ -107,13 +109,8 @@ class graph_env:
 
     from .time_freq import time_freq_plot
 
-    from .neurophysio import Ca_trace_plot, raster_plot
-
-    # def response_to_current_pulse(self, t, Vm, I, spikes, **args):
-        # return scp.response_to_current_pulse(self, t, Vm, I, spikes, **args)
-
-    # def response_to_multiple_current_pulse(self, t, VMS, II, SPIKES, **args):
-        # return scp.response_to_multiple_current_pulse(self, t, VMS, II, SPIKES, **args)
+    from .neurophysio import Ca_trace_plot, raster_plot,\
+        response_to_current_pulse, response_to_multiple_current_pulse
     
     # ##################################################
     # ######  FIG TOOLS   ##############################

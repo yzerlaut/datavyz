@@ -1,12 +1,5 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-from datavyz.dependencies import *
-
-from datavyz.draw_figure import figure
-from datavyz.adjust_plots import set_plot
-from datavyz.legend import build_bar_legend_continuous
-
+import numpy as np
+import matplotlib.pylab as plt
 
 ###########################################################
 ######  Histogram

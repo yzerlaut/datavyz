@@ -1,7 +1,8 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
+"""
 
-from datavyz.dependencies import *
+"""
+import numpy as np
+import matplotlib as mpl
 
 def inset(graph, stuff,
           rect=[.5,.5,.5,.4],
@@ -13,7 +14,7 @@ def inset(graph, stuff,
     if type(stuff)==mpl.figure.Figure: # if figure, no choice, if figure relative coordinates
         subax = stuff.add_axes(rect,facecolor=facecolor)
     else:
-        fig = plt.gcf()
+        fig = mpl.pyplot.gcf()
         box = stuff.get_position()
         width = box.width
         height = box.height

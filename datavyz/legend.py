@@ -1,18 +1,11 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
-
-from datavyz.adjust_plots import find_good_log_ticks, set_ticks_to_log10_axis
-from datavyz.colors import get_linear_colormap
-from datavyz.annotations import set_fontsize
-
+import matplotlib.pylab as plt
+import matplotlib as mpl
 
 def bar_legend(cls, stuff,
                X = None, continuous=False,
                ax_colorbar=None,
                colorbar_inset=dict(rect=[.72,.3,.03,.5], facecolor=None),
-               colormap=mpl.cm.copper,
+               colormap=plt.cm.copper,
                bar_legend_args={},
                label='',
                bounds=None,
@@ -73,7 +66,7 @@ def set_bar_legend(cls, ax_cb, cb,
     Just for labels and fontsize
     """
     if fontsize is None:
-        fontsize=set_fontsize(cls, size)
+        fontsize=cls.set_fontsize(size)
     if color is None:
         color=cls.default_color
         
@@ -165,11 +158,11 @@ def build_bar_legend_continuous(cls, ax_cb, mymap,
                 bounds[0] = 0.01
                 
             if orientation=='vertical':
-                set_ticks_to_log10_axis(cb.ax.yaxis, bounds, normed_to_unit=True)
+                cls.set_ticks_to_log10_axis(cb.ax.yaxis, bounds, normed_to_unit=True)
                 # if ticks_labels is not None:
                 #     cb.ax.yaxis.set_ticklabels(ticks_labels)
             elif orientation=='horizontal':
-                set_ticks_to_log10_axis(cb.ax.xaxis, bounds, normed_to_unit=True)
+                cls.set_ticks_to_log10_axis(cb.ax.xaxis, bounds, normed_to_unit=True)
                 # if ticks_labels is not None:
                 #     cb.ax.xaxis.set_ticklabels(ticks_labels)
             

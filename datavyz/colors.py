@@ -38,16 +38,18 @@ if __name__=='__main__':
 
     import sys
     sys.path.append('./')
-    from datavyz import graph_env_manuscript as ge
     import numpy as np
-    from datavyz import ges as ge
+    from datavyz import graph_env_manuscript as ge
 
     colors = ['tab:blue', 'tab:red']
+
     fig, ax = ge.figure()
     for i, c in enumerate(ge.colors[:3]):
         ge.scatter([i], [i], color=c, ax=ax, no_set=True)
+
     fig, ax = ge.figure()
     for i, x in enumerate(np.linspace(0, 1, 50)):
         ax.scatter([i], [x], color=ge.get_linear_colormap(ge.blue, ge.red)(x))
+
     ge.show()
     
