@@ -17,7 +17,8 @@ def get_figure_list(DATA_FILE):
     for i in plt.get_fignums():
         FIG_LIST.append(plt.figure(i))
     return FIG_LIST
-    
+
+
 def create_window(parent, FIG_LIST):
 
     # # get all figures with their size !
@@ -48,13 +49,15 @@ def create_window(parent, FIG_LIST):
     window.setLayout(layout)
     return window
 
+
 def get_list_of_temp_files():
     F = []
     for file in os.listdir("/tmp")[::-1]:
         if file.endswith(".npz"):
             F.append('/tmp/'+file)
     return F
-        
+
+
 class Window(QtWidgets.QMainWindow):
     
     def __init__(self, parent=None, DATA_LIST=None, KEYS=None):

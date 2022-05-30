@@ -1,7 +1,5 @@
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-
-from datavyz.dependencies import *
+import numpy as np
+import matplotlib.pylab as plt
 
 def time_freq_plot(graph, t, freqs, data, coefs,
                    xlabel='time (s)',
@@ -20,7 +18,7 @@ def time_freq_plot(graph, t, freqs, data, coefs,
     graph.set_plot(AX[0][0], ['left'], ylabel=signal_label, xlim=[t[0], t[-1]])
     
     # # time frequency power plot
-    c = AX[1][0].contourf(t, freqs, coefs, cmap='PRGn', aspect='auto')
+    c = AX[1][0].contourf(t, freqs, coefs, cmap='PRGn')
     graph.set_plot(AX[1][0], ylabel='frequency (Hz)', xlim=[t[0], t[-1]], xlabel=xlabel)
 
     # # mean power plot over intervals
@@ -57,4 +55,5 @@ if __name__=='__main__':
 
     fig, AX = ge.time_freq_plot(t, freqs, data, coefs)    
 
-    ge.savefig(fig, 'docs/time-freq.png')
+    # ge.savefig(fig, 'docs/time-freq.png')
+    ge.show()

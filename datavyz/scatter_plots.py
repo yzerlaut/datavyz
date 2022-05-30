@@ -1,14 +1,12 @@
 from matplotlib.cm import viridis
 from scipy.stats import pearsonr
 import numpy as np
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-from datavyz.draw_figure import figure
-from datavyz.adjust_plots import set_plot, compute_axes_args
+import numpy as np
+import matplotlib.pylab as plt
 
-def two_variable_analysis(first_observations,
+def two_variable_analysis(cls,
+                          first_observations,
                           second_observations,
-                          cls=None,
                           with_correl_annotation=True,
                           ylabel='y-value', xlabel='x-value', title='',
                           fig_args={'right':4}, axes_args={},
@@ -17,9 +15,6 @@ def two_variable_analysis(first_observations,
     if len(first_observations)!=len(second_observations):
         print('Pb with sample size !! Test is not applicable !!')
 
-    if cls is None:
-        from datavyz import ge as cls
-    
     if colormap is None:
         def colormap(x):
             return 'k'
@@ -38,7 +33,7 @@ def two_variable_analysis(first_observations,
     else:
         c, pval = 0., 1.
 
-    cls.set_plot(ax, **compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
+    cls.set_plot(ax, **cls.compute_axes_args(axes_args, xlabel=xlabel, ylabel=ylabel, title=title))
     
     return fig, ax, c, pval
 
@@ -60,7 +55,6 @@ def scatter(self,
             bar_legend_args=None,
             legend_args=None,
             no_set=False):
-    
     """    
     return fig, ax
     """

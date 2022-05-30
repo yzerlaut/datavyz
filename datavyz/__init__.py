@@ -7,12 +7,6 @@ import matplotlib.pylab as plt
 import numpy as np
     
 # import datavyz.single_cell_plots as scp
-# from datavyz.time_freq import time_freq_plot
-# from datavyz.neurophysio import Ca_trace_plot
-# from datavyz.plot_export import put_list_of_figs_to_svg_fig, multipanel_figure
-# from datavyz.dynamic_plot import movie_plot, animated_plot
-# from datavyz.time_freq import time_freq_plot
-# from datavyz.neurophysio import Ca_trace_plot
 
 from .settings import set_env_variables #, update_rcParams
 
@@ -83,7 +77,7 @@ class graph_env:
             related_samples_two_conditions_comparison,\
             unrelated_samples_two_conditions_comparison
 
-    from .scatter_plots import scatter
+    from .scatter_plots import scatter, two_variable_analysis
 
     from .hist_plots import hist, hist2d
 
@@ -110,21 +104,10 @@ class graph_env:
     # ###############################
 
     from .connectivity import connectivity_plot
+
     from .time_freq import time_freq_plot
 
-    # ################################################
-    # ###### stat plots ########################
-    # ################################################
-
-    # def two_variable_analysis(self, first_observations, second_observations, **args):
-        # return scatter_plots.two_variable_analysis(first_observations, second_observations, cls=self, **args)
-
-    # ################################################
-    # ###### electrophy plots ########################
-    # ################################################
-
-    # def Ca_trace_plot(self, Data, **args):
-        # return Ca_trace_plot(self, Data, **args)
+    from .neurophysio import Ca_trace_plot, raster_plot
 
     # def response_to_current_pulse(self, t, Vm, I, spikes, **args):
         # return scp.response_to_current_pulse(self, t, Vm, I, spikes, **args)

@@ -1,16 +1,12 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
-
-from datavyz.dependencies import *
-
-from datavyz.scaling import *
-from datavyz.legend import build_bar_legend_continuous
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib.cm import viridis
     
 def twoD_plot(graph,
               x, y, z,
               ax=None, acb=None, fig=None,
               diverging=False,
-              colormap=cm.viridis,
+              colormap=viridis,
               alpha=1.,
               vmin=None,
               vmax=None,
@@ -34,7 +30,7 @@ def twoD_plot(graph,
     else:
         fig = plt.gcf()
         
-    if diverging and (colormap==cm.viridis):
+    if diverging and (colormap==viridis):
         colormap = cm.PiYG # we switch to a diverging colormap
         
     x, y = np.array(x), np.array(y)
@@ -96,7 +92,7 @@ def matrix(graph, z,
            x=None, y=None, 
            ax=None, acb=None, fig=None,
            diverging=False,
-           colormap=cm.viridis,
+           colormap=viridis,
            alpha=1.,
            vmin=None, vmax=None,
            aspect='equal', # switch to 'auto' if needed
@@ -118,7 +114,7 @@ def matrix(graph, z,
     else:
         fig = plt.gcf()
         
-    if diverging and (colormap==cm.viridis):
+    if diverging and (colormap==viridis):
         colormap = cm.PiYG # we switch to a diverging colormap
 
     if vmin is None:
@@ -181,6 +177,7 @@ if __name__=='__main__':
                                                'ticks':[-7, 0, 7],
                                                'ticks_labels':['-7', '0', '>7'],
                                                'color_discretization':20})
+
     ge.set_plot(ax, xlabel='x-label (X)', ylabel='y-label (Y)')
     
     fig2.savefig('docs/surface-plot.png')

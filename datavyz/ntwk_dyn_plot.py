@@ -1,15 +1,16 @@
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),os.path.pardir))
 import matplotlib.pylab as plt
 import numpy as np
 
     
-def raster_plot(graph, SPK_LIST, ID_LIST,
+def raster_plot(graph,
+                SPK_LIST, ID_LIST,
                 tlim=None,
                 ID_ZOOM_LIST=None,
                 COLORS=None,
                 with_fig=None, MS=1):
-    
+    """ 
+
+    """ 
     if with_fig is not None:
         fig, ax = graph.figure()
     else:
@@ -104,4 +105,11 @@ if __name__=='__main__':
         [np.random.randn(3000),np.random.randn(1000)],
         [np.random.randint(3000, size=3000),np.random.randint(1000, size=1000)])
     
+    data = {}
+    for i in range(30):
+        data['cell%i' % (i+1)] = np.random.randn(1000)
+
+    fig, ax = ge.figure(axes_extents=(5,5), top=0., bottom=0., right=0.5, left=0.1)
+    ge.Ca_trace_plot(data, Tbar_label='X-s', title='Ca activity', ax=ax)
+
     ge.show()

@@ -1,4 +1,6 @@
-from .dependencies import *
+import numpy as np
+import matplotlib.pylab as plt
+
 from .scaling import mm2inch
 
 def dimension_calculus(cls,
