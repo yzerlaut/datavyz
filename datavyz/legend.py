@@ -51,7 +51,7 @@ def bar_legend(cls, stuff,
         
     cls.set_bar_legend(ax_colorbar, cb, **bar_legend_args)
     
-    return cb
+    return cb, axb 
 
 
 
