@@ -194,7 +194,7 @@ def legend(cls, ax,
     """
     """
     if fontsize is None:
-        fontsize=set_fontsize(cls, size)
+        fontsize=cls.set_fontsize(cls, size)
     if color is None:
         color = cls.default_color
 
