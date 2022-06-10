@@ -7,7 +7,7 @@ def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
     if ax is None:
         fig, ax = self.figure()
     else:
-        fig = plt.gcf()
+        fig = None 
     ax.imshow(X.T, cmap=cmap, alpha=alpha,
               interpolation=None,
               origin='lower',
