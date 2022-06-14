@@ -1,20 +1,34 @@
 import numpy as np
 from skimage import color, io
 from matplotlib.cm import binary_r
+import matplotlib.image as mpimg
 
 # # image plot
 def image(self, X, cmap=binary_r, alpha=1., ax=None, title=''):
+
     if ax is None:
         fig, ax = self.figure()
     else:
         fig = None 
-    ax.imshow(X.T, cmap=cmap, alpha=alpha,
-              interpolation=None,
-              origin='lower',
-              aspect='equal')
+
+    if type(X)==str:
+        ax.imshow(mpimg.imread(X),
+                  cmap=None,
+                  interpolation=None,
+                  origin='lower',
+                  aspect='equal')
+    else:
+        ax.imshow(X.T, 
+                  cmap=cmap, alpha=alpha,
+                  interpolation=None,
+                  origin='lower',
+                  aspect='equal')
+
     ax.axis('off')
+
     if title!='':
         self.title(ax, title)
+
     return fig, ax
 
 def load(image_path):
@@ -32,7 +46,8 @@ if __name__=='__main__':
     from datavyz import graph_env
 
     ge = graph_env('visual_stim')
-    ge.image(load(sys.argv[-1]))
-    ge.matrix(load(sys.argv[-1]))
+    ge.image(sys.argv[-1])
+    # ge.image(load(sys.argv[-1]))
+    # ge.matrix(load(sys.argv[-1]))
     ge.show()
     
