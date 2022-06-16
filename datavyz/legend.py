@@ -1,5 +1,6 @@
 import matplotlib.pylab as plt
 import matplotlib as mpl
+import numpy as np
 
 def bar_legend(cls, stuff,
                X = None, continuous=False,
