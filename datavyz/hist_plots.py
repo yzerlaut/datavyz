@@ -13,6 +13,7 @@ def hist(graph,
          lw=0.3, alpha=1.,
          xlabel='', ylabel='count', title='',
          normed=False, log=False,
+         no_set=True,
          fig_args={}, axes_args={}):
     """
     based on the numpy.histogram function
@@ -46,7 +47,9 @@ def hist(graph,
     if 'ylabel' not in axes_args:
         axes_args['ylabel'] = ylabel
         
-    graph.set_plot(ax, **axes_args)
+    if not no_set:
+        graph.set_plot(ax, **axes_args)
+
     if title!='':
         graph.title(ax, title)
     
