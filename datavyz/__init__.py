@@ -53,8 +53,8 @@ class graph_env:
     # ###### Annotations and Legend functions ########
     # ################################################
     
-    from .colors import give_color_attributes, viridis, binary_r,\
-            get_linear_colormap
+    from .colors import give_color_attributes,\
+            get_linear_colormap, lin_cmap
 
     from .annotations import title, annotate, draw_bar_scales,\
             arrow, int_to_roman, int_to_letter,\

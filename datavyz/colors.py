@@ -1,11 +1,14 @@
-from matplotlib.cm import viridis, viridis_r, copper, copper_r, cool, jet,\
-    PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2,\
-    Set3, tab10, tab20, tab20b, tab20c
-
+from matplotlib.cm import viridis, PRGn, tab10, jet, binary
 import matplotlib.colors as mpl_colors
 
-def get_linear_colormap(color1='blue', color2='red'):
+def get_linear_colormap(cls, color1='blue', color2='red'):
+    # linear gradient
     return mpl_colors.LinearSegmentedColormap.from_list('mycolors',[color1, color2])
+
+def lin_cmap(cls, color1='blue', color2='red'):
+    # a shorter versoin of it
+    return mpl_colors.LinearSegmentedColormap.from_list('mycolors',[color1, color2])
+
 
 def give_color_attributes(cls):
 
@@ -14,25 +17,21 @@ def give_color_attributes(cls):
     for name in list(mpl_colors.TABLEAU_COLORS):
         setattr(cls, name.replace('tab:',''), mpl_colors.TABLEAU_COLORS[name])
         cls.colors.append(mpl_colors.TABLEAU_COLORS[name])
+
     for name in list(mpl_colors.CSS4_COLORS):
         if not hasattr(cls, name): # not set by "tab" (e.g. not "blue")
             setattr(cls, name, mpl_colors.CSS4_COLORS[name])
             cls.colors.append(mpl_colors.CSS4_COLORS[name])
 
     # color maps
-    # cls.cmaps = []
-    for color in [viridis, viridis_r, copper, copper_r, cool, jet, PiYG, binary, binary_r, bone, Pastel1, Pastel2, Paired, Accent, Dark2, Set1, Set2, Set3, tab10, tab20, tab20b, tab20c]:
+    for color in [viridis, PRGn, tab10, jet, binary]:
         setattr(cls, color.name, color)
-        # cls.cmaps.append(color)
 
-    # then some linear colormaps
-    for (c1, c2) in zip(['blue', 'red', 'blue', 'green', 'red', 'green', 'orange'],
-                        ['red', 'blue', 'orange', 'red', 'green', 'orange', 'green']):
-        setattr(cls, '%s_to_%s' % (c1, c2),
-                get_linear_colormap(getattr(cls, c1), getattr(cls, c2)))
-
-    cls.get_linear_colormap = get_linear_colormap
-
+    # some 'ge.b' instead of 'ge.blue'
+    for s, l in zip(['b', 'g', 'o', 'r', 'y', 'p'],
+                     ['blue', 'green', 'orange', 'red',\
+                             'yellow', 'purple']):
+        setattr(cls, s, getattr(cls, l))
     
 if __name__=='__main__':
 
@@ -49,7 +48,7 @@ if __name__=='__main__':
 
     fig, ax = ge.figure()
     for i, x in enumerate(np.linspace(0, 1, 50)):
-        ax.scatter([i], [x], color=ge.get_linear_colormap(ge.blue, ge.red)(x))
+        ax.scatter([i], [x], color=ge.lin_cmap(ge.b, ge.r)(x))
 
     ge.show()
     
