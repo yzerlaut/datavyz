@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.animation as animation
 from matplotlib.collections import LineCollection, PatchCollection
 import matplotlib.patches as mpatches
-from matplotlib.cm import viridis_r
+from matplotlib.cm import viridis_r, viridis
 
 
 class nrnvyz:
@@ -16,7 +16,9 @@ class nrnvyz:
                  polar_angle=0, azimuth_angle=np.pi/2.):
 
         if ge is None:
-            from datavyz import ges as ge
+            from datavyz import graph_env 
+            ge = graph_env('screen')
+
         self.SEGMENTS = SEGMENTS
         self.ge = ge
         self.polar_angle = polar_angle
@@ -38,12 +40,15 @@ class nrnvyz:
 
     def plot_segments(self,
                       cond=None,
-                      ax=None, color=None,
+                      ax=None, 
+                      color=None, colors=None, cmap=viridis,
                       bar_scale_args=dict(Ybar=100., Ybar_label='100$\mu$m', Xbar=1e-10, Xbar_label=''),
                       fig_args=dict(figsize=(2.,4.),left=0., top=0., bottom=0., right=0.),
                       diameter_magnification=2.):
         """
         by default: soma_comp = COMP_LIST[0]
+
+        colors=neuron.v/nrn.mV is an example use
         """
 
         if ax is None:
@@ -51,15 +56,23 @@ class nrnvyz:
         else:
             fig = None
 
-        if color is None:
-            color = self.ge.default_color
-            
-
-        segments, seg_diameters, circles, circle_colors = [], [], [], []
-
         nseg = len(self.SEGMENTS['x'])
         if cond is None:
             cond = np.ones(nseg, dtype=bool)
+
+        if colors is None:
+            if color is None:
+                color = self.ge.default_color
+            colors = [color for i in range(len(segments))[cond]]  
+        else:
+            # transform the "colors" array into colors
+            Cmin, Cmax = np.min(colors[cond]), np.max(colors[cond])
+            print('colors min/max : ', Cmin, Cmax)
+            colors = (np.array(colors[cond])-Cmin)/(Cmax-Cmin)
+            colors = [cmap(c) for c in colors]
+
+        segments, seg_diameters, circles, circle_colors = [], [], [], []
+
             
         for iseg in np.arange(nseg)[cond]:
 
@@ -73,6 +86,8 @@ class nrnvyz:
                                                        self.SEGMENTS['start_z'][iseg])
                 circles.append(mpatches.Circle((1e6*sx, 1e6*sy),
                                                1e6*self.SEGMENTS['diameter'][iseg]/2.))
+                circle_colors.append(colors[iseg])
+
             else:
                 sx, sy, _ = self.coordinate_projection(self.SEGMENTS['start_x'][iseg],
                                                        self.SEGMENTS['start_y'][iseg],
@@ -84,11 +99,11 @@ class nrnvyz:
                 seg_diameters.append(1e6*self.SEGMENTS['diameter'][iseg])
 
         line_segments = LineCollection(segments, linewidths=seg_diameters,
-                                       colors=[color for i in range(len(segments))],
+                                       colors=colors,
                                        linestyles='solid')
         ax.add_collection(line_segments)
         collection = PatchCollection(circles,
-                                     facecolors=[color for i in range(len(circles))])
+                                     facecolors=circle_colors)
         ax.add_collection(collection)
         ax.autoscale()
 
